@@ -7,7 +7,7 @@
 ## Lab Access
 Access to Cisco Learning Labs is via the Cisco Learning Labs Portal at the following URL:
 ```
-https://cll-ng.cisco.com/users/pblogin
+[https://cll-ng.cisco.com/users/pblogin](https://cll-ng.cisco.com/users/pblogin)
 ```
 
 
