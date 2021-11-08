@@ -5,9 +5,9 @@
 - Offline read: Download and install Cisco eReader
 
 ## Lab Access
-Access to Cisco Learning Labs is via the Cisco Learning Labs Portal at the following URL:
+Access to Cisco Learning Labs is via the Cisco Learning Labs Portal:
 ```
-https://cll-ng.cisco.com/users/pblogin
+URL: https://cll-ng.cisco.com/users/pblogin
 ```
 
 
