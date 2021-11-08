@@ -15,8 +15,8 @@ URL: https://cll-ng.cisco.com/users/pblogin
 Credentials
 ```
 Student: Darma
-Username: 2021111340935
-Password: x4x7Q443
+Username: 2021111340928
+Password: Wgn6Tfm7
 
 Student: Muhammad Azri
 Username: 2021111340923
@@ -38,9 +38,7 @@ Student: Ahmad Afiq
 Username: 2021111340927
 Password: 7wG8FBKV
 
-Student: Afiq
-Username: 2021111340928
-Password: Wgn6Tfm7
+
 
 Student: Asnawi
 Username: 2021111340929
