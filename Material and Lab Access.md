@@ -38,8 +38,6 @@ Student: Ahmad Afiq
 Username: 2021111340927
 Password: 7wG8FBKV
 
-
-
 Student: Asnawi
 Username: 2021111340929
 Password: eHmrUkbB
