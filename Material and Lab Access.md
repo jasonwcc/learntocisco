@@ -1,25 +1,24 @@
 ## Cisco Learning Network Space
-- Sign up - personal email
-- Redeem xxxxxxxxxxxxxx
-- eReader
+- URL : https://learningspace.cisco.com/
+- Sign up : personal email
+- Redeem : xxxxxxxxxxxxxx
+- Offline read: Download and install Cisco eReader
 
 ## Lab Access
-- Access to Cisco Learning Labs is via the Cisco Learning Labs Portal at the following URL:
+Access to Cisco Learning Labs is via the Cisco Learning Labs Portal at the following URL:
 ```
 https://cll-ng.cisco.com/users/pblogin
 ```
 
-- Instructor Credentials
+
 ```
 Username: 2021111340935
 Password: x4x7Q443
 Student: Darma
 
-- Students Credentials
 Username: 2021111340923
 Password: YMx5hZ2L
 Student: Muhammad Azri
-
 
 Username: 2021111340924
 Password: HxsPrXvM
