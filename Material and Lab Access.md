@@ -1,4 +1,4 @@
-## Cisco Learning Network Space
+## Material Access
 - URL : https://learningspace.cisco.com/
 - Sign up : personal email
 - Redeem : xxxxxxxxxxxxxx
@@ -11,62 +11,65 @@ https://cll-ng.cisco.com/users/pblogin
 ```
 
 
+Credentials
 ```
+Student: Darma
 Username: 2021111340935
 Password: x4x7Q443
-Student: Darma
 
+Student: Muhammad Azri
 Username: 2021111340923
 Password: YMx5hZ2L
-Student: Muhammad Azri
 
+Student:  Edfairzal
 Username: 2021111340924
 Password: HxsPrXvM
-Student:  Edfairzal
 
+Student: Emilia
 Username: 2021111340925
 Password: 69y9Qxgx
-Student: Emilia
 
+Student: Wan Ahmad
 Username: 2021111340926
 Password: Ld6J5ffd
-Student: Wan Ahmad
 
+Student: Ahmad Afiq
 Username: 2021111340927
 Password: 7wG8FBKV
-Student: Ahmad Afiq
 
+Student: Afiq
 Username: 2021111340928
 Password: Wgn6Tfm7
-Student: Afiq
 
+Student: Asnawi
 Username: 2021111340929
 Password: eHmrUkbB
-Student: Asnawi
 
+Student: Thace
 Username: 2021111340930
 Password: C7CQKJLs
-Student: Thace
 
+Student: Lim
 Username: 2021111340931
 Password: m3RADHRm
-Student: Lim
 
+Student: Haikal
 Username: 2021111340932
 Password: Etat36sY
-Student: Haikal
 
+Student: Afiq Adha
 Username: 2021111340933
 Password: uJj7W6jp
-Student: Afiq Adha
 
+Student: Oong
 Username: 2021111340934
 Password: 7jzeLunu
-Student: Oong
 
 ```
 
-- Equipment Passwords
+Equipment Passwords
 ```
-Please do not change any of these passwords. Doing so will cause delays in providing support for your class should support be required. Any equipment password not indicated in the lab guide will be attached in the errata.
+Please do not change any of these passwords. 
+Doing so will cause delays in providing support for your class should support be required. 
+Any equipment password not indicated in the lab guide will be attached in the errata.
 ```
