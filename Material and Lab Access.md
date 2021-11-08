@@ -1,8 +1,10 @@
 ## Material Access
-- URL : https://learningspace.cisco.com/
-- Sign up : personal email
-- Redeem : xxxxxxxxxxxxxx
-- Offline read: Download and install Cisco eReader
+```
+URL : https://learningspace.cisco.com/
+Sign up : personal email
+Redeem : xxxxxxxxxxxxxx
+Offline read: Download and install Cisco eReader
+```
 
 ## Lab Access
 Access to Cisco Learning Labs is via the Cisco Learning Labs Portal:
