@@ -72,6 +72,9 @@ Please do not change any of these passwords.
 Doing so will cause delays in providing support for your class should support be required. 
 Any equipment password not indicated in the lab guide will be attached in the errata.
 ```
+
+Notes day 1 to 5
+```
 3    | 0 --> 
 0011 | 0010 -->
 3 2
@@ -306,6 +309,7 @@ access-list 1 deny 172.16.100.16 0.0.0.15
 
 
 Given following ip addresses, configure acl to deny them
+
 192.168.100.80
 192.168.100.81
 192.168.100.82
@@ -335,3 +339,4 @@ Given following ip addresses, configure acl to deny them
 Network ID: 192.168.100.80
 Wildcard  : 0.0.0.7
 
+```
