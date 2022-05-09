@@ -41,7 +41,7 @@ Student: HAIREE IZZAM
 Username: 2022051620077
 Password: CMLnRkv2
 
-Student: AMMAR 
+Student: AMIR 
 Username: 2022051620078
 Password: joPN3Rpi
 
