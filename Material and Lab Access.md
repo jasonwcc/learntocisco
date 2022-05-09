@@ -164,6 +164,157 @@ Standard Frame
 Jumbo Frame (FCoE) -- > SAN
 - MTU : 9000 bytes
 
+LAN
+- org. admin responsible
+- close distance
+WAN
+- subscribe to SP / telco
+- geographic region
+
+PAN
+
+MAN
+
+SAN
+- block storage
+- FC / iSCSI(ethernet) / FCoE / NVMeOF
+
+NAS
+- NFS / CIFS
+
+Hub
+- L1
+- Half Duplex
+- Flooding send out frame to all ports except original port
+Bridge
+- L2 
+- understand
+- less developed
+Switch
+- L2
+- Half / Full Duplex 
+- understand
+- vendor R&D
+
+TPLink
+- managed switch
+- 240 
+
+Collision Domain
+
+Broadcast Domain
+
+Switch 
+- by default it operate as switch at L2
+- without configuration
+- Optional, configure IP on switch vlan 1 interface
+  - default gateway
+  - remote management
+
+1GBe
+10GBe
+25GBe
+40GBe
+-> 
+100 GBe
+600 GBe
+
+flooding vs broadcast
+IPv4
+- unicast
+- multicast
+- broadcast (Netbios, DHCP, arp, virus)
+  ---> break into VLAN / segment
+
+ARP
+- address resolution protocol
+- resolved IP into MAC
+- ping IP / telnet IP 
+
+RARP 
+- Reverse ARP
+- resolved MAC into IP
+- Installation / Boot Server 
+- RedHat KickStart / Solaris Jumpstart
+  - PXE-boot NIC
+
+IPv6
+- unicast
+- multicast
+- anycast
+
+
+Cross
+- Same type of device
+- exception1 PC <--> Router
+- exception2 Switch <--> Hub
+
+- MDI -- MDI-X
+
+Netbios
+- File & Print
+- Streaming
+- advertise
+
+0    0 <-- hexa
+0000 0000  --> WAN
+0    2
+
+0000 0010  --> LANIC
+
+Physical, Logical (configuration)
+UP, UP ==> Superb Good
+DOWN, DOWN ==> Physical connection / cable
+UP, DOWN (secured-err) ==> Configuration is bad
+ADMIN DOWN, DOWN ==> manually disabled by admin
+
+Metrics can used by routing protocol 
+- control routing process
+- DLY = DELAY
+
+OSPF
+- BW
+EIGRP
+- BW + DELAY
+RIP
+- hop count
+
+show run
+- latest config (ram - MB)
+show start 
+- last saved configuration (nvram - kb)
+
+copy run start 
+== wr
+
+copy start run
+
+flash (MB)
+- IOS
+
+line vty 0 5
+   password cisco
+   
+   login 
+
+crypto
+ip ssh
+ip domain
+
+Discovery lab 1 - 3
+Fastlab 1: Implement the Initial Switch Configuration
+
+0122736143
+
+
+
+
+
+
+
+
+
+
 
 
 
