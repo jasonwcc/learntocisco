@@ -374,11 +374,96 @@ HQ - 172.16.x.x/16
 JB - 10 clients
 PN - 20 clients
 PJ - 3 clients
+answer: refer to excel file
 
-PJ
+```
+TCP Connection-Oriented
+PcA --> Frame1 (100b)  ---> PcB
+TCP : Seq number : 100 --> 
+     <-- Ack number : 101
+PcA --> Frame1 (90b)  ---> PcB
+TCP : Seq number : 190 --> 
+     <-- Ack number : 191
+.... 421.......
 
-1. 
-2.
+applications / services
+0 - 65535 (16 bits)
+0 - 1023 well known port
+80
+22
+23
+25
+69
+443
+110
+111 rpc
+1024 - 49151 registered port (vendor / OS specific)
+49152 - 65535 arbitrary / random port
+
+DHCP 
+-  release IP
+- 
+DNS
+- resolve FQDN into IP
+- Fully qualified domain name
+- mail.yahoo.com --> 22.22.22.11
+
+Discovery 4 Lab
+
+Directly Connected Route
+
+show ip route
+netstat -rn
+
+
+RAM (bootup)
+- Cisco IOS + 
+- Running configuration
+Flash (mb)
+- Cisco IOS (permanent)
+NVRAM (kb)
+- startup configuration
+
+Router
+if received several routing information from 
+different routing protocol (OSPF, EIGRP, RIP)
+then decide best route from AD
+if received several routing information from 
+same routing protocol
+then decide best route from metric
+
+
+EIGRP
+= Bandwitdh + Delay
+= propietory
+OSPF
+= Bandwitdh
+RIP
+= Hop Count
+
+HDLC
+PPP
+FRAME-RELAY
+ATM
+
+
+192.168.1.0/24
+- via 10.10.10.1
+192.168.2.0/28
+- via 10.10.10.2
+192.168.1.0/20
+- via 10.10.10.3
+
+sh cdp entry SwitchA
+- ip
+
+
+cdp
+lldp
+
+Until
+- Discovery Lab 6
+- FASTLab 2
 
 
 
