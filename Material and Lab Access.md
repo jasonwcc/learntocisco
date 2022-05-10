@@ -305,7 +305,87 @@ ip domain
 Discovery lab 1 - 3
 Fastlab 1: Implement the Initial Switch Configuration
 
-0122736143
+ipv4
+32 bits
+2^32 = 4 billion
+IP range 0.0.0.0 -> 255.255.255.255
+IP Address : 192.168.0.1
+Netmask    : 255.255.0.0
+
+Classfull design
+A 255.0.0.0     0.0.0.0 - 127.255.255.255
+B 255.255.0.0   128.x.x.x - 191.x.x.x
+C 255.255.255.0 192.0.0.0 - 223.255.255.255
+D               224.0.0.0 - 239.255.255.255
+E reserved for future use 240.x.x.x - 255.255.255.255
+
+2.7 billion usable over Public WAN
+
+Classless design
+255.128.0.0
+255.255.255.252
+
+Calculate Network ID / Broadcast IP
+Binary <--convert-->Decimal
+AND
+x = 0101
+y = 0011
+AND=0001 --> 
+
+Decimal     base 10 (0-9)
+Binary      base 2 (0,1)
+Octal       base 8 (0-7)
+Hexadecimal base 16 (0-9,a-f)
+
+Decimal <--> Binary
+255       --> 1111 1111
+
+Decimal <-- Binary <-- Hexadecimal (IPv6)
+	   1111 1111	ff
+           
+0-9
+10 = a
+11 = b
+12 = c
+13 = d
+14 = e
+15 = f
+
+RFC1918
+- these private range can never routed in the internet
+10.x.x.x - Private
+192.168.x.y - Private
+172.16.x.y - Private
+- 172.31.x.y - 
+
+NAT - network translation table
+172.15.6.1
+
+VLSM 
+- differnt subnet mask
+- what formula? 
+3 rules
+- minimize IP wastage
+- No overlapping
+- Start from direction 
+  - small / big
+
+HQ - 172.16.x.x/16
+JB - 10 clients
+PN - 20 clients
+PJ - 3 clients
+
+PJ
+
+1. 
+2.
+
+
+
+
+
+
+ 
 
 
 
