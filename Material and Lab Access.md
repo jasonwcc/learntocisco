@@ -465,6 +465,254 @@ Until
 - Discovery Lab 6
 - FASTLab 2
 
+Loopback Address
+- 127.1.1.1
+- universal
+
+Loopback Interface
+- logical - always up 
+- testing dummy network
+- OSPF/EIGRP can this IP for DR election
+
+
+conf t
+int lo 0
+  ip add 127
+
+Appl
+Transport
+Internet
+Link - Data link 
+     - Physical
+
+
+
+On routed network
+each subnet
+/ MAC address changes
+/ IP add. never change
+
+Switch - EtherChannel
+FHRP - Router
+- HSRP
+- VRRP
+- 
+
+switch 
+- show mac address-table (state info)
+MAC	PORT
+aaa	e0/0
+bbb	e0/1
+
+Router/PC (Endpoint)
+- arp table (state)
+
+APIPA
+- win98
+- DHCP down
+- not routable
+
+ping
+..... arp 
+ping 
+!.!.!
+.!.!.
+Load balance/Redundancy
+
+1. Data PDU
+Application - ?
+Transport - UDP 
+Internet Header
+- Source / Destination IP
+- Routing - same network?
+Data-Link - Link
+- Route to Gw/Router
+- MAC address of Router
+   192.168.3.2
+Physical  - Link
+
+2. ARP (R)equest 
+- expect ARP (R)eply
+
+tcpdump -vvv
+dump
+
+Frame 1
+			Src				Dest
+MAC		222:2222	333:2222
+IP		3.2				4.2
+
+Frame 2
+			Src				Dest
+MAC		333:1111	222:1111
+IP		3.2				4.2
+
+TCP Traffic from PC1 and SRV1, what is the dest mac on the frame exiting R1
+
+SW1 
+- multilayer
+- router
+
+DDOS attack
+
+Which interface?
+- determine from routing table(L3)
+
+
+C 192.168.3.0/24 via e0/1
+S* 0.0.0.0/0 via 192.168.1.1
+ 
+
+IPv4
+- 32bits
+- 4 billion address
+  - 2.7 billion public IP
+  - NAT / Tunnelling
+
+IPv6
+- 128 bits
+   
+2001::db8:10f:acd
+
+
+Windows / MAC / REDHAT
+EUI-64bits --> random
+
+Cisco
+- MAC formulat into EUI-64
+- fe80 : stateless Address configuration (SLACC)
+
+2001:e68
+
+Discovery Lab 
+9, 10, 11
+
+Resume @2pm
+
+
+ADministrative Distance
+- several routing protocol 
+  OSPF : 110
+  EIGRP: 90
+  RIP  : 120
+
+Best Route
+- Metrics
+  OSPF : BW
+  EIGRP : BW + DELAY
+  RIPv1 : Hop count (15)
+
+
+
+Q.From R1, Create static route to 10.10.2.0/24
+(Choose 2 answer)
+A. R1>
+enable
+configure terminal
+ip route 10.10.2.0 255.255.255.0 10.1.1.10
+B. R1>
+enable 
+configure terminal
+ip route 10.10.2.0 255.255.255.0 s1/2
+C. R1>
+enable 
+configure terminal
+ip route 10.10.2.0 255.255.255.0 s1/1
+D. R1>
+enable 
+configure terminal
+ip route 10.10.2.0 255.255.255.0 10.1.1.9
+
+
+RouterB
+en
+conf t
+ip route 10.0.0.0 255.255.0.0 172.16.2.2
+ip route 192.168.1.0 255.255.0.0 172.16.2.2
+
+RouterA
+en
+conf t
+ip route 0.0.0.0 0.0.0.0 172.16.2.1
+
+routing loop
+
+
+IEEE 802.1Q
+- 12 bits
+- 0 to 4095
+
+switchport mode trunk
+- allow multiple/all vlan
+switchport mode access
+- single vlan
+
+VLAN Tag
+= add vlan number into existing frame
+= recompute/recalculate/recreate FCS
+
+Module 15, Module 16
+
+DTrunking Protocol
+Sw1	<-->	Sw2
+
+
+Dynamic Auto
+Dynamic Desireble
+Access
+Trunk
+
+en
+conf t
+int range fa0/1-4
+   switchport mode trunk
+
+show int trunk
+
+Discovery Lab 12:
+Discovery lab 13:
+FastLab IPv4 Static Routing
+FastLab IPv6 Static Routing
+Discovery lab 14:
+FastLab Troubleshooting vlan and trunk
+Discovery Lab 15:
+FastLab Implement Multiple VLAN
+
+DTP 
+
+show ip route
+
+vs
+debug all
+undebug all
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
