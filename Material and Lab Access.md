@@ -686,7 +686,279 @@ vs
 debug all
 undebug all
 
- 
+ IGRP = RIPv2 (zebra)
+EIGRP
+OSPF
+
+Distance Vector
+- RIP
+- use Hop Count
+- 10x 0.5 = RM5  -->
+- 2 x RM5 = RM10 --> 
+- only care about Routing Table (best route)
+- lighweight / less resource
+
+Link State
+- OSPF: BW
+  - equal cost Load balance (max upto 4)
+- EIGRP: BW + Delay
+- 3 Tables
+  : Neighboring / Adjancency Table (directly)
+  : Topology Table (all routes) 
+  : Routing Table (best route)  
+- Hello timer: 10 sec
+- Dead timer : 40 sec
+- Dijkstra algorithm (SPF)
+
+ABR : Area Border Router
+ASBR : Autonomous System Border Router 
+
+all OSPF routers : 224.0.0.5
+all Designated router (DR) : 224.0.0.6
+- use highest IP to eElect in same area
+  - only if all the routers uses ethernet
+
+
+
+Spanning Tree Protocol STP
+1stp - 4095 vlans
+Per-VLAN Spanning Tree+
+1000 stps - 1000 vlans
+
+PV Rapid ST+
+
+smaller number = higher priority
+16384 vs 32768
+0, 4096, 8192, 12288, 16384, 20...
+2^4 = 16
+2^12 = 4095
+
+Historical
+- vlan 4096 (0-4095)
+- IEEE 802.1D STP 
+  1 STP for all vlans
+  elect one leader
+  16 bits priority 0 - 65535
+- Cisco
+  PVST+ 
+  1 STP for each vlan
+  100 STP for 100 VLAN  
+  4 bits priority + 12 bits
+  16 possibility - 0 - 65535
+  0, 4096, 12288, 
+  ---> 61...
+
+Election
+- smallest / lowest priority
+- same priotiry , then choose lowest mac address
+
+Root Port
+- is configured on non-root bridge/switch
+- go towards to Root Bridge
+- will be in Forwarding state
+
+Designated Port
+- come towards me to go to the Rood Bridge
+- If its a Root Bridge, all ports will be 
+  configured as Designated Port
+- will be in Forwarding state
+
+Alternate Port / Discarding (RSTP)
+- will be in Blocking state
+
+MTSP
+- 1000 vlans
+- 1stp - 20 vlans
+- 50stp - 1000 vlans
+
+
+Link aggregate
+- load balance
+- Linux envoy 
+
+
+on				
+: static / do not use protocol
+: Legacy / incomptiable
+passive		: use LACP
+active		: use LACP
+auto		  	: use PAGP (cisco propietory)
+desirable : use PAGP (cisco pro.)
+
+
+
+
+RSTP
+- Configure Portfast
+- PortFast configured on switch port that connect to PC, Router, non-switch.
+- Configure one of the switch Root Primary,
+Root Secondary
+
+
+show int fa0/1
+Up, Down (Errdisable)
+
+en
+conf t
+int fa0/1
+  shut
+  no shut
+
+Bpdu Guard
+Root Guard
+
+
+Discovery Lab 16:
+Discovery Lab 17:
+
+
+ipconfig/release
+ipconfig/renew
+
+HSRP
+- cisco propietory
+- initial Failover
+- advanced: LB across VLAN
+VRRP
+- universal
+GLBP
+- cisco propietory
+= LB + Failover
+
+2pm
+- photo
+- 
+
+coaxial 
+copper - ethernet cable
+fibre
+Cable TV -
+- hybrid Fibre-coaxial (HFC)
+HyppTV
+
+CIR / Clock-rate
+serial 
+
+DualHome
+MultiHome
+- 2 nic to network
+
+
+ADSL - Streamyx
+SDSL - upload = download
+VDSL
+HDSL
+xDSL
+
+BGP + MPLS
+- between AS by ISP
+OSPF / EIGRP / RIP
+- within AS
+
+
+Netmask 1101
+start usable  
+last usable
+172.16.0.0/24
+172.16.0.1 - 172.16.0.254
+255.255.255.0
+
+Wildcard Mask
+deny 172.16.120.0    0.0.15.255
+deny network ID  wildcard-mask
+
+Start where 172.16.112.0
+Until where 172.16.127.255
+
+120 -> 0111 0000
+15  -> 0000 1111
+       nnnn cccc
+
+1 - dont care
+0 - care
+
+
+Extended
+Standard
+
+Numbered list
+Named list
+
+172.16.120.0 - 172.16.127.255
+172.16.112.0 - 172.16.127.255
+
+......
+Create ACL to Deny following IP range from entering 172.16.0.0
+192.168.0.48
+192.168.0.49
+192.168.0.50
+192.168.0.51
+192.168.0.52
+...
+192.168.0.63
+
+A. access-list 88 deny ...
+B. access-list 100 deny ...
+C. access-list 66 deny ...
+D. access-list 100 deny ...
+
+Network ID    192.168.0.48
+Wildcard mask   0.  0.0.15
+==========================
+              192.168.0.63
+
+192.168.0.48-> 0011 0000
+192.168.0.63-> 0011 1111
+=========================
+Find matching  0011 0000
+bits (NetworkID)
+Wildcard       0000 1111
+
+
+enable
+conf terminal
+access-list ?
+
+
+cisco IOS v15
+
+access-list 10 permit host 172.16.0.1
+access-list 10 permit host 192.168.0.1
+access-list 10 deny host 172.16.0.100
+access-list 10 deny 10.0.0.0 0.255.255.255
+
+Standard Access List 10
+- permit 
+- deny
+
+no access-list 10 deny host 172.16.0.100
+
+ip access-list standard jasonpolicy
+10 permit host 172.16.0.2
+20 permit host 192.168.0.1
+35 deny ...
+40 deny..
+
+ip access-list standard jasonpolicy
+no 10
+10 permit host 172.16.0.1
+
+interface e0/0
+   ip access-group group2 in 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
