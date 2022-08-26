@@ -1,4 +1,4 @@
-
+```
 Implementing and Administering Cisco Solutions
 
 Course Start and End Dates: 2022-08-22 to 2022-08-26
@@ -285,6 +285,9 @@ HSRP vs VRRP vs GLBP
 - flapping
 - tracking + preemptive
 
+Given 192.168.100.123/18, what is the networkID?
+--> answer: 192.168.64.0
+
 # ACL
 ```
 Numbered Standard ACL 
@@ -301,13 +304,12 @@ Named Standard / Extended ACL
 - change / speciy rule number
 - Delete specific rule
 Last rule : Deny any 
+```
 
-Given 192.168.100.123/18, what is the networkID?
-
-Criteria 1: Deny 172.16.200.55/20
+- Criteria 1: Deny 172.16.200.55/20
 access-list 1 deny networkID wildcard
 access-list 1 deny 172.16.192.0 0.0.15.255
-``
+
 - Criteria 2: Deny these subnets range 
 172.16.160.0/27
 172.16.161.0/26
@@ -358,16 +360,12 @@ WC :          0.0.15.255
 5. Execute the cmd
 access-list 2 permit 172.16.192.0 0.0.15.255
 
-```
-
-
-
-
-
-
-
-
-
-
-
+- Criteria 5: Permit  these subnets range 
+192.100.40.0/27
+192.100.54.0/28
+192.100.32.0/26
+192.100.63.96/27
+192.100.48.160/28
+192.100.44.240/29
+192.100.33.96/29
 
