@@ -306,7 +306,7 @@ Criteria 1: Deny 172.16.200.55/20
 access-list 1 deny networkID wildcard
 access-list 1 deny 172.16.192.0 0.0.15.255
 
-Criteria 2: Deny these subnets range 
+- Criteria 2: Deny these subnets range 
 172.16.160.0/27
 172.16.161.0/26
 172.16.164.224/28
@@ -330,7 +330,7 @@ WC :         0.0.7.255
 5. Execute the cmd
 access-list 2 deny 172.16.160.0 0.0.7.255
 access-list 2 permit any
-Criteria 4: Deny these subnets range 
+- Criteria 4: Deny these subnets range 
 172.16.160.0/27
 172.16.161.0/26
 172.16.164.224/28
