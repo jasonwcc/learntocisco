@@ -287,7 +287,6 @@ HSRP vs VRRP vs GLBP
 
 Given 192.168.100.123/18, what is the networkID?
 --> answer: 192.168.64.0
-```
 
 # ACL
 ```
@@ -307,8 +306,6 @@ Named Standard / Extended ACL
 Last rule : Deny any 
 ```
 
-## Lets look at some example finding out the networkID and wildcard mask, then follow by example acl command
-```
 - Criteria 1: Deny 172.16.200.55/20
 access-list 1 deny networkID wildcard
 access-list 1 deny 172.16.192.0 0.0.15.255
@@ -372,4 +369,28 @@ access-list 2 permit 172.16.192.0 0.0.15.255
 192.100.44.240/29
 192.100.33.96/29
 
-```
+1. Find the first subnet and last subnet
+192.100.32.0/26
+192.100.63.96/27
+2.  Convert above non matching octet to bin. 
+32 -->  0010 0000
+63 -->  0011 1111
+3. Find matching bit
+001x xxxx
+0001 1111
+4. Calculate networkID and WC.
+NID : 192.100.32.0 
+WC :          0.0.31.255 
+5. Execute the cmd
+A. access-list 2 deny 192.168.100.32   0.0.31.255
+     access-list 2 permit any
+B. access-list 2 deny 192.100.100.32   0.0.31.255
+     access-list 2 permit any
+C. access-list 2 permit  192.168.100.32   0.0.31.255
+D. access-list 2 permit  192.100.100.32   0.0.31.255
+Answer: D
+
+
+
+
+
