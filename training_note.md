@@ -382,13 +382,14 @@ access-list 2 permit 172.16.192.0 0.0.15.255
 NID : 192.100.32.0 
 WC :          0.0.31.255 
 5. Execute the cmd
-A. access-list 2 deny 192.168.100.32   0.0.31.255
+A. access-list 2 deny 192.168.32.0   0.0.31.255
      access-list 2 permit any
-B. access-list 2 deny 192.100.100.32   0.0.31.255
+B. access-list 2 deny 192.100.32.0   0.0.31.255
      access-list 2 permit any
-C. access-list 2 permit  192.168.100.32   0.0.31.255
-D. access-list 2 permit  192.100.100.32   0.0.31.255
+C. access-list 2 permit  192.168.32.0   0.0.31.255
+D. access-list 2 permit  192.100.32.0   0.0.31.255
 Answer: D
+
 
 
 
