@@ -308,6 +308,7 @@ Last rule : Deny any
 ```
 
 ## Lets look at some example finding out the networkID and wildcard mask, then follow by example acl command
+```
 - Criteria 1: Deny 172.16.200.55/20
 access-list 1 deny networkID wildcard
 access-list 1 deny 172.16.192.0 0.0.15.255
@@ -371,3 +372,4 @@ access-list 2 permit 172.16.192.0 0.0.15.255
 192.100.44.240/29
 192.100.33.96/29
 
+```
