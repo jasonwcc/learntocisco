@@ -307,7 +307,7 @@ Given 192.168.100.123/18, what is the networkID?
 Criteria 1: Deny 172.16.200.55/20
 access-list 1 deny networkID wildcard
 access-list 1 deny 172.16.192.0 0.0.15.255
-
+``
 - Criteria 2: Deny these subnets range 
 172.16.160.0/27
 172.16.161.0/26
