@@ -287,6 +287,7 @@ HSRP vs VRRP vs GLBP
 
 Given 192.168.100.123/18, what is the networkID?
 --> answer: 192.168.64.0
+```
 
 # ACL
 ```
@@ -306,6 +307,7 @@ Named Standard / Extended ACL
 Last rule : Deny any 
 ```
 
+## Lets look at some example finding out the networkID and wildcard mask, then follow by example acl command
 - Criteria 1: Deny 172.16.200.55/20
 access-list 1 deny networkID wildcard
 access-list 1 deny 172.16.192.0 0.0.15.255
