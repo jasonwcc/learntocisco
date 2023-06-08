@@ -1,99 +1,121 @@
 ...
-AAA
-- Authentication : username + password / identity
-- Authorization  : tasks / capabilities / permissions
-- Accounting : log, record
+Technique to memerize
+1. look at keyword from answer
+2. look at keyword from last line in question
 
-
-ACL
+Access-list (ACL)
 - read from top down
-- extended ACL nearer to source
-- standard ACL nearer to destination
+- standard ACL (1-99)
+  : look at source address
+  : put nearer to destination
+- extended ACL (100-199)
+  : look at source/destination address or source/destination port, protocol
+  : put nearer to source
 - permit any any always at bottom of ACL
 
-Controller-Based Networking
-- centralized configuraiton, monitoring, management
-- leverage controllers to handle network management and configurations
-- automation of devices (networks) and services
-- like Cisco DNA Center
-
-Default Mac address configured
+Default virtual Mac address configured - 
 HRSP - 00:00:0c:...
 VRRP - 00:00:5x:...
 GLBP - 00:06:xx:...
 
-
+HSRP
+- cisco propietory
+- active-standby
+- if want active-active, use VLAN
+GLBP
+- cisco propietory
+- active-active 
+VRRP
+- multi-vendor / universal
+- master-backup
+ip route destination/netmask via next hop
 DHCP
+- UDP/67
+- release IP / Netmask, DNS, Gateway, NTP, Voice configuration
 - DORA Discover Offer Request and Acknowledge
 - when conflict - ip is removed
 - Relay Agent 
-  To see relay agent / helper address # show ip interface
+  To see relay agent / helper address 
+  # show ip interface
 - Lease : list of ip assigned to clients
   # show ip dhcp bindings
 - Pool :  list of ip available 
   # show ip dhcp pool
+- configure as client
+  # int fa0/0 
+  # ip address dhcp   
+  # no shut
+- DHCP snooping :  to mitigate/defened against rogue server
+  : Configure on server
 
-DNS
+DNS 
 - resolve FQDN/hostname into IP
 - TCP/53 and UDP/53
+- recursive query
 
-
-Dynamic ARP Inspection (DAI)
-- prevent man-in-the-middle attack
+DTP 
+- Dynamic Trunking Protocol
+- negotiate trunking mode between switches only
+- Cisco recommend disable DTP
 
 FTP
 - TCP/20 and TCP/21
 - send data plain text
-- has separate controle and data connections
+- has separate control and data connections
 - requires authentication / username+password
-
+- cmd: get , mget , put, mput
 IPv4
 - Private IPv4 address
   : conserve global address
   : always private, cannot route to internet
-  : unless configured with NAT to be translate into public
-
-IPSEC vs GRE
-- IPSEC 
-  : is unicast traffic, better security
-- GRE
-  : support multicast traffics, less secure
-- hence GRE with IPSEC to have both 
-
+  : if configured with NAT they to be translate into public / internet
+- 10.x.x.x/8 or 172.16.x.x - 172.31.x.x/16  or 192.168.x.x/24
 NAT
-static nat
+1. Static nat
+- 10 private IP translate into 10 public ip - fixed
 config) # ip nat source static ....
-dynamic nat
+2. Dynamic nat
+- 10 private IP translate into 10 public ip - dynamic
 config) # access-list ...
-config) # ip nat pool static ....
-pat
+config) # ip nat pool ....
+3. Dynamic NAT with Overload / Port Address translation (PAT)
+- upto 60000+ private IP translate into 1 public IP
 config) # ip nat  ... overload
 
 NTP
-- configure as server # ntp master 4 (stratum level)
-- configure as client # ntp server <master-ip>
 - UDP/123
+- configure as server # ntp master # (stratum level)
+- configure as client # ntp server <master-ip>
 
-OSPF 
-- best path : bandwitdh
-- if all bandwitdh same : load-balance all routes
 
 QOS
 - Low-Latency Queue (LLQ) : suited for voice and video
-- Weighted Random Early Detection (WRED): when queue is full then start dropping low priority packet
-- Policing : implment by ISP 
-	: limit both incoming and outgoing flow
+- Weighted Random Early Detection (WRED)
+  : when queue is full then start dropping low priority packet
+- Policing : implement by ISP 
+  : limit both incoming and outgoing flow
   : Discards or re-marks packets
 - Traffic Shaping 
 	: limit bandwitdh that an outgoing flow can use
+    : re-transmit later
 - Precision Queue (PQ) : congestion management : suited for voice 
 - Class-Based Weighted Fair Queueing (CBWFQ) : congestion management
+- Marking : classify packet / application traffic
 
-Port Security
-- has 3 modes: protect, restrict and shutdown
-- protect mode : temp disable port
-- restrict mode : temp disable port + syslog + snmp + increment counter
-- shutdown mode : permanent shutdown port + syslog + snmp + increment counter
+
+SSH
+- TCP/22
+- command: 
+  config terminal
+     username sam password ABC!23
+	username mary password ABC!23
+  	hostname demo1
+	ip domain-name abc.com
+	crypto key generate rsa 
+	line vty 0 15
+		transport input ssh
+        	password CISCO
+		login local
 
 SNMP
 - is UDP/162
@@ -101,35 +123,25 @@ SNMP
 - Agent: responds to status requests for information about a device
 - Manager - resides on NMS
 - Trap - unsolicited message
+- cmd: trap, set, get, copy
 
-SSH
-- TCP/22
-- command: 
-  config terminal
-  	hostname demo1
-		ip domain-name abc.com
-		username CISCO password ABC!23
-		crypto key generate rsa 
-	line vty 0 15
-	     transport input ssh
-		
-
-SYSLOG
+Syslog
+- Facility : from which process/application that generate message
 - UDP/514
 - use command to set #logging trap level
 - lower level will send all messages
-- Level: 
+- Severity  Level: 
 level 0 - Emergencies 	: Every	
-level 1 - Alerts	: Awesome 
-level 2 - Critical	: Cisco
-level 3 - Errors	: Engineeer
+level 1 - Alerts		: Awesome 
+level 2 - Critical		: Cisco
+level 3 - Errors		: Engineeer
 level 4 - Warnings	: Will
 level 5 - Notifications	: Need
 level 6 - Informational	: Icecream
-level 7 - Debug	: Daily
-			
+level 7 - Debug		: Daily
+
 Example:
-0 Emergencies System unstable / System shutting down due to missing fan tray / 
+0 Emergencies System unstable / System shutting down due to missing software pages /  memory leakage / driver installed not compatible
 1 Alerts Immediate action needed / Temperature limit exceeded
 2 Critical (default) Memory allocation failures
 3 Errors Interface Up/Down messages
@@ -138,52 +150,45 @@ Example:
 6 Information list violation logging
 7 Debugging Appears during debugging only
 
+
 TCP
 - reliable, statefull, connection-oriented (three way handshake)
 - use sequential, acknowledge
 - has control bits 
 - can use checksum
-
-
+- ftp, smtp, ssh, www, database, pop3, dns
 TFTP
 - UDP/69
 - backup Cisco IOS or configuration/nvram to TFTP server
 - upgrade Cisco IOS
-- convenient : no need authentication / username+password
+- convenient : no need authentication / no username+password
 
 UDP
 - unreliable, stateless, connection-less
 - can use checksum
 - fast, less overhead
+- snmp, tftp, voice, audio, dns, NTP
+VLAN
+- IEEE 802.1Q
+VTP
+- vlan trunking protocol
+- sync vlan among switches
+NAT
+int e0
+  ip add 172.16.1.1
+  ip nat inside
+int s0
+  ip add 45.83.2.214
+ip nat outside
 
-VLAN hopping attacks
-- to mitigate / protect :
-  1. VLAN ACL
-  2. change native/default VLAN 1 to unused VLAN ID
-  3. Configure as trunk port
-  4. Disable DTP
+192.168.100.33/26
+8n.8n.8n.3n 5c
+33	-->  0010 0001
+ANDing	-->  1100 0000
+	       0000 0000
+		
 
-WPA
-- TKIP/MIC encryption
-
-WPA-2
-- only 8-63 ASCII characters or 64 HEXADECIMAL characters
-- 128 bits
-- use pre-shared key
-
-WPA-3
-- AES : for encryption 
-- SAE : Simultaneous Authentication of Equals
-  - is resistant to dictionary and brute force attacks
-- relies on Perfect Forward Secrecy 
-
-
-
-
-
-
-
-
-
+27n = 8n.8n.8n.3n = 255.255.255.224 = 0.0.0.31
+access-list 99 permit     network-id    wildcard
 
 ...
