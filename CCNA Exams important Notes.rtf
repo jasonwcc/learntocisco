@@ -3,6 +3,14 @@ Technique to memerize
 1. look at keyword from answer
 2. look at keyword from last line in question
 
+Automation framework
+- programming language : JSON / XML / YAML
+
+AAA
+- Authentication : username + password / identity provider
+- Authorization  : tasks / capabilities / permissions / command to execute / services
+- Accounting : log, record, analytics
+
 Access-list (ACL)
 - read from top down
 - standard ACL (1-99)
@@ -12,6 +20,38 @@ Access-list (ACL)
   : look at source/destination address or source/destination port, protocol
   : put nearer to source
 - permit any any always at bottom of ACL
+
+enable
+conf t
+   access-list 10 ...
+   int  g0/0
+     ip access-group 10 in
+
+Cloud Services
+IaaS- for any software : email / web / db
+- customizable / install OS / runtime
+- configure how much cpu/memory/disk/network
+- pricing: expensive
+- for all kind of application and development
+PaaS
+- automated
+- auto-scaling
+- pricing: lowest
+- for development
+SaaS
+- for any software : email / web / db
+- automated
+- auto-scaling
+- pricing: lowest
+
+Controller-Based Networking
+- centralized configuration/monitoring/management
+- leverage controllers to handle network management and configurations
+- automation of devices (networks) and services
+- like Cisco DNA Center
+- northbound : application and controller
+- southbound : controller and network devices (switch / routers / firewall )
+- policy driven
 
 Default virtual Mac address configured - 
 HRSP - 00:00:0c:...
@@ -31,7 +71,7 @@ VRRP
 ip route destination/netmask via next hop
 DHCP
 - UDP/67
-- release IP / Netmask, DNS, Gateway, NTP, Voice configuration
+- release IP / Netmask, DNS server, Gateway, NTP, Voice configuration
 - DORA Discover Offer Request and Acknowledge
 - when conflict - ip is removed
 - Relay Agent 
@@ -48,6 +88,12 @@ DHCP
 - DHCP snooping :  to mitigate/defened against rogue server
   : Configure on server
 
+
+Dynamic ARP Inspection (DAI)
+- prevent man-in-the-middle attack
+- prevent rogue DHCP server
+
+
 DNS 
 - resolve FQDN/hostname into IP
 - TCP/53 and UDP/53
@@ -57,6 +103,16 @@ DTP
 - Dynamic Trunking Protocol
 - negotiate trunking mode between switches only
 - Cisco recommend disable DTP
+EtherChannel
+1. PaGP (cisco)
+    - mode: auto/desirable
+2. LaCP (multi-vendor)
+    - mode: active/passive
+3. Without nego / without protocol
+   - mode : on
+
+Firewall
+- statefull inspection of traffic
 
 FTP
 - TCP/20 and TCP/21
@@ -70,6 +126,18 @@ IPv4
   : always private, cannot route to internet
   : if configured with NAT they to be translate into public / internet
 - 10.x.x.x/8 or 172.16.x.x - 172.31.x.x/16  or 192.168.x.x/24
+
+IPv6
+- Global IP    	2xxx:xxxx
+- Link-Local  	FE80
+- Site-local   	FC / FD
+- Multicast  	FF
+- unknown  	::
+- loopback  	::1
+
+Multicast
+- IPv4 :  224.x.x.1 - 239.x.x.x
+- IPv6 : FF
 NAT
 1. Static nat
 - 10 private IP translate into 10 public ip - fixed
@@ -82,10 +150,41 @@ config) # ip nat pool ....
 - upto 60000+ private IP translate into 1 public IP
 config) # ip nat  ... overload
 
+Configuration of NAT
+int fax/x or gx/x
+ 	ip address private-range
+	ip nat inside
+int serial or gigabit
+ 	ip address public-range
+	ip nat outside
+ip nat inside source static
+or dynamic nat
+access-list xx network-id wildcard-mask
+ip nat pool
+ip nat source static xx pool
+or PAT
+ip nat  .... overload
+
 NTP
 - UDP/123
 - configure as server # ntp master # (stratum level)
 - configure as client # ntp server <master-ip>
+
+OSPF
+- dynamic routing protocol : exchange routing table
+- election to find the designator router (leader)
+  1. Priority
+  2. Highest IP # router-id cmd
+  3. Highest IP in all loopback interface
+  4. Highest IP in all up/up physical interface
+
+Port Security (configured on switch)
+- has 3 modes: protect, restrict and shutdown
+- protect mode : temp disable port (no reporting)
+- restrict mode : temp disable port + syslog + snmp + increment counter
+- shutdown mode (default): permanent shutdown port + snmp + increment counter. interface will be in err-disabled
+- use sticky to learn mac address automatically
+- use configure static mac address
 
 
 QOS
@@ -100,9 +199,17 @@ QOS
     : re-transmit later
 - Precision Queue (PQ) : congestion management : suited for voice 
 - Class-Based Weighted Fair Queueing (CBWFQ) : congestion management
-- Marking : classify packet / application traffic
+- Marking : classify packet / application traffic / classfication
 
-
+Routing.
+- between different routing protocol : OSPF (110) vs EIGRP (90) vs RIP (120)
+  : use administrative distance (AD)
+- between same routing protocol :
+  : use metric 
+    - OSPF (bandwitdh)
+    - EIGRP (bandwitdh + delay = feasible distance )
+    - RIP (hop count)
+  
 SSH
 - TCP/22
 - command: 
@@ -114,7 +221,6 @@ SSH
 	crypto key generate rsa 
 	line vty 0 15
 		transport input ssh
-        	password CISCO
 		login local
 
 SNMP
@@ -170,9 +276,32 @@ UDP
 - snmp, tftp, voice, audio, dns, NTP
 VLAN
 - IEEE 802.1Q
+VLAN hopping attacks (double tagging)
+- to mitigate / protect :
+  1. VLAN ACL (VACL)
+  2. change native/default VLAN 1 to unused VLAN ID
+  3. Configure as trunk port
+  4. Disable DTP
+
+
 VTP
 - vlan trunking protocol
 - sync vlan among switches
+WPA
+- TKIP/MIC encryption
+
+WPA-2
+- only 8-63 ASCII characters or 64 HEXADECIMAL characters
+- 128 bits
+- use pre-shared key
+
+WPA-3
+- AES : for encryption 
+- SAE : Simultaneous Authentication of Equals
+  - is resistant to dictionary and brute force attacks
+- relies on Perfect Forward Secrecy 
+
+
 NAT
 int e0
   ip add 172.16.1.1
@@ -190,5 +319,24 @@ ANDing	-->  1100 0000
 
 27n = 8n.8n.8n.3n = 255.255.255.224 = 0.0.0.31
 access-list 99 permit     network-id    wildcard
+8n.8n.2n 6c.8c /18n
+1110 0100
+1100 0000
+1100 0000 = 172.28.192.1
+1111 1111
 
-...
+8n.8n.5n 3c.8c/21n
+1110 0100
+1111 1000
+/25 8n.8n.8n.1n
+0 / 128
+
+
+
+
+
+
+
+
+
+
