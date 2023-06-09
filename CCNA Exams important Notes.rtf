@@ -181,9 +181,9 @@ IPv4
 - 10.x.x.x/8 or 172.16.x.x - 172.31.x.x/16  or 192.168.x.x/24
 
 IPv6
-- Global IP    	2xxx:xxxx
-- Link-Local  	FE80
-- Site-local   	FC / FD
+- Global IP    	2xxx:xxxx	(routable all the way to internet)
+- Link-Local  	FE80		(cannot route between locally)
+- Site-local   	FC / FD		(locally routable, cannot go internet)
 - Multicast  	FF
 - unknown  	::
 - loopback  	::1
@@ -232,10 +232,17 @@ NTP
 OSPF
 - dynamic routing protocol : exchange routing table
 - election to find the Designator Router (leader)
-  1. Priority
+  1. Priority  (higher priority higher priority)
   2. Highest IP # router-id cmd
   3. Highest IP in all loopback interface
   4. Highest IP in all up/up physical interface
+- to disable/avoid election : configure point-to-point
+- to become neighbor
+  : matching value : MTU size, hello(10)/dead(40) timer, stub flag, area id, password
+- To find best path
+  metric : bandwitdh 
+  formulat 100M / link-BW
+
 
 Port Security (configured on switch)
 - has 3 modes: protect, restrict and shutdown
@@ -249,6 +256,9 @@ Priority
 - If IP-based : bigger IP or number is higher prioritty
 - If MAC-based : smaller the MAC or number is higher priority
 
+RADIUS
+- provides AAA services except it only support encrypt password 
+- do not encrypt all traffic
 
 QOS
 - Low-Latency Queue (LLQ) : suited for voice and video
@@ -259,7 +269,7 @@ QOS
   : Discards or re-marks packets
 - Traffic Shaping 
 	: limit bandwitdh that an outgoing flow can use
-    : re-transmit later
+    : re-transmit later / reschedule
 - Precision Queue (PQ) : congestion management : suited for voice 
 - Class-Based Weighted Fair Queueing (CBWFQ) : congestion management
 - Marking : classify packet / application traffic / classfication
@@ -492,9 +502,8 @@ anycast - assigned to multiple devices / interfaces
 Q519
 from : 10.139.58.0  0.0.0.15
 
-Q530
-2^c-2 =  380
-
+Q530 
+- calculate based on number of hosts/clients
 2^7 = 128
 2^8 = 256
 2^9 = 512
@@ -504,6 +513,49 @@ Q530
 	nnnn nnnc.cccc cccc
 BC	0011 0111.1111 1111
 
+Q567
+- calculate based on number of hosts/clients
+2^c-2 =  24
+2^5c = 27n
+10.70.128.0/27n (255.255.255.224)
+nnnc cccc
+0100 0001
+
+7c=128, 8c=256, 9c=512
+2^c-2 =  472
+32-9c = 23n (255.255.254.0)
+8n.8n.7n 1c.8c
+148 =>  1001 0100.0000 0001
+	nnnn nnnc.
+159.1 =>  1001 1111.0000 0001
+	nnnn nnnc. 1
+Q553
+128/25	- 255
+192/26 - 255
+224/27 - 255
+use longest prefix
 
 
+Q582
+100M / 10M = 10
+100M / 100M = 1
 
+Q586
+answer should be 192.168.0.7
+
+Q596
+R1 --> R3 as primary  
+R1 --> R2 as backup X
+
+Q599
+2^c-2 = 225
+c=8  n=24 255.255.255.0
+
+Q606
+1. switchport mode acces
+2. switchport port-security
+3. switchport .. maximum 2
+4. switchport ... sticky
+
+Q608
+make sure, the "Frames from attached segment processed or discarded" not in the answer
