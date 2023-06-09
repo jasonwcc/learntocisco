@@ -22,7 +22,7 @@ Access-list (ACL)
   : look at source/destination address or source/destination port, protocol
   : put nearer to source
 - permit any any should place at bottom of ACL
-- explicit deny is by default at bottom
+- explicit deny any any rules is by default at bottom
 
 enable
 conf t
@@ -181,7 +181,7 @@ IPv4
 - 10.x.x.x/8 or 172.16.x.x - 172.31.x.x/16  or 192.168.x.x/24
 
 IPv6
-- Global IP    	2xxx:xxxx	(routable all the way to internet)
+- Global IP    	2-xxx:xxxx	(routable all the way to internet)
 - Link-Local  	FE80		(cannot route between locally)
 - Site-local   	FC / FD		(locally routable, cannot go internet)
 - Multicast  	FF
@@ -256,9 +256,6 @@ Priority
 - If IP-based : bigger IP or number is higher prioritty
 - If MAC-based : smaller the MAC or number is higher priority
 
-RADIUS
-- provides AAA services except it only support encrypt password 
-- do not encrypt all traffic
 
 QOS
 - Low-Latency Queue (LLQ) : suited for voice and video
@@ -273,6 +270,10 @@ QOS
 - Precision Queue (PQ) : congestion management : suited for voice 
 - Class-Based Weighted Fair Queueing (CBWFQ) : congestion management
 - Marking : classify packet / application traffic / classfication
+
+RADIUS
+- provides AAA services except it only support encrypt password 
+- do not encrypt all traffic
 
 Routing 
 - between different routing protocol or source: OSPF (110) vs EIGRP (90) vs RIP (120) vs static (1) vs direct-connected (0)
@@ -559,3 +560,93 @@ Q606
 
 Q608
 make sure, the "Frames from attached segment processed or discarded" not in the answer
+
+Command line / lab exam / simulator / performance-based question
+- ACL
+- NAT
+-  VLAN
+
+
+R1
+en
+conf t
+int g0/0
+   ip address 172.16.1.1 255.255.255.0
+  no shut
+int g0/1
+   ip address 172.16.2.1 255.255.255.0
+  no shut
+hostname R1
+end
+wr
+
+! Pc0
+172.16.1.101
+! Server0
+172.16.2.101
+255.255.255.192
+0 . 0 . 0 . 63
+Q.  Configure acl to block ping,smtp,www dari 172.16.1.0/26  to 172.16.2.101 , while allowing all  other network traffic.
+!R1
+en
+conf t
+    access-list 101 deny icmp 172.16.1.0 0.0.0.255 host 172.16.2.101 echo
+    access-list 101 deny tcp 172.16.1.0 0.0.0.255 host 172.16.2.101 eq telnet
+    access-list 101 deny tcp 172.16.1.0 0.0.0.255 host 172.16.2.101 eq www
+    access-list 101 permit ip any any
+ int g0/0
+    ip access-group 101 
+   end
+copy run start
+
+
+Standard : look at source address
+: place near destination
+Extended : place near source
+
+Q619
+172.16.1.184/29n (3c)
+
+Q141
+supposed to be ipv6 route ::/0 <nxt hop> 
+
+
+Loopback IP : 127.x.x.x (127.0.0.1)
+Loopback interface
+- testing
+- create dummy network (always up and running)
+- highest IP for OSPF election
+
+router ospf 1
+  network 177.177.1.0 0.0.0.255 area 0
+or
+!R3
+en
+conf t
+  ip route  177.177.1.0 255.255.255.0  172.16.1.1 
+  end
+wr
+
+Q1
+what is STP?
+a.
+b.
+c. spanning tree protocol
+d. 
+
+
+
+Q10
+what is short form for spanning tree protocol
+a. 
+b. STP
+
+
+
+
+
+
+
+
+
+
