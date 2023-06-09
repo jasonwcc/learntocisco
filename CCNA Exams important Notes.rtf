@@ -5,6 +5,8 @@ Technique to memerize
 
 Automation framework
 - programming language : JSON / XML / YAML
+- if use ansible : YAML
+- if use RESTfull APIs : JSON or XML
 
 AAA
 - Authentication : username + password / identity provider
@@ -19,13 +21,27 @@ Access-list (ACL)
 - extended ACL (100-199)
   : look at source/destination address or source/destination port, protocol
   : put nearer to source
-- permit any any always at bottom of ACL
+- permit any any should place at bottom of ACL
+- explicit deny is by default at bottom
 
 enable
 conf t
    access-list 10 ...
    int  g0/0
      ip access-group 10 in
+
+Cisco Discovery Protocol (CDP)
+! disable cdp on all interface
+enable
+conf t
+  no cdp run
+
+! disable only specific interface
+enable
+conf t
+  cdp run
+  interface giga  or fast
+      no cdp enable
 
 Cloud Services
 IaaS- for any software : email / web / db
@@ -44,6 +60,12 @@ SaaS
 - auto-scaling
 - pricing: lowest
 
+Collapsed-Core
+- combined distribution and core layer devices into one device
+- reduce cost and complexity design, save operational overhead/work
+- used by small to medium size companies
+
+
 Controller-Based Networking
 - centralized configuration/monitoring/management
 - leverage controllers to handle network management and configurations
@@ -58,23 +80,14 @@ HRSP - 00:00:0c:...
 VRRP - 00:00:5x:...
 GLBP - 00:06:xx:...
 
-HSRP
-- cisco propietory
-- active-standby
-- if want active-active, use VLAN
-GLBP
-- cisco propietory
-- active-active 
-VRRP
-- multi-vendor / universal
-- master-backup
-ip route destination/netmask via next hop
+
 DHCP
 - UDP/67
 - release IP / Netmask, DNS server, Gateway, NTP, Voice configuration
 - DORA Discover Offer Request and Acknowledge
 - when conflict - ip is removed
-- Relay Agent 
+- Configure as Relay Agent 
+  # ip helper-address <dhcp server>
   To see relay agent / helper address 
   # show ip interface
 - Lease : list of ip assigned to clients
@@ -103,16 +116,38 @@ DTP
 - Dynamic Trunking Protocol
 - negotiate trunking mode between switches only
 - Cisco recommend disable DTP
-EtherChannel
+
+
+Enable Secret 
+enable secret cisco : complete control, similar to enable secret privilege 15 cisco
+or
+enable secret privilege zero aaa111 : only logout, enable, disable, help and exit
+enable secret privilege user bbb222 : limited read-only access to router
+enable secret privilege 15 ccc333     : complte control
+
+
+EtherChannel / Link Aggregation / LAG
 1. PaGP (cisco)
     - mode: auto/desirable
 2. LaCP (multi-vendor)
     - mode: active/passive
-3. Without nego / without protocol
+3. Without nego / without protocol / Static
    - mode : on
 
 Firewall
 - statefull inspection of traffic
+
+First Hop Redundancy Protocol (FHRP)
+HSRP
+- cisco propietory
+- active-standby
+- if want active-active, use VLAN
+GLBP
+- cisco propietory
+- active-active 
+VRRP
+- multi-vendor / universal
+- master-backup
 
 FTP
 - TCP/20 and TCP/21
@@ -120,6 +155,24 @@ FTP
 - has separate control and data connections
 - requires authentication / username+password
 - cmd: get , mget , put, mput
+
+Interface - slow / poor performance
+- lots of CRC/frame 	: physical / hw error
+- lots of collision 	: duplex mismatch
+- lots of runts		: small frame (<64 bytes)
+- lots of giants		: large frame (>mtu)
+- late collision		: occurs in first 64 bytes. 
+
+IP ROUTE command
+- ip route <remote network id> <netmask>  <next-hop>  [metric]
+- ip route 10.1.1.0  255.255.255.0   209.156.200.226  
+0r default route
+- ip route 0.0.0.0    0.0.0.0  209.156.200.226  
+or if use interface (outgoing)
+- ip route 10.1.1.0  255.255.255.0   g0/0
+
+
+
 IPv4
 - Private IPv4 address
   : conserve global address
@@ -134,6 +187,11 @@ IPv6
 - Multicast  	FF
 - unknown  	::
 - loopback  	::1
+JSON
+- declaractive / desicred / describe
+{} - object
+[] - array
+key : value
 
 Multicast
 - IPv4 :  224.x.x.1 - 239.x.x.x
@@ -169,10 +227,11 @@ NTP
 - UDP/123
 - configure as server # ntp master # (stratum level)
 - configure as client # ntp server <master-ip>
+- if must enable authentication: then md5
 
 OSPF
 - dynamic routing protocol : exchange routing table
-- election to find the designator router (leader)
+- election to find the Designator Router (leader)
   1. Priority
   2. Highest IP # router-id cmd
   3. Highest IP in all loopback interface
@@ -185,6 +244,10 @@ Port Security (configured on switch)
 - shutdown mode (default): permanent shutdown port + snmp + increment counter. interface will be in err-disabled
 - use sticky to learn mac address automatically
 - use configure static mac address
+
+Priority
+- If IP-based : bigger IP or number is higher prioritty
+- If MAC-based : smaller the MAC or number is higher priority
 
 
 QOS
@@ -201,15 +264,45 @@ QOS
 - Class-Based Weighted Fair Queueing (CBWFQ) : congestion management
 - Marking : classify packet / application traffic / classfication
 
-Routing.
-- between different routing protocol : OSPF (110) vs EIGRP (90) vs RIP (120)
+Routing 
+- between different routing protocol or source: OSPF (110) vs EIGRP (90) vs RIP (120) vs static (1) vs direct-connected (0)
   : use administrative distance (AD)
-- between same routing protocol :
+- between same routing protocol or same source:
   : use metric 
     - OSPF (bandwitdh)
     - EIGRP (bandwitdh + delay = feasible distance )
     - RIP (hop count)
-  
+
+Software Defined Networking (SDN)
+1. Management plane
+    - business criteria / conditions (human)
+2. Control plane (centralized)
+    - Routing configuration / decision / control
+    - NAT configuration
+    - ACL configuration
+    - VLAN configuration
+3. Data plane
+    - switching using MAC address table
+    - forward traffic according to routing from control plane
+    - Vlan tagging / trunking
+    - encrypt (VPN)
+    - drop frame (if denied by ACL)
+    - Change source IP (when configured with NAT)
+
+Northbound : from application to controller
+Southbound: controller to network devices 
+
+Spanning Tree STP (PVST+ or Rapid PVST+)
+- one spanning tree instance for each VLAN
+- Elect Root bridge
+  1. Lowest priority number (0 - 61440)
+  2. Lowest MAC address 
+
+Portfast
+- port connecting end point (PC, server, router)
+- blocking immediate change to forwarding
+- skipp listening, learning
+
 SSH
 - TCP/22
 - command: 
@@ -273,7 +366,7 @@ UDP
 - unreliable, stateless, connection-less
 - can use checksum
 - fast, less overhead
-- snmp, tftp, voice, audio, dns, NTP
+- snmp, tftp, voice, audio, dns, NTP, DHCP
 VLAN
 - IEEE 802.1Q
 VLAN hopping attacks (double tagging)
@@ -287,6 +380,15 @@ VLAN hopping attacks (double tagging)
 VTP
 - vlan trunking protocol
 - sync vlan among switches
+
+WIFI
+- 2.4 GHz 
+  : 11 channels
+  : 3 non overlapping :1 6 11
+- 5 GHZ
+  : 40|++ non overlapping
+- IEEE 802.11r
+
 WPA
 - TKIP/MIC encryption
 
@@ -331,11 +433,76 @@ access-list 99 permit     network-id    wildcard
 /25 8n.8n.8n.1n
 0 / 128
 
+Based on lowest AD : 
+static default route 0.0.0.0/0
+OSPF default route 0.0.0.0/0
+EIGRP default route 0.0.0.0/0
 
 
+show ip route
+From source 	: 10.0.10.0/26
+To destination 	: 10.0.20.0/26
+Protocol	: 25, 80
+10.10.13.208/29
+8n.8n.8n.5n 4c
+208+7 = 215
+11010 111
+nnnnn ccc
+O 172.16.0.128/25  (128-255)
+8n.8n.8n.1n 7c 
+nccc cccc
+1111 1111
 
+D 172.16.0.192/29 (192-199)
+nnnnn ccc
+11000 111
+OSPF formula
+100 M / 100 M = 1
+100 M / 1000 M = 0.1
+100 M / 10 M = 10
 
+Q511
+IPv4 = 32 bits
+144/28n (4c)
+nnnn cccc
+0000 1111 = 15 + 144 = 159
 
+160/29n (3c)
+0000 0111 = 7 + 160 = 167
+
+Aiman 10.10.13.208/29  - 215
+Ezzah   10.10.13.192/27 - 10.10.13.223
+32-27n = 5c 
+0001 1111 = 31
+Fikri     10.10.13.160/28 - 10.10.13.175
+Shafini 10.10.13.16/28  - 10.10.13.31
+Khairul 10.10.13.96/29 - 10.10.13.103
+Alif 	10.10.13.128/26 - 10.10.13.191
+Lutfi 	10.10.13.64/29  - 10.10.13.71
+
+Q513 Q529
+IPv6 - 128 bits (8 octets)
+stateless autoconfiguration / EUI-64
+- look for FF:FE
+
+global link unicast - assigned to single device / interface
+multicast - always starts with FF
+anycast - assigned to multiple devices / interfaces
+
+Q519
+from : 10.139.58.0  0.0.0.15
+
+Q530
+2^c-2 =  380
+
+2^7 = 128
+2^8 = 256
+2^9 = 512
+8n.8n.7n 1c.8c
+10.7.54.0/23n
+54 --> 	0011 0110
+	nnnn nnnc.cccc cccc
+BC	0011 0111.1111 1111
 
 
 
