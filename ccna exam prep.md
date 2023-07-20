@@ -25,7 +25,7 @@ floating static route
 - backup route
 - 
 
-Routing Table
+Routing Table [ad/metric]
 B BGP [20/x]
 C Directly connected [0/0]
 O OSPF [110/x]
@@ -137,12 +137,13 @@ ipv6 add autoconfig
 IPv6
 - link local/stateless address autoconfiguration : FE80::eui-64/10
   - not routable to anywhere
-- unique/site local : FCxx / FDxx
+- unique/site local : FCxx / FDxx (recognised by IETF)
   - routable inside LAN
   - not routable to internet
 - multicast : FFXX::
 - global unicast : 2xxx/3xxx
-- 
+- Anycast:
+  assign same IPv6 address to multiple non-host devices  (servers/routers/load balancers)
 
 ifconfig
 netstat -rn
@@ -230,7 +231,7 @@ vs Multi mode
 
 Collapsed-Core (two-tier)
 - combined distribution and core layer devices into one
-- rece cduost and complexity design
+- reduce cost and complexity design
 - used by small to medium size companies
 
 
@@ -298,5 +299,196 @@ DHCP
 - If router want to obtain IP on its interface
   # ip address dhcp
   
+Q51 
+MAC 
+- not routable to another network (internet)
+- NIC automatically assign with MAC (physical)
+- first 24bits OUI : last 24 client bits 
+vs IP
+- routable
+- assign / DHCP / static
+- network portion + client portion
+
+Hot Standby Redundancy Protocol
+- HSRP
+- VRRP
+- GLBP
+
+
+
+ip route <network-ID> <netmsak> <next hop> [metric]
+
+
+ip route  0.0.0.0 0.0.0.0 192.168.2.3
+- default route / last resort
+- 
+
+Q60 
+A-10
+B-11
+C-12
+D-13
+F    | D 
+1111   1101
+
+IPv4
+- Private IPv4 address (RFC 1918)
+  : conserve public address ,secured
+  : always private, cannot route to internet
+  : unless configured with NAT to be translate into public
+  : implement within LAN
+
+Software Defined Networking (SDN)
+1. Management plane
+    - business criteria / conditions
+    - human/administrator/manager
+2. Control plane
+    - Routing protocol / configuration / decision
+    - NAT configuration
+    - ACL configuration
+    - VLAN configuration
+3. Data plane
+    - switching using MAC address table
+    - forward traffic according to routing from control plane
+    - Vlan tagging / trunking
+    - encrypt (VPN) / confidentiality configuration
+    - drop frame (if denied by ACL)
+    - Change source IP (when configured with NAT)
+
+lunch + ur self prep 
+- continue at 2pm
+- 
+
+2001:0db8::700:3:400F:572B
+
+
+URL https://pc1.trainocate.com/aseee
+
+c60142 fffe 0f0007
+
+DNS
+- resolve FQDN into IP
+- 
+
+Q109
+R7 fa1/0
+10.88.31.64/26n 6c
+8n.8n.8n.2n 6c
+nn cccccc
+01 111111 63
+64+63 = 10.88.31.126 255.255.255.192
+
+
+R8 fa0/0
+10.19.63.80/28n (4c = 15)
+10.19.63.94 255.255.255.240
+
+
+SSIDs
+- max 32 alphanumeric case-sensitive characters
+- can optionally hidden (non-broadcast)
+
+  
+Q129
+2^8 = 254
+2^9c = 512
+
+9c = 23n
+255.255.254.0
+10.7.54.0
+
+2^c-2 = 30
+2^5-2 = 30
+
+3n = 255.255.255.224
+
+97
+nnn ccccc
+011 11110
+000 11111
+
+2^8c = 225
+2^10c = 923
+
+
+R7 fa1/0  22n 255.255.252.0
+R8 fa0/0  24n 255.255.255.0
+
+Q163
+25n
+8n.8n.8n.1n 7c
+cccc cccc
+1000 0000
+128
+
+
+2^n = 31
+5n
+ad-hoc / infra
+
+blocking -> listening -> learning - > forwarding
+blocking -> forwarding
+
+QOS
+- Low-Latency Queue (LLQ) : suited for voice and video
+- Weighted Random Early Detection (WRED)
+  : when queue is full then start dropping low priority packet
+- Policing : implement by ISP 
+  : limit both incoming and outgoing flow
+  : Discards or re-marks packets
+- Traffic Shaping 
+	: limit bandwitdh that an outgoing flow can use
+     : reschedules packets by delaying or queueing when traffic exceed limits
+- Precision Queue (PQ) : congestion management : suited for voice 
+- Class-Based Weighted Fair Queueing (CBWFQ) : congestion management
+- 
+Spanning Tree (PVST+ or Rapid PVST+)
+- one spanning tree instance for each VLAN
+- Elect Root bridge
+  1. Lowest priority number (0 - 61440)
+  2. Lowest MAC address 
+
+CDP
+- can used to discover only cisco neigbor devices
+- enabled globally
+- question says enable on particular interface
+
+en
+conf t
+no cdp run
+int g0/1
+   cdp enable
+vs
+LLDP
+- can used to discover multi-vendor neighbor devices
+- not enabled globally
+- question says enable on particular interface
+en
+conf t
+int g0/1
+   lldp receive/transmit
+
+  
+#175 find out 
+
+Q183 answer is A
+
+Wireless controller
+- service port : administration/ management
+- virtual port : support mobility management
+- dynamic port : for wireless client communication
+- control/manage all AP
+
+access point (AP)
+- user's devices will connect
+
+EtherChannel / LACP /PAGP
+1. LACP (universal)
+   mode : active/passive
+2. PAGP (cisco)
+   mode : auto/desirable
+3. Static
+   mode : on
+5.
 
 
