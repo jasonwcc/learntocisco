@@ -1,3 +1,4 @@
+```
 MCQ
 - eliminate wrong answer
 
@@ -691,6 +692,7 @@ int g0/2
 end
 wr
 
+```
 
 
 
