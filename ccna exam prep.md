@@ -692,6 +692,77 @@ int g0/2
 end
 wr
 
+Q683
+!R1 - solution
+en
+conf t
+!Task1
+router ospf 1
+  router-id 10.10.12.1
+  network 10.10.1.1 0.0.0.0 area 0
+  network 192.168.1.1 0.0.0.0 area 0
+!Task 4
+  passive-interface g0/1
+!Task 3
+int loopback 0
+  ip add 10.10.1.1 255.255.255.255
+!Task 3
+int loopback 1
+  ip add 192.168.1.1 255.255.255.0
+
+  end
+wr
+clear ip ospf process
+
+
+
+!R2 - solution
+en
+conf t
+!Task1
+router ospf 1
+  router-id 10.10.12.2
+  network 10.10.2.2 0.0.0.0 area 0
+  network 192.168.2.2 0.0.0.0 area 0
+!Task 2
+int g0/0
+  ip ospf priority 255	
+!Task 2
+int g0/2
+  ip ospf priority 255	
+!Task 3
+int loopback 0
+  ip add 10.10.2.2 255.255.255.255
+!Task 3
+int loopback 1
+  ip add 192.168.2.2 255.255.255.0
+
+  end
+wr
+!Task 2
+clear ip ospf process
+
+!R3 - solution
+en
+conf t
+
+!Task 3
+int loopback 0
+  ip add 10.10.3.3 255.255.255.255
+!Task 3
+int loopback 1
+  ip add 192.168.3.3 255.255.255.0
+!Task 3
+router ospf 1
+  network 10.10.3.3 0.0.0.0 area 0
+  network 192.168.3.3 0.0.0.0 area 0
+!Task 4
+  passive-interface g0/1
+  end
+wr
+!Task 2
+clear ip ospf process
+
 ```
 
 
