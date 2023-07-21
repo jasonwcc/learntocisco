@@ -763,6 +763,41 @@ wr
 !Task 2
 clear ip ospf process
 
+Q687
+!SW1
+en
+conf t
+  !Task 1
+  vlan 100
+    name Compute
+  vlan 200
+    name Telephony
+  !Task 4
+  int fa0/1
+    switchport mode access
+    switchport access vlan 100
+    switchport voice vlan 200
+  !Task 3
+  int g0/1
+    switchport mode access
+  end
+wr
+
+!Sw2
+en
+conf t
+  !Task 2
+  int fa0/1
+    switchport mode access
+    switchport access vlan 99
+  !Task 5
+    no cdp enable
+  !Task 3
+  int g0/1
+    switchport mode access
+
+  end
+wr
 ```
 
 
