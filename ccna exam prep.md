@@ -580,7 +580,65 @@ ipv6 route ::/0 2001:db8:abcd::2
 end
 wr
 
+Q688
 
+!Sw1
+en
+conf t
+ vlan 210
+    name FINANCE
+  int f0/1
+    switchport mode access
+    switchport access vlan 210
+  int e0/2
+    switchport trunk encap dot1q
+    switchport mode trunk
+    switchport trunk allowed vlan 210
+
+  end
+wr
+
+!Sw2
+en
+conf t
+  vlan 110
+     name MARKETING
+  vlan 210
+     name FINANCE
+  int f0/1
+    switchport mode access
+    switchport access vlan 110
+  int e0/2
+    switchport trunk encap dot1q
+    switchport mode trunk
+    switchport trunk allowed vlan 210
+  int e0/3
+    switchport trunk encap dot1q
+    switchport mode trunk
+    switchport trunk allowed vlan 110,210
+  end
+wr
+
+!Sw3
+en
+conf t 
+  vlan 110
+     name MARKETING
+  vlan 210
+     name FINANCE
+  int fa0/1
+    switchport mode access
+    switchport access vlan 210
+  int fa0/2
+    switchport mode access
+    switchport access vlan 110
+  int e0/3
+    switchport trunk encap dot1q
+    switchport mode trunk
+    switchport trunk allowed vlan 110,210
+  end
+wr
+  
 
 
 
