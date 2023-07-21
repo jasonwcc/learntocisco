@@ -640,7 +640,56 @@ conf t
 wr
   
 
+Q683
+!R1 - pre-configured
+en
+conf t
+hostname R1
+int g0/0
+  ip add 10.10.12.1 255.255.255.0
+  no shut
+int g0/1
+ ip add 10.10.13.1 255.255.255.0
+ no shut
+router ospf 1
+ network 10.10.12.0 0.0.0.255 area 0
+ network 10.10.13.0 0.0.0.255 area 0
+end
+wr
 
+!R2 - pre-configured
+en
+conf t
+hostname R2
+router ospf 1
+ network 10.10.12.0 0.0.0.255 area 0
+ network 10.10.23.0 0.0.0.255 area 0
+!
+int g0/0
+ ip add 10.10.12.2 255.255.255.0
+ no shut
+int g0/2
+ ip add 10.10.23.2 255.255.255.0
+ no shut
+end
+wr
+
+!R3 - pre-configured
+en
+conf t
+hostname R3
+router ospf 1
+  network 10.10.13.0 0.0.0.255 area 0
+  network 10.10.23.0 0.0.0.255 area 0
+!
+int g0/1
+  ip add 10.10.13.3 255.255.255.0
+  no shut
+int g0/2
+ ip add 10.10.23.3 255.255.255.0
+ no shut
+end
+wr
 
 
 
