@@ -489,6 +489,106 @@ EtherChannel / LACP /PAGP
    mode : auto/desirable
 3. Static
    mode : on
-5.
+
+
+Day 2
+geomancer1o1@gmail.com
+A@bc1234
+
+
+ExamTopics.com
+PassLeader
+
+Packet Tracer
+Netsim
+GNS+ (cisco IOS)
+- C2960
+- 2800
+
+e - 10m
+fa - 100m
+gi - 1g
+
+
+!SW1
+en
+conf t
+!int range e0/0-1
+int range g1/0/1-2
+  channel-group 1 mode active
+  interface port-channel 1
+    switchport mode trunk
+    switchport trunk encap dot1q
+    switchport trunk native vlan 15
+  end
+wr
+
+
+!SW2
+en
+conf t
+!int range e0/0-1
+int range g1/0/1-2
+  channel-group 1 mode active
+  int port-channel 1
+    switchport mode trunk
+    switchport trunk encap dot1q
+    switchport trunk native vlan 15
+  end
+wr
+Broadcast IP
+all client bits turn to 1
+Network ID
+all client bits turn to 0
+
+1c nnnn nnnc - 1
+2c nnnn nncc - 3
+3c 0000 0111 - 7 
+4c - 15
+
+Q685
+/28 = 8n.8n.8n.4n 4c
+= 255.255.255.240
+
+g0/0 = 192.168.1.0/28
+1st subnet
+192.168.1.1 - 192.168.1.14
+
+2nd subnet = 192.168.1.16/28
+192.168.1.17 - 192.168.1.30
+
+4th subnet = 192.168.1.64/28
+192.168.1.65 - 192.168.1.78
+
+5th subnet 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
