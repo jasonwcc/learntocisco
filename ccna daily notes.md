@@ -57,8 +57,73 @@ exit
 
 
 
+github.com/jasonwcc/learntocisco
 
 
+LAN 
+- network infra managed/control by org admin
+vs 
+WAN
+- subscribe to telco / SP
+- geo-location
+
+
+switches
+- L1&L2
+- understand VLAN, STP, VTP, MAC
+- first packet - flooding
+vs
+bridges
+- L1&L2
+- no longer R&D
+vs
+hub
+- L1
+- half duplex
+
+
+straight-thru (different type)
+PC -- SW
+PC -- Hub
+
+cross-over (same type)
+PC -- PC
+SW -- SW
+RO -- RO
+Hub -- SW
+RO -- PC (OS)
+
+roll-over (console)
+
+
+Standard frame - mtu : 1500 bytes
+Jumbo frame - mtu : 9000 bytes
+
+IPv4
+- unicast,  multicast, broadcast (separate by VLAN)
+- 32 bits (0.0.0.0 -- 255.255.255.255)
+- 4 billion
+
+IPv6
+- unicast,  multicast, anycast (service based on nearest device)
+- 128 bits 3.4 (36 0's)
+
+EUI-64
+
+IETF
+
+192.168.0.1 = 32 bits
+255 --> 1111 1111
+
+Switch
+MAC table
+- MAC ==> Port
+
+PC
+- ethernet frame (IP-SA, IP-DA, MAC-SA, MAC-DA
+- ARP
+
+flooding (MAC) vs broadcasting (IPv4)
 
 
 

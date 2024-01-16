@@ -80,6 +80,36 @@ Equipment Passwords
 Please do not change any of these passwords. Doing so will cause delays in providing support for your class should support be required. Any equipment password not indicated in the lab guide will be attached in the errata.
 
 
+show start
+- startup configuration (NVRAM)
+- boot
+show run
+- running configuration (RAM)
+- latest
+
+copy running startup  = write memory = wr
+copy start run
+
+
+12 bits
+2^12 = 4096 (0-4095)
+
+Cisco
+- all ports member of vlan 1
+- all physical ports is enabled/ up
+
+int vlan 1
+   ip add x.y.z.a 255.255.255.0
+   no shutdown
+
+
+
+
+
+
+
+
+
 
 
 
