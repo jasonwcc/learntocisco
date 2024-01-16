@@ -129,3 +129,165 @@ flooding (MAC) vs broadcasting (IPv4)
 
 
 
+Decimal ( base 10)
+0 - 9
+10 -100
+101 - 1000
+
+Binary ( base 2)
+0,1
+
+Octal ( base 8 )
+0 - 7
+syslog 
+
+Hexadecimal ( base 16 )
+0 - 9, a - f
+
+
+9 - 1001
+
+
+binary <--> decimal
+hexa <--> decimal/binary
+
+125 
+decimal --> binary --> hexadecimal
+
+9 A --> 1001 1010
+128+16+10 = 
+
+0.0.0.0 - 0.255.255.255 --16 777 xxx
+Class A  1.0.0.1 - 126.255.255.254/8 (255.0.0.0)
+127.x.x.x - loopback (testing, demo, poc)
+class B
+128.x.x.x - 191.255.255.254/16 (255.255.0.0)
+Class C
+192.x.x.x - 223.255.255.254/24 (255.255.255.0)
+class D
+224 - 239
+Class E
+240 - 255
+
+
+netmask /21 = 255.255.248.0
+
+network address translation (NAT)
+ifconfig
+ip add
+nmcli
+
+netstat -r -n -
+
+Administrative distance
+- trust value (OSPF, RIP, EIGRP, BGP)
+
+Metrics
+- decide best route
+
+dynamic route
+- use routing protocol (OSPF, RIP, EIGRP, BGP) - automatically
+
+static route
+- admin add route manually
+
+
+Metrics
+- BW (OSPF/EIGRP)
+- reliability
+- MTU
+- load
+- latency (EIGRP)
+
+RIP
+- hop count
+
+
+conf t
+int e0/1
+  no ip add 172.16.0.1 255.255.0.0
+int e0/0
+  ip add 172.16.100.2 255.255.240.0
+error: overlap
+
+CDP
+
+LLDP
+
+show cdp entry SwitchA
+
+Router A
+en
+conf t
+  no cdp run
+  int fa0/0
+    cdp enable
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
