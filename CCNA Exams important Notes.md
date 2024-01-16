@@ -57,9 +57,9 @@ DHCP
 - Relay Agent 
   To see relay agent / helper address # show ip interface
 - Lease : list of ip assigned to clients
-  ## show ip dhcp bindings
+  \# show ip dhcp bindings
 - Pool :  list of ip available 
-  ## show ip dhcp pool
+  \# show ip dhcp pool
 
 DNS
 - resolve FQDN/hostname into IP
