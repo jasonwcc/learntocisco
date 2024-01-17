@@ -6,7 +6,7 @@ AAA
 - Accounting : log, record
 
 
-ACL
+Access Control List (ACL)
 - read from top down
 - extended ACL nearer to source
 - standard ACL nearer to destination
@@ -23,7 +23,7 @@ Controller-Based Networking
 - automation of devices (networks) and services
 - like Cisco DNA Center
 
-CDP
+Cisco Discovery Protocol (CDP)
     can used to discover only cisco neigbor devices
     enabled globally
     question says enable on particular interface
@@ -32,7 +32,7 @@ conf t
 	no cdp run 
 	int g0/1 
 		cdp enable 
-vs LLDP
+vs Link-Layer Discovery Protocol (LLDP)
     can used to discover multi-vendor neighbor devices
     not enabled globally
     question says enable on particular interface en conf t int g0/1 lldp receive/transmit
@@ -43,16 +43,14 @@ EtherChannel / LACP /PAGP
     Static mode : on
 
 First hop redundancy protocol (FHRP)
-HSRP
-VRRP
-GLBP
-Default Mac address configured
-HRSP - 00:00:0c:...
-VRRP - 00:00:5x:...
-GLBP - 00:06:xx:...
+- Three type: HSRP, VRRP, GLBP
+- Default Mac address configured
+  -- HRSP - 00:00:0c:...
+  -- VRRP - 00:00:5x:...
+  -- GLBP - 00:06:xx:...
 
 
-DHCP
+Dynamic Host Configuration Protocol (DHCP)
 - DORA Discover Offer Request and Acknowledge
 - when conflict - ip is removed
 - Relay Agent 
@@ -62,7 +60,7 @@ DHCP
 - Pool :  list of ip available 
   \# show ip dhcp pool
 
-DNS
+Domain Name Service (DNS)
 - resolve FQDN/hostname into IP
 - TCP/53 and UDP/53
 
@@ -203,7 +201,7 @@ level 5 - Notifications	: Need
 level 6 - Informational	: Icecream
 level 7 - Debug	        : Daily
 			
-Example:
+- Example when to use each level:
 0 Emergencies System unstable / System shutting down due to missing fan tray / 
 1 Alerts Immediate action needed / Temperature limit exceeded
 2 Critical (default) Memory allocation failures
@@ -213,20 +211,20 @@ Example:
 6 Information list violation logging
 7 Debugging Appears during debugging only
 
-TCP
+Transmission Control Protocol (TCP)
 - reliable, statefull, connection-oriented (three way handshake)
 - use sequential, acknowledge
 - has control bits 
 - can use checksum
 - ftp, smtp, ssh, www, database, pop3, dns
 
-TFTP
+Trivial File Transfer Protocol (TFTP)
 - UDP/69
 - backup Cisco IOS or configuration/nvram to TFTP server
 - upgrade Cisco IOS
 - convenient : no need authentication / username+password
 
-UDP
+User Datagram Protocol (UDP)
 - unreliable, stateless, connection-less
 - can use checksum
 - fast, less overhead
@@ -239,15 +237,15 @@ VLAN hopping attacks
   3. Configure as trunk port
   4. Disable DTP
 
-WPA
+WIFI Protected Access (WPA)
 - TKIP/MIC encryption
 
-WPA-2
+WIFI Protected Access-Version 2 (WPA-2)
 - only 8-63 ASCII characters or 64 HEXADECIMAL characters
 - 128 bits
 - use pre-shared key
 
-WPA-3
+WIFI Protected Access-Version 3 (WPA-3)
 - AES : for encryption 
 - SAE : Simultaneous Authentication of Equals
   - is resistant to dictionary and brute force attacks
