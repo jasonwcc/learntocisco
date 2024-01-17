@@ -120,11 +120,13 @@ IPv4
   - always private, cannot route to internet
   - unless configured with NAT to be translate into public
 - Multicast (224.x.x.x - 239.x.x.x)
+- loopback (127.x.x.x) 127.0.0.1
+- unknown: 0.0.0.0
 
 IPv6
 - global 
   - routable all to the way out to internet
-  - 200x:/3
+  - 200x:x:/3
 - link local
   - fe80::/10
   - no routeable to another network/internet
@@ -133,6 +135,10 @@ IPv6
   - routable to another network within intranet
 - multicast
   - ffxx
+- loopback
+  - ::1
+- unknown
+  - ::
 
 IPSEC vs GRE
 - IPSEC 
@@ -290,9 +296,17 @@ WIFI Protected Access-Version 3 (WPA-3)
 
 
 
+APIPA
+- introduced in Windows 98
+- 169.254.x.y
+- DHCP server down
 
+00 ==> 0000 | 0010 ==> 02
 
+0A ==> 0000 | 1000 ==> 8
 
+2c ==> 0010 | 1110 ==> 2e
 
+ipconfig/all
 
 
