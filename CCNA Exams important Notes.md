@@ -28,11 +28,15 @@ Cisco Discovery Protocol (CDP)
 - enabled globally
 - question says enable on particular interface
 - Configuration
-\#en 
-\#conf t 
-\(conf) #	no cdp run 
-\(conf)#	int g0/1 
-\(conf-if)#	cdp enable 
+
+CDP Configuration
+```
+en 
+conf t 
+(conf)#	no cdp run  # disable globally
+(conf)#	int g0/1 # enable per interface
+(conf-if)# cdp enable 
+```
 vs Link-Layer Discovery Protocol (LLDP)
 - can used to discover multi-vendor neighbor devices
 - not enabled globally
