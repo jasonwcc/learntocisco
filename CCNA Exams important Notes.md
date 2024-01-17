@@ -119,6 +119,20 @@ IPv4
   - conserve public address
   - always private, cannot route to internet
   - unless configured with NAT to be translate into public
+- Multicast (224.x.x.x - 239.x.x.x)
+
+IPv6
+- global 
+  - routable all to the way out to internet
+  - 200x:/3
+- link local
+  - fe80::/10
+  - no routeable to another network/internet
+- site-local
+  - fc/fd:xx
+  - routable to another network within intranet
+- multicast
+  - ffxx
 
 IPSEC vs GRE
 - IPSEC 
@@ -225,14 +239,14 @@ level 6 - Informational	: Icecream
 level 7 - Debug	        : Daily
 			
 - Example when to use each level:
-0 Emergencies System unstable / System shutting down due to missing fan tray / 
-1 Alerts Immediate action needed / Temperature limit exceeded
-2 Critical (default) Memory allocation failures
-3 Errors Interface Up/Down messages
-4 Warnings Configuration file written to server, via SNMP request
-5 Notifications Normal but significant condition / Line protocol Up/Down
-6 Information list violation logging
-7 Debugging Appears during debugging only
+  - 0 Emergencies System unstable / System shutting down due to missing fan tray / 
+  - 1 Alerts Immediate action needed / Temperature limit exceeded
+  - 2 Critical (default) Memory allocation failures
+  - 3 Errors Interface Up/Down messages
+  - 4 Warnings Configuration file written to server, via SNMP request
+  - 5 Notifications Normal but significant condition / Line protocol Up/Down
+  - 6 Information list violation logging
+  - 7 Debugging Appears during debugging only
 
 Transmission Control Protocol (TCP)
 - reliable, statefull, connection-oriented (three way handshake)
@@ -254,11 +268,11 @@ User Datagram Protocol (UDP)
 - snmp, tftp, voice, audio, dns, NTP
 
 VLAN hopping attacks
-- to mitigate / protect :
-  1. VLAN ACL (VACL)
-  2. change native/default VLAN 1 to unused VLAN ID
-  3. Configure as trunk port
-  4. Disable DTP
+- Following method to mitigate / protect against VLAN hopping attacks:
+  - VLAN ACL (VACL)
+  - change native/default VLAN 1 to unused VLAN ID
+  - Configure as trunk port
+  - Disable DTP
 
 WIFI Protected Access (WPA)
 - TKIP/MIC encryption
@@ -282,5 +296,3 @@ WIFI Protected Access-Version 3 (WPA-3)
 
 
 
-
-,,,
