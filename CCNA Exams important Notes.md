@@ -59,11 +59,18 @@ Dynamic Host Configuration Protocol (DHCP)
 - DORA Discover Offer Request and Acknowledge
 - when conflict - ip is removed
 - Relay Agent 
-  To see relay agent / helper address # show ip interface
+  To see relay agent / helper address 
+```
+# show ip interface
+```
 - Lease : list of ip assigned to clients
-  \# show ip dhcp bindings
+```
+# show ip dhcp bindings
+```
 - Pool :  list of ip available 
-  \# show ip dhcp pool
+```
+# show ip dhcp pool
+```
 
 Domain Name Service (DNS)
 - resolve FQDN/hostname into IP
@@ -74,12 +81,23 @@ Dynamic ARP Inspection (DAI)
 - prevent man-in-the-middle attack
 
 Enable Secret 
-- enable secret cisco : complete control, similar to enable secret privilege 15 cisco
+- complete control, similar to enable secret privilege 15 cisco:
+```
+enable secret cisco
+```
 or
-- enable secret privilege zero aaa111 : only logout, enable, disable, help and exit
-- enable secret privilege user bbb222 : limited read-only access to router
-- enable secret privilege 15 ccc333     : complte control
-
+- User can only logout, enable, disable, help and exit
+```
+enable secret privilege zero aaa111
+```
+- Limited read-only access to router
+```
+enable secret privilege user bbb222 
+```
+- User have complete control
+```
+enable secret privilege 15 ccc333
+```
 
 Fibre-optics
 
