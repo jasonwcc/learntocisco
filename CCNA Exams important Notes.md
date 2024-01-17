@@ -24,23 +24,24 @@ Controller-Based Networking
 - like Cisco DNA Center
 
 Cisco Discovery Protocol (CDP)
-    can used to discover only cisco neigbor devices
-    enabled globally
-    question says enable on particular interface
-en 
-conf t 
-	no cdp run 
-	int g0/1 
-		cdp enable 
+- can used to discover only cisco neigbor devices
+- enabled globally
+- question says enable on particular interface
+- Configuration
+\#en 
+\#conf t 
+\(conf) #	no cdp run 
+\(conf)#	int g0/1 
+\(conf-if)#	cdp enable 
 vs Link-Layer Discovery Protocol (LLDP)
-    can used to discover multi-vendor neighbor devices
-    not enabled globally
-    question says enable on particular interface en conf t int g0/1 lldp receive/transmit
+- can used to discover multi-vendor neighbor devices
+- not enabled globally
+- question says enable on particular interface en conf t int g0/1 lldp receive/transmit
 
 EtherChannel / LACP /PAGP
-    LACP (universal) mode : active/passive
-    PAGP (cisco) mode : auto/desirable
-    Static mode : on
+- LACP (universal) mode : active/passive
+- PAGP (cisco) mode : auto/desirable
+- Static mode : on
 
 First hop redundancy protocol (FHRP)
 - Three type: HSRP, VRRP, GLBP
