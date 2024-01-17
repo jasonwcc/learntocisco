@@ -83,20 +83,20 @@ Dynamic ARP Inspection (DAI)
 Enable Secret 
 - complete control, similar to enable secret privilege 15 cisco:
 ```
-enable secret cisco
+# enable secret cisco
 ```
 or
 - User can only logout, enable, disable, help and exit
 ```
-enable secret privilege zero aaa111
+# enable secret privilege zero aaa111
 ```
 - Limited read-only access to router
 ```
-enable secret privilege user bbb222 
+# enable secret privilege user bbb222 
 ```
 - User have complete control
 ```
-enable secret privilege 15 ccc333
+# enable secret privilege 15 ccc333
 ```
 
 Fibre-optics
@@ -116,9 +116,9 @@ Interface - slow / poor performance
 
 IPv4
 - Private IPv4 address
-  : conserve public address
-  : always private, cannot route to internet
-  : unless configured with NAT to be translate into public
+  - conserve public address
+  - always private, cannot route to internet
+  - unless configured with NAT to be translate into public
 
 IPSEC vs GRE
 - IPSEC 
