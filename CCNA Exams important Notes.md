@@ -71,11 +71,11 @@ Dynamic ARP Inspection (DAI)
 - prevent man-in-the-middle attack
 
 Enable Secret 
-enable secret cisco : complete control, similar to enable secret privilege 15 cisco
+- enable secret cisco : complete control, similar to enable secret privilege 15 cisco
 or
-enable secret privilege zero aaa111 : only logout, enable, disable, help and exit
-enable secret privilege user bbb222 : limited read-only access to router
-enable secret privilege 15 ccc333     : complte control
+- enable secret privilege zero aaa111 : only logout, enable, disable, help and exit
+- enable secret privilege user bbb222 : limited read-only access to router
+- enable secret privilege 15 ccc333     : complte control
 
 
 Fibre-optics
@@ -106,25 +106,25 @@ IPSEC vs GRE
   : support multicast traffics, less secure
 - hence GRE with IPSEC to have both 
 
-NAT
-static nat
+Network Address Translation (NAT)
+- Static nat
 config) # ip nat source static ....
-dynamic nat
+- Dynamic nat
 config) # access-list ...
 config) # ip nat pool static ....
-pat
+- Pat or Port Address Translation
 config) # ip nat  ... overload
 
-NTP
+Network Time Protocol (NTP)
 - configure as server # ntp master 4 (stratum level)
 - configure as client # ntp server <master-ip>
 - UDP/123
 
-OSPF 
+Open Shortest Path First (OSPF) 
 - best path : bandwitdh
 - if all bandwitdh same : load-balance all routes
 
-QOS
+Quality Of Service (QOS)
 - Low-Latency Queue (LLQ) : suited for voice and video
 - Weighted Random Early Detection (WRED)
   : when queue is full then start dropping low priority packet
