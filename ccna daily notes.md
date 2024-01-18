@@ -405,6 +405,183 @@ int g0/0.10
 
 
 
+subnet
+- big network into smaller subnetworks
+- 192.168.0.0/24 
+  - 2^8-2 = 254 clients
+
+development container
+- supernet
+  - combine smaller networks into single large network
+  - 2^c-2 = 1000 clients
+  - 2^c = 1002
+  - 10c
+
+netacad.com/portal/node/488
+Login using the usual cisco ID
+- geomancer1o1@gmail.com
+  
+
+Cisco 
+- EIGRP use BW+Delay
+vs
+- OSPF use BW
+  - Equal Cost Multi Path
+
+IGP
+- EIGRP (90), OSPF(110), RIPv2(120), IS-IS
+EGP
+- BGP (cloud, ISP)
+
+Distance-Vector (RIP)
+- routing table (best route)
+- update time 
+
+Link-state
+- neighbor table 
+- topology table (database) (all routes)
+---> algorithm --> routing table (best route)
+consume cpu + memory
+
+OSPF election in each area (switch/ethernet)
+- Pick designator router (DR)
+  -- 1. Priority (0-255)
+        default: 100
+  -- 2. Router-ID (the bigger)
+        2a. user enter # router-id x.y.z.a
+        2b. highest loopback interface
+        2c. active physical interface
+R1
+- priority : 100
+- never enter router-id
+- int g0/0 : 80.80.80.80
+
+R2
+- priority : 100
+- router-id 2.2.3.2
+- create loopback interface : 101.101.101.101
+
+!R1
+en
+conf t
+  int loopback 0
+    ip add 10.10.11.1 255.255.255.0
+  int e0/0
+    ip add 10.0.1.1 255.255.255.0
+    no shut
+  int e0/1
+    ip add 10.1.1.1 255.255.255.0
+    no shut
+  router ospf 1
+    network 10.10.11.0   0.0.0.255 area 0
+    network 10.0.1.0   0.0.0.255 area 0
+    network 10.1.1.0   0.0.0.255 area 0
+
+STP
+- PVST
+LACP
+
+block semua orang dari HR except lina
+
+10 deny host 11.0.0.1
+20 deny 10.0.0.0 0.0.0.0-255
+
+... permit any
+
+255.0.255.0
+
+scenario 1:
+192.168.0.0/26   255.255.255.192
+- 192.168.0.17 - 192.168.0.31
+
+--> deny 192.168.0.16    0.0.0.15
+
+1. convert to binary
+17  0001 0001
+31  0001 1111
+
+2. Cari matching bit from left
+same bit = n
+    nnnn cccc
+    0001 0000 Network ID 
+    0000 1111 wildcard mask
+
+scenario 2:
+192.168.0.0/26   255.255.255.192
+- 192.168.0.32 - 192.168.0.95
+
+--> deny 192.168.0.32 0.0.0.63
+--> deny 192.168.0.64 0.0.0.31
+
+32 --> 0010 0000
+          1 1111
+64 --> 0100 0000
+         01 1111
+95 --> 0101 1111
+
+scenario 3:
+192.168.0.0/26   255.255.255.192
+- 192.168.0.64 - 192.168.0.79
+
+--> deny 192.168.0.64 255.255.0.0
+whats wrong wiht 
+a. 
+b. 
+c.
+d.
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+OSPF and ACL
+- wildcard mask
+
+
+
+
+router ospf 1
+    network 192.168.0.0 0.0.0.255 area 0
+    network 172.16.0.0 0.0.255.255 area 01
+    passive g0/0
+
+loopback address : 127.x.x.x
+vs
+loopback interface
+- testing / OSPF election / dummy
+
+en
+conf t
+  int loopback 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
