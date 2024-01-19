@@ -235,14 +235,14 @@ SYSLOG
 - use command to set #logging trap level
 - lower level will send all messages
 - Level: 
-level 0 - Emergencies 	: Every	
-level 1 - Alerts	: Awesome 
-level 2 - Critical	: Cisco
-level 3 - Errors	: Engineeer
-level 4 - Warnings	: Will
-level 5 - Notifications	: Need
-level 6 - Informational	: Icecream
-level 7 - Debug	        : Daily
+  - level 0 - Emergencies 	: Every	
+  - level 1 - Alerts	: Awesome 
+  - level 2 - Critical	: Cisco
+  - level 3 - Errors	: Engineeer
+  - level 4 - Warnings	: Will
+  - level 5 - Notifications	: Need
+  - level 6 - Informational	: Icecream
+  - level 7 - Debug	        : Daily
 			
 - Example when to use each level:
   - 0 Emergencies System unstable / System shutting down due to missing fan tray / 
