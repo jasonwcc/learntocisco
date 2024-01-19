@@ -296,17 +296,4 @@ WIFI Protected Access-Version 3 (WPA-3)
 
 
 
-APIPA
-- introduced in Windows 98
-- 169.254.x.y
-- DHCP server down
-
-00 ==> 0000 | 0010 ==> 02
-
-0A ==> 0000 | 1000 ==> 8
-
-2c ==> 0010 | 1110 ==> 2e
-
-ipconfig/all
-
 
