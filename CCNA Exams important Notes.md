@@ -18,7 +18,7 @@ Collapsed-Core
 - used by small to medium size companies
 
 Controller-Based Networking
-- centralized configuraiton, monitoring, management
+- centralized configuration, monitoring, management
 - leverage controllers to handle network management and configurations
 - automation of devices (networks) and services
 - like Cisco DNA Center
@@ -123,7 +123,7 @@ IPv4
 - loopback (127.x.x.x) 127.0.0.1
 - unknown: 0.0.0.0
 
-IPv6
+IPv6 addresses type
 - global 
   - routable all to the way out to internet
   - 200x:x:/3
