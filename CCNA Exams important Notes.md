@@ -213,7 +213,8 @@ SNMP
 
 SSH
 - TCP/22
-- command: 
+- command:
+ ``` 
   config terminal
   	hostname demo1
 		ip domain-name abc.com
@@ -223,7 +224,7 @@ SSH
 	line vty 0 15
 		transport input ssh
 		login local
-		
+```	
 Spanning Tree (PVST+ or Rapid PVST+)
 - one spanning tree instance for each VLAN
 - Elect Root bridge
