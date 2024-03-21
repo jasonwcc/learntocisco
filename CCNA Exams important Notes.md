@@ -10,8 +10,9 @@ Access Control List (ACL)
 - read from top down
 - extended ACL nearer to source
 - standard ACL nearer to destination
-- permit any any always at bottom of ACL
-
+- by default deny any any rule is at bottom of ACL
+- must have at least one permit rule
+- 
 Collapsed-Core
 - combined distribution and core layer devices into one
 - reduce cost and complexity design
