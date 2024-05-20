@@ -112,14 +112,15 @@ Interface - slow / poor performance
 - lots of CRC/frame 	: physical / hw error
 - lots of collision 	: duplex mismatch
 - lots of runts		: small frame (<64 bytes)
-- lots of giants		: large frame (>mtu)
-- late collision		: occurs in first 64 bytes. 
+- lots of giants	: large frame (>mtu)
+- late collision	: occurs in first 64 bytes. 
 
 IPv4
 - Private IPv4 address
   - conserve public address
   - always private, cannot route to internet
   - unless configured with NAT to be translate into public
+  - RFC 1918: 10.x.x.x, 172.16.x.x-172.31.x.x, 192.168.x.x
 - Multicast (224.x.x.x - 239.x.x.x)
 - loopback (127.x.x.x) 127.0.0.1
 - unknown: 0.0.0.0
