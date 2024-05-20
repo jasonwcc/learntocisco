@@ -45,7 +45,7 @@ vs Link-Layer Discovery Protocol (LLDP)
 
 EtherChannel / LACP /PAGP
 - LACP (universal) mode : active/passive
-- PAGP (cisco) mode : auto/desirable
+- PAGP (cisco) mode : desirable/auto
 - Static mode : on
 
 First hop redundancy protocol (FHRP)
@@ -158,6 +158,11 @@ config) # ip nat pool static ....
 - Pat or Port Address Translation
 config) # ip nat  ... overload
 
+LLDP
+- not Cisco propietory vs CDP (is Cisco propietory)
+- can be enabled on global, as well as on interface level
+
+ 
 Network Time Protocol (NTP)
 - configure as server # ntp master 4 (stratum level)
 - configure as client # ntp server <master-ip>
@@ -232,7 +237,8 @@ Spanning Tree (PVST+ or Rapid PVST+)
 - Elect Root bridge
   1. Lowest priority number (0 - 61440)
   2. Lowest MAC address 
-
+- spanning-tree vlan <number> root primary: only set priority to 24576. This still loses to priority 0
+  
 SYSLOG
 - UDP/514
 - use command to set #logging trap level
@@ -297,6 +303,9 @@ WIFI Protected Access-Version 3 (WPA-3)
   - is resistant to dictionary and brute force attacks
 - relies on Perfect Forward Secrecy 
 
-
+WLC
+- centrally manage many AP
+- enable "Protected Management Frame" to secure spoofed assoication request
+- 
 
 
