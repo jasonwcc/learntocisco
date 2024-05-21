@@ -25,6 +25,7 @@ Controller-Based Networking
 - like Cisco DNA Center
 
 Cisco Discovery Protocol (CDP)
+- Layer 2 protocol
 - can used to discover only cisco neigbor devices
 - enabled globally
 - question says enable on particular interface
@@ -54,8 +55,12 @@ First hop redundancy protocol (FHRP)
   -- HRSP - 00:00:0c:...
   -- VRRP - 00:00:5x:...
   -- GLBP - 00:06:xx:...
-
-
+- HSRP
+  : Active and Standby routers
+  : Cisco propietory
+- VRRP
+  : Master and Backup routers
+  : vendor neutral
 Dynamic Host Configuration Protocol (DHCP)
 - DORA Discover Offer Request and Acknowledge
 - when conflict - ip is removed
@@ -108,6 +113,29 @@ FTP
 - has separate control and data connections
 - requires authentication / username+password
 
+JSON
+- define/describe structured data including arrays
+- Starts/ends with curly braces {} a name/value pairs consists of field name (in double quotes), followed by colon and values
+- Example:
+[
+{"load balancer": "LB1", "port": "fe2/0"},
+{"firewall": "FW20", "port": "fe3/1"},
+{"router": "R41", "port": "fe8/5"},
+]
+- Keys: load balancer, firewall, router
+- Values: LB1, fe2/0, FW20, fe3/1, R41, fe8/5
+- Array: enclosed within [] and consists of multiple values separated by coma
+  "numbers": [23, 44, 76, 34, 98]
+  "employees": ["ali", "chong", 'murthi"]
+- Boolean: true, false
+- Object: unordered set of attribute-value pairs
+  {"data": ["fe0/3", "fe0/1", "fe0/2"]}
+  
+IEEE 802.1x
+- provide security based on identity
+- Combined with AAA solution, it can provides authentication and configuration for both wireless and wired network
+- Layer 2 security mechanism
+- 
 Interface - slow / poor performance
 - lots of CRC/frame 	: physical / hw error
 - lots of collision 	: duplex mismatch
@@ -159,9 +187,11 @@ config) # ip nat pool static ....
 config) # ip nat  ... overload
 
 LLDP
-- not Cisco propietory vs CDP (is Cisco propietory)
+- Layer 2 protocol
+- vendor neutral vs CDP (is Cisco propietory)
+- by default it is disabled
 - can be enabled on global, as well as on interface level
-
+- 
  
 Network Time Protocol (NTP)
 - configure as server # ntp master 4 (stratum level)
@@ -282,6 +312,10 @@ User Datagram Protocol (UDP)
 - fast, less overhead
 - snmp, tftp, voice, audio, dns, NTP
 
+VLAN
+- default vlan: cannot change, always set to 1. all ports by default in vlan 1
+- native vlan: untagged vlan, can be change. To secure management traffic such as prevent VLAN hopping attacks
+
 VLAN hopping attacks
 - Following method to mitigate / protect against VLAN hopping attacks:
   - VLAN ACL (VACL)
@@ -302,7 +336,8 @@ WIFI Protected Access-Version 3 (WPA-3)
 - SAE : Simultaneous Authentication of Equals
   - is resistant to dictionary and brute force attacks
 - relies on Perfect Forward Secrecy 
-
+- defends against brute force, deauthentication and disassociation attacks
+- 
 WLC
 - centrally manage many AP
 - enable "Protected Management Frame" to secure spoofed assoication request
