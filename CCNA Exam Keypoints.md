@@ -313,11 +313,11 @@ User Datagram Protocol (UDP)
 - snmp, tftp, voice, audio, dns, NTP
 
 VLAN
-- default vlan: cannot change, always set to 1. all ports by default in vlan 1
+- default vlan: cannot change nor delete, always set to 1. all ports by default in vlan 1
 - native vlan: untagged vlan, can be change. To secure management traffic such as prevent VLAN hopping attacks
 
 VLAN hopping attacks
-- Following method to mitigate / protect against VLAN hopping attacks:
+- Following method to mitigate / protect / prevent against VLAN hopping attacks:
   - VLAN ACL (VACL)
   - change native/default VLAN 1 to unused VLAN ID
   - Configure as trunk port
@@ -342,5 +342,12 @@ WLC
 - centrally manage many AP
 - enable "Protected Management Frame" to secure spoofed assoication request
 - 
+
+Rectified question with confirm answer:
+Q212: BE
+Q213: C
+Q216: AE
+Q228: A
+
 
 
