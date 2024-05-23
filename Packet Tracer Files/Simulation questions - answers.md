@@ -474,52 +474,66 @@ conf t
 	end
 copy run start
 
-!R1 - solution
-en
-!Task 2
-clock set 00:00:00 1 jan 2019
-conf t
-	!Task 2
-	ntp master 1
-	!Task 3
-	ip dhcp pool TEST
-		network 10.1.3.0 255.255.255.0
-	!Task 3
-	ip dhcp excluded-address 10.1.3.1 10.1.3.10
-
-!R2 - solution
+!R2 - Task 1 solution:
 en
 conf t
-	!Task 1
 	ip access-list standard NAT
 		permit 10.1.3.0 0.0.0.255
 		permit 10.2.3.0 0.0.0.255
 		permit 192.168.3.0 0.0.0.255
-	!Task 1
 	ip nat inside source list NAT interface g0/0
-	!Task 2
-	ntp server 10.1.3.1
 	end
 copy run start
 
-!R3 - solution
+!R1 - Task 2 solution:
+clock set 00:00:00 1 jan 2019
+conf t
+	ntp master 1
+     end
+copy run start
+
+!R2 - Task 2 solution:
 en
 conf t
-	!Task 3
+	ntp server 10.1.3.1
+     end
+copy run start
+
+
+!R1 - Task 3 solution:
+en
+conf t
+	ip dhcp pool TEST
+		network 10.1.3.0 255.255.255.0
+	ip dhcp excluded-address 10.1.3.1 10.1.3.10
+     end
+copy run start
+
+!R3 - Task 3 solution:
+en
+conf t
 	int g0/2
 		ip address dhcp
 		no shut
-	!Task 4
+	end
+copy run start
+
+!R3 - Task 4 solution:
+en
+conf t
 	username root password Cisco
-	!Task 4
 	line vty 0 4
 		transport input ssh
 		login local
-	!Task 4
 	crypto key generate rsa 
 	<enter 1024 when prompted for how many bits in the modulus>
 	end
 copy run start
+
+!R1 - Task 4 solution:
+ssh -l root  10.1.3.11
+<enter Cisco as the password>
+
 
 PassLeader - Simulation Q690
 !Internet-GW - preconfigured
@@ -535,7 +549,6 @@ interface GigabitEthernet0/1
 	no shut
 !
 router ospf 1
-	network 172.20.20.128 0.0.0.127 area 0
 	network 10.10.254.0 0.0.0.255 area 0
 	end
 copy run start
@@ -596,30 +609,36 @@ interface GigabitEthernet0/1
 	ip address 10.10.254.3 255.255.255.0
 	no shut
 !
+ip route 172.20.20.128 255.255.255.128 10.10.254.254
+!
 router ospf 1
-	network 10.10.0.0 0.0.255.255 area 0
+     	network 10.10.254.0   0.0.0.255 area 0
+	network 10.10.13.0   0.0.0.255 area 0
+	network 10.10.0.0   0.0.255.255 area 0
 	end
 copy run start
 
-!SW1 -Task 1:
+!SW1  - Task 1 solution:
 en
 conf t
-   hostname SW1
+	hostname SW1
 !
 interface Vlan1
-   ip address 192.168.0.1 255.255.255.0
-   no shut
-   end
+	ip address 192.168.0.1 255.255.255.0
+	no shut
+!
+ip default-gateway 192.168.0.2
+end
 copy run start
 
-!R1 - Task 2 :
+!R1 - Task 2 solution:
 en
 conf t
    ip route 0.0.0.0 0.0.0.0 10.10.13.3
    end
 copy run start
 
-!R1 - Task 3 :
+!R1 - Task 3 solution:
 en
 conf t
    ip route 172.20.20.128   255.255.255.128    10.10.12.1
@@ -627,22 +646,31 @@ conf t
   end
 copy run start
 
-!R1 - Task 4:
+!R1 - Task 4 solution: 
 en
 conf t
-  no  ip route 192.168.0.0 255.255.255.0  10.10.12.2 1
-  no  ip route 192.168.0.0 255.255.255.0  10.10.12.130
-  ip route 192.168.0.0 255.255.255.0  10.10.12.2 
-  ip route 192.168.0.0 255.255.255.0  10.10.12.130 10
+  ip route 192.168.0.0 255.255.255.0  10.10.12.2 1
+  ip route 192.168.0.0 255.255.255.0  10.10.12.130 2
   end
 copy run start
 
+ 
 
 
+Internet-GW 
+g0/0: 10.10.254.254
+loopback0 : 172.20.20.129
 
+R1
+g0/0: 10.10.13.1
+g0/1: 10.10.12.1
+g0/2: 10.10.12.129
+loopback 0 :10.10.1.1
 
-
-
+R2
+g0/0: 192.168.0.2
+g0/1: 10.10.12.2
+g0/2: 10.10.12.130
 
 
 
