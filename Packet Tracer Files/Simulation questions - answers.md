@@ -656,7 +656,7 @@ copy run start
 
  
 
-
+#System Information:
 Internet-GW 
 g0/0: 10.10.254.254
 loopback0 : 172.20.20.129
