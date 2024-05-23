@@ -1,4 +1,4 @@
-,,,
+'''
 Examtopics #1061
 !SW1 - solution
 en
