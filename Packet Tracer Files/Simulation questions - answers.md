@@ -7,7 +7,7 @@ conf t
 	int fa0/1
 		no ip dhcp snooping information option
       end
-wr
+copy run start
 
 PassLeader - Simulation Q683
 !R1 - pre-configured
@@ -24,7 +24,7 @@ conf t
 		network 10.10.12.0 0.0.0.255 area 0
 		network 10.10.13.0 0.0.0.255 area 0
 	end
-wr
+copy run start
 
 !R2 - pre-configured
 en
@@ -41,7 +41,7 @@ conf t
 		ip add 10.10.23.2 255.255.255.0
 		no shut
 	end
-wr
+copy run start
 
 !R3 - pre-configured
 en
@@ -58,7 +58,7 @@ conf t
 		ip add 10.10.23.3 255.255.255.0
 		no shut
 	end
-wr
+copy run start
 
 
 !R1  - solution
@@ -171,7 +171,7 @@ conf t
       ip address 192.168.1.9 255.255.255.0
       no shut
       end
-wr
+copy run start
 
 !R2 - preconfigured
 en
@@ -181,7 +181,7 @@ conf t
       ip address 192.168.1.10 255.255.255.240
       no shut
       end
-wr
+copy run start
 
 !R1  - solution
 en
@@ -192,7 +192,7 @@ conf t
     ipv6 unicast-routing
     no shut
     end
-wr
+copy run start
 
 !R2  - solution
 en
@@ -203,7 +203,7 @@ conf t
     ipv6 unicast-routing
     no shut
     end
-wr
+copy run start
 
 !R1 - test ping to R2
 ping 192.168.1.30
@@ -223,7 +223,7 @@ conf t
   ip route 192.168.3.0 255.255.255.0 209.165.200.226
   ip route 209.165.200.228 255.255.255.252 209.165.200.226
   end
-wr
+copy run start
 
 
 !R2 - preconfigured
@@ -245,7 +245,7 @@ conf t
   ip route 192.168.1.0 255.255.255.0 209.165.200.225
   ip route 192.168.3.0 255.255.255.0 209.165.200.230
   end
-wr
+copy run start
 
 !R3 - preconfigured
 en
@@ -257,7 +257,7 @@ conf t
   int loopback 1
      ip add 192.168.3.1 255.255.255.0
   end
-wr
+copy run start
 
 
 !R4 - preconfigured
@@ -269,14 +269,14 @@ conf t
      ipv6 add 2001:db8:abcd::2
      no shut
   end
-wr
+copy run start
 
 !R3  - solution
 en
 conf t
    ip route 192.168.1.0 255.255.255.0 g0/1
   end
-wr
+copy run start
 
 !R2  - solution
 en
@@ -284,7 +284,7 @@ conf t
    ip route 0.0.0.0 0.0.0.0 209.165.202.130
    ipv6 route ::/0 2001:db8:abcd::2
   end
-wr
+copy run start
 
 !R3 - Verify configuration and ping test to loopback address on R1
 sh ip route
@@ -302,7 +302,7 @@ conf t
    vlan 99
       name Available
       end
-wr
+copy run start
 
 
 
@@ -322,7 +322,7 @@ conf t
 	int g0/1
 		switchport mode access
 	end
-wr
+copy run start
 
 !SW2 - solution
 show vlan
@@ -334,7 +334,7 @@ conf t
 		switchport access vlan 99
 		no cdp enable
 	end
-wr
+copy run start
 
 !There is nothing to test since all end points is connected to different vlans, just verify configuration
 
@@ -358,7 +358,7 @@ conf t
 		switchport mode trunk
 		switchport trunk allowed vlan 210
 		end
-wr
+copy run start
 
 
 
@@ -384,7 +384,7 @@ conf t
 		switchport mode trunk
 		switchport trunk allowed vlan 110,210
 	end
-wr
+copy run start
 
 !Sw3 - solution
 en
@@ -407,7 +407,7 @@ conf t
 		switchport mode trunk
 		switchport trunk allowed vlan 110,210
 	end
-wr
+copy run start
 
 
 
@@ -432,7 +432,7 @@ conf t
 	ip route 0.0.0.0 0.0.0.0 10.1.2.2
 
 	end
-wr
+copy run start
 
 !R2 - preconfigured
 en
@@ -453,7 +453,7 @@ conf t
 	!Static route to R1's loopback1 via R2
 	ip route 192.168.1.0 255.255.255.0 10.1.2.1
 	end
-wr
+copy run start
 
 !R3 - preconfigured
 en
@@ -472,7 +472,7 @@ conf t
 	ip route 192.168.1.0 255.255.255.0 10.2.3.2
 	ip route 10.1.2.0 255.255.255.0 10.2.3.2
 	end
-wr
+copy run start
 
 !R1 - solution
 en
@@ -500,7 +500,7 @@ conf t
 	!Task 2
 	ntp server 10.1.3.1
 	end
-wr
+copy run start
 
 !R3 - solution
 en
@@ -519,7 +519,7 @@ conf t
 	crypto key generate rsa 
 	<enter 1024 when prompted for how many bits in the modulus>
 	end
-wr
+copy run start
 
 PassLeader - Simulation Q690
 !Internet-GW - preconfigured
@@ -538,7 +538,7 @@ router ospf 1
 	network 172.20.20.128 0.0.0.127 area 0
 	network 10.10.254.0 0.0.0.255 area 0
 	end
-wr
+copy run start
 
 !R1 - preconfigured
 en 
@@ -562,7 +562,7 @@ interface GigabitEthernet0/2
 router ospf 1
 	network 10.10.0.0 0.0.255.255 area 0
 	end
-wr
+copy run start
 
 
 !R2 - preconfigured
@@ -581,7 +581,7 @@ interface GigabitEthernet0/2
 	ip address 10.10.12.130 255.255.255.128
 	no shut
 	end
-wr
+copy run start
 
 
 !R3 - preconfigured
@@ -599,7 +599,7 @@ interface GigabitEthernet0/1
 router ospf 1
 	network 10.10.0.0 0.0.255.255 area 0
 	end
-wr
+copy run start
 
 !SW1 -Task 1:
 en
@@ -610,14 +610,14 @@ interface Vlan1
    ip address 192.168.0.1 255.255.255.0
    no shut
    end
-wr
+copy run start
 
 !R1 - Task 2 :
 en
 conf t
    ip route 0.0.0.0 0.0.0.0 10.10.13.3
    end
-wr
+copy run start
 
 !R1 - Task 3 :
 en
@@ -625,7 +625,7 @@ conf t
    ip route 172.20.20.128   255.255.255.128    10.10.12.1
    ip route 172.20.20.128   255.255.255.128    10.10.12.129 
   end
-wr
+copy run start
 
 !R1 - Task 4:
 en
@@ -635,7 +635,7 @@ conf t
   ip route 192.168.0.0 255.255.255.0  10.10.12.2 
   ip route 192.168.0.0 255.255.255.0  10.10.12.130 10
   end
-wr
+copy run start
 
 
 
