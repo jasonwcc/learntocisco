@@ -540,7 +540,7 @@ router ospf 1
 	end
 wr
 
-!R1 - solution
+!R1 - preconfigured
 en 
 conf t
 hostname R1
@@ -565,7 +565,7 @@ router ospf 1
 wr
 
 
-!R2 - solution
+!R2 - preconfigured
 en
 conf t
 hostname R2
@@ -584,7 +584,7 @@ interface GigabitEthernet0/2
 wr
 
 
-!R3 - solution
+!R3 - preconfigured
 en 
 conf t
 hostname R3
@@ -601,16 +601,42 @@ router ospf 1
 	end
 wr
 
-!SW1
+!SW1 -Task 1:
 en
 conf t
-	hostname SW1
+   hostname SW1
 !
 interface Vlan1
-	ip address 192.168.0.1 255.255.255.0
-	no shut
-	end
+   ip address 192.168.0.1 255.255.255.0
+   no shut
+   end
 wr
+
+!R1 - Task 2 :
+en
+conf t
+   ip route 0.0.0.0 0.0.0.0 10.10.13.3
+   end
+wr
+
+!R1 - Task 3 :
+en
+conf t
+   ip route 172.20.20.128   255.255.255.128    10.10.12.1
+   ip route 172.20.20.128   255.255.255.128    10.10.12.129 
+  end
+wr
+
+!R1 - Task 4:
+en
+conf t
+  no  ip route 192.168.0.0 255.255.255.0  10.10.12.2 1
+  no  ip route 192.168.0.0 255.255.255.0  10.10.12.130
+  ip route 192.168.0.0 255.255.255.0  10.10.12.2 
+  ip route 192.168.0.0 255.255.255.0  10.10.12.130 10
+  end
+wr
+
 
 
 
