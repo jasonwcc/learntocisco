@@ -1,4 +1,4 @@
-,,,
+```
 
 AAA
 - Authentication : username + password / identity
@@ -344,10 +344,30 @@ WLC
 - 
 
 Rectified question with confirm answer:
-Q212: BE
-Q213: C
-Q216: AE
-Q228: A
+205 D
+206 C
+212 BE
+213 C
+216 AE
+227 B (the spelling toot supposed to be root)
 
+243 B
+245 A CAM table is MAC Address table
+247 A (cisco is using grammar to test knowledge here. "passively" means auto, "must" means desirable
+350 AD . why? bcos only two different network : 10.0.0.0 and 10.0.0.1. among the 10.0.0.0 OSPF wins
+432 A 
+719 BC
+722 C (no semicolon, must use colon)
+787 C (should be seven only by looking at curly braces {}
+1231 C Layer 3 only means IP. All the answer choice has either Layer 2 or MAC
+1281,1303 D Look for FFFE only
+1297 A Look for lowest AD then lowest Metric
+
+Look for following keywords:
+JSON
+longest prefix  > AD > Metrics
+destined
+ssh
+```
 
 
