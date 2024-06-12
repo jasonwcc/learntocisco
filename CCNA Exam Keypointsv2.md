@@ -119,6 +119,23 @@ IPSEC vs GRE
   : support multicast traffics, less secure
 - hence GRE with IPSEC to have both 
 
+IPv6 addresses type
+-    global
+        routable all to the way out to internet
+        200x:x:/3
+ -   link local
+        fe80::/10
+        no routeable to another network/internet
+  -  site-local
+        fc/fd:xx
+        routable to another network within intranet
+   - multicast
+        ffxx
+   - loopback
+        ::1
+   - unknown
+        ::
+
 NAT
 static nat
 config) # ip nat source static ....
