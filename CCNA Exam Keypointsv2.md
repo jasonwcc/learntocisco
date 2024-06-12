@@ -56,15 +56,15 @@ DNS
 Dynamic ARP Inspection (DAI)
 - prevent man-in-the-middle attack
 
-Dynamic Trunking Protocols (DTP)
-Dynamic Desirable 	+ Dynamic Desirable	= Trunk
-Dynamic Desirable	+ Dynamic Auto		= Trunk
-Dynamic Desirable	+ Trunk			= Trunk
-Dynamic Desirable	+ Access		= Access
-Dynamic Auto		+ Dynamic Desirable	= Trunk
-Dynamic Auto		+ Dynamic Auto		= Access
-Dynamic Auto		+ Trunk			= Trunk
-Dynamic Auto		+ Access		= Access
+# Dynamic Trunking Protocols (DTP)
+- Dynamic Desirable 	+ Dynamic Desirable	= Trunk
+- Dynamic Desirable	+ Dynamic Auto		= Trunk
+- Dynamic Desirable	+ Trunk			= Trunk
+- Dynamic Desirable	+ Access		= Access
+- Dynamic Auto		+ Dynamic Desirable	= Trunk
+- Dynamic Auto		+ Dynamic Auto		= Access
+- Dynamic Auto		+ Trunk			= Trunk
+- Dynamic Auto		+ Access		= Access
 
 
 
