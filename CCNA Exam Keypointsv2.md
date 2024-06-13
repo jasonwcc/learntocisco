@@ -136,6 +136,16 @@ IPv6 addresses type
    - unknown
      :   ::
 
+JSON
+    define/describe structured data including arrays
+    Starts/ends with curly braces {} a name/value pairs consists of field name (in double quotes), followed by colon and values
+    Example: [ {"load balancer": "LB1", "port": "fe2/0"}, {"firewall": "FW20", "port": "fe3/1"}, {"router": "R41", "port": "fe8/5"}, ]
+    Keys: load balancer, firewall, router
+    Values: LB1, fe2/0, FW20, fe3/1, R41, fe8/5
+    Array: enclosed within [] and consists of multiple values separated by coma "numbers": [23, 44, 76, 34, 98] "employees": ["ali", "chong", 'murthi"]
+    Boolean: true, false
+    Object: unordered set of attribute-value pairs {"data": ["fe0/3", "fe0/1", "fe0/2"]}
+
 NAT
 static nat
 config) # ip nat source static ....
