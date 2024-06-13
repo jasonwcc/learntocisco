@@ -481,7 +481,7 @@ conf t
 		permit 10.1.3.0 0.0.0.255
 		permit 10.2.3.0 0.0.0.255
 		permit 192.168.3.0 0.0.0.255
-	ip nat inside source list NAT interface g0/0
+	ip nat inside source list NAT interface g0/0 overload
 	end
 copy run start
 
