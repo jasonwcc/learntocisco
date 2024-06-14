@@ -84,13 +84,13 @@ EtherChannel / LACP /PAGP
 Fibre-optics
 
 First hop redundancy protocol (FHRP)
-HSRP
-VRRP
-GLBP
-Default Mac address configured
-HRSP - 00:00:0c:...
-VRRP - 00:00:5x:...
-GLBP - 00:06:xx:...
+- HSRP
+- VRRP
+- GLBP
+- Default Mac address configured
+  - HRSP - 00:00:0c:...
+  - VRRP - 00:00:5x:...
+  - GLBP - 00:06:xx:...
 
 FTP
 - TCP/20 and TCP/21
