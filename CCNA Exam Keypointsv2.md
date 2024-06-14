@@ -233,25 +233,16 @@ SYSLOG
 - UDP/514
 - use command to set #logging trap level
 - lower level will send all messages
-- Level: 
-level 0 - Emergencies 	: Every	
-level 1 - Alerts		: Awesome 
-level 2 - Critical		: Cisco
-level 3 - Errors	: Engineeer
-level 4 - Warnings	: Will
-level 5 - Notifications	: Need
-level 6 - Informational	: Icecream
-level 7 - Debug	: Daily
-			
-Example:
-- 0 Emergencies System unstable / System shutting down due to missing fan tray / 
-- 1 Alerts Immediate action needed / Temperature limit exceeded
-- 2 Critical (default) Memory allocation failures
-- 3 Errors Interface Up/Down messages
-- 4 Warnings Configuration file written to server, via SNMP request
-- 5 Notifications Normal but significant condition / Line protocol Up/Down
-- 6 Information list violation logging
-- 7 Debugging Appears during debugging only
+
+Severity Level:
+- 0 Emergencies (Every) System unstable / System shutting down due to missing fan tray / 
+- 1 Alerts (Awesome) Immediate action needed / Temperature limit exceeded
+- 2 Critical (Cisco) Memory allocation failures
+- 3 Errors (Engineer) Interface Up/Down messages
+- 4 Warnings (Will) Configuration file written to server, via SNMP request
+- 5 Notifications (Need) Normal but significant condition / Line protocol Up/Down
+- 6 Information (Ice Cream)list violation logging
+- 7 Debugging (Daily) Appears during debugging only
 
 TCP
 - reliable, statefull, connection-oriented (three way handshake)
