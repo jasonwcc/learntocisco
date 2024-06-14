@@ -137,14 +137,14 @@ IPv6 addresses type
      :   ::
 
 JSON
-    define/describe structured data including arrays
-    Starts/ends with curly braces {} a name/value pairs consists of field name (in double quotes), followed by colon and values
-    Example: [ {"load balancer": "LB1", "port": "fe2/0"}, {"firewall": "FW20", "port": "fe3/1"}, {"router": "R41", "port": "fe8/5"}, ]
-    Keys: load balancer, firewall, router
-    Values: LB1, fe2/0, FW20, fe3/1, R41, fe8/5
-    Array: enclosed within [] and consists of multiple values separated by coma "numbers": [23, 44, 76, 34, 98] "employees": ["ali", "chong", 'murthi"]
-    Boolean: true, false
-    Object: unordered set of attribute-value pairs {"data": ["fe0/3", "fe0/1", "fe0/2"]}
+- define/describe structured data including arrays
+- Starts/ends with curly braces {} a name/value pairs consists of field name (in double quotes), followed by colon and values
+- Example: [ {"load balancer": "LB1", "port": "fe2/0"}, {"firewall": "FW20", "port": "fe3/1"}, {"router": "R41", "port": "fe8/5"}, ]
+- Keys: load balancer, firewall, router
+- Values: LB1, fe2/0, FW20, fe3/1, R41, fe8/5
+- Array: enclosed within [] and consists of multiple values separated by coma "numbers": [23, 44, 76, 34, 98] "employees": ["ali", "chong", 'murthi"]
+- Boolean: true, false
+- Object: unordered set of attribute-value pairs {"data": ["fe0/3", "fe0/1", "fe0/2"]}
 
 NAT
 static nat
@@ -244,14 +244,14 @@ level 6 - Informational	: Icecream
 level 7 - Debug	: Daily
 			
 Example:
-0 Emergencies System unstable / System shutting down due to missing fan tray / 
-1 Alerts Immediate action needed / Temperature limit exceeded
-2 Critical (default) Memory allocation failures
-3 Errors Interface Up/Down messages
-4 Warnings Configuration file written to server, via SNMP request
-5 Notifications Normal but significant condition / Line protocol Up/Down
-6 Information list violation logging
-7 Debugging Appears during debugging only
+- 0 Emergencies System unstable / System shutting down due to missing fan tray / 
+- 1 Alerts Immediate action needed / Temperature limit exceeded
+- 2 Critical (default) Memory allocation failures
+- 3 Errors Interface Up/Down messages
+- 4 Warnings Configuration file written to server, via SNMP request
+- 5 Notifications Normal but significant condition / Line protocol Up/Down
+- 6 Information list violation logging
+- 7 Debugging Appears during debugging only
 
 TCP
 - reliable, statefull, connection-oriented (three way handshake)
