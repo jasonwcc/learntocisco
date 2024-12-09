@@ -1,1 +1,5 @@
-2/Dec/2024 to 6/Dec/2024 CCNA Training notes
+
+https://trainocate.com/manage-attendance?ClassId=6685
+
+Download materials -
+https://github.com/jasonwcc/learntocisco
