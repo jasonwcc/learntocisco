@@ -391,6 +391,102 @@ show ip route
 
 dynamic route - OSPF/RIP/EIGRP
 
+ro2 g0/0 10.0.0.252
+ro2 g0/1 30.0.0.252
+ro2 g0/2 20.0.0.252
+dns 10.0.0.200
+
+NetBIOS
+SMBv1
+
+IPv4  / IPv6
+- Subnet/Network ID | Host ID
+- netmask
+
+A 0.0.0.0 - 127.255.255.255
+B 128.0.0.0 - 191.255.255.255
+C 192.0.0.0 - 223.255.255.255
+D Multicast 224.0.0.0 - 239.255.255.255
+E Reserved for future - 240.0.0.0 - 255.255.255.255
+
+Private IP (IETF RFC 1918)
+A 10.x.x.x
+B 172.16.x.x - 172.31.x.x
+C 192.168.x.x/24 
+vs
+Public IP
+A 1.0.0.1 - 9.255.255.255, 11.0.0.1 - 126.255.255.255
+B 128.x.x.x - 172.15.255.255, 172.32.x.x - 191.255.255.255
+C 192.x.x.x - 192.167.x.x , 192.169.x.x - 223.255.255.255
+
+show ip route
+netstat -rn = route print
+
+
+Decimal  0-10
+- base 10
+Binary 0,1
+- base 2
+Octal 0-7
+- base 8
+Hexadecimal 0-9,a-f
+- base 16
+
+
+100 ==> 
+
+
+
+!ro1
+en
+conf t
+  int g0/1
+    ip add 192.168.1.17 255.255.255.240
+    ipv6 add 2001:db8:aaaa::1/64
+   end
+copy run start
+
+!ro2
+en
+conf t
+  int g0/1
+    ip add 192.168.1.30 255.255.255.240
+    ipv6 add 2001:db8:aaaa::2/64
+   end
+copy run start
+
+!ro1 configured as DHCP server
+en
+conf t
+ip dhcp excluded-address 10.0.0.200 10.0.0.254
+ip dhcp pool Sales_10
+  network 10.0.0.0 255.0.0.0
+  default-router 10.0.0.252 
+  dns-server 10.0.0.200
+  domain-name cisco.com
+
+ip dhcp excluded-address 20.0.0.200 20.0.0.254
+ip dhcp pool HR_20
+  network 20.0.0.0 255.0.0.0
+  default-router 20.0.0.254
+  dns-server 10.0.0.200
+  domain-name cisco.com
+
+ip dhcp excluded-address 30.0.0.200 30.0.0.254
+ip dhcp pool Operation_30
+  network 30.0.0.0 255.0.0.0
+  default-router 30.0.0.252
+  dns-server 10.0.0.200
+  domain-name cisco.com
+
+!ro2 configured as Relay Agent for subnet 30.x.x.x/8
+en
+conf t
+int g0/1
+  ip helper-address 10.0.0.254	
+  end
+copy run start
+
 
 
 
