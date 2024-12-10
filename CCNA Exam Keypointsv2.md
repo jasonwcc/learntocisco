@@ -120,20 +120,20 @@ IPSEC vs GRE
 - hence GRE with IPSEC to have both 
 
 IPv6 addresses type
-- global
+1 global
   - routable all to the way out to internet
-  -    200x:x:/3
- -   link local
+  - 200x:x:/3
+2  link local
   -    fe80::/10
   -   no routeable to another network/internet
-  -  site-local
-    :    fc/fd:xx
-    :    routable to another network within intranet
-   - multicast
-    :    ffxx
-   - loopback
+3      site-local
+  -    fc/fd:xx
+  -    routable to another network within intranet
+4 multicast
+ -    ffxx
+5 loopback
      :   ::1
-   - unknown
+6 unknown
      :   ::
 
 JSON
