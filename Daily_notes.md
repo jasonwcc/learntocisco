@@ -942,7 +942,25 @@ int loopback 555
 end
 copy run start
 
+!ro2 configure g0/2
+en
+conf t
+   int g0/2
+      ip add 20.0.0.202 255.0.0.0
+      no shut
+      end
+copy run start
 
+!ro2 configure redundant static/default route via ro1
+en
+show run | include ip route
+conf t
+no ip route 0.0.0.0 0.0.0.0 10.0.0.254
+ip route 172.16.0.0 255.255.0.0 10.0.0.201 1
+ip route 172.16.0.0 255.255.0.0 20.0.0.201 10
+ip route 192.168.30.0 255.255.255.0 30.0.0.203
+end
+copy run start
 
 
 
