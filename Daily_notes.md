@@ -896,6 +896,7 @@ show run | include ip route
 conf t
 no ip route 0.0.0.0 0.0.0.0 10.0.0.254
 ip route 0.0.0.0 0.0.0.0 10.0.0.201
+ip route 192.168.30.0 255.255.255.0 30.0.0.203
 end
 copy run start
 
@@ -905,6 +906,7 @@ copy run start
 en
 conf t
 ip route 0.0.0.0 0.0.0.0 30.0.0.202
+
 end
 wr
 
@@ -920,7 +922,23 @@ copy run start
 en
 conf t
 int loopback 222
-   ip add 172.17.10.201 255.255.0.0
+   ip add 172.17.10.202 255.255.0.0
+end
+copy run start
+
+!ro1 reconfigure static into default route
+en
+conf t
+  ip route 30.0.0.0 255.0.0.0 10.0.0.202
+  ip route 0.0.0.0   0.0.0.0 10.0.0.202
+  end
+copy run start
+
+!ro3 create dummy network using loopback interface
+en
+conf t
+int loopback 555
+   ip add 192.168.30.203 255.255.255.0
 end
 copy run start
 
@@ -930,24 +948,6 @@ copy run start
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ...
+
+
