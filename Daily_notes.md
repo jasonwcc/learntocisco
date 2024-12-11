@@ -857,6 +857,28 @@ RO1 g0/1 20.0.0.201
 RO2 g0/0 10.0.0.202
 RO2 g0/1 30.0.0.202
 
+!ro1
+en 
+conf t
+int g0/0
+ip add 10.0.0.201 255.0.0.0
+int g0/1
+ip add 20.0.0.201 255.0.0.0
+end
+!ro2
+en 
+conf t
+int g0/0
+ip add 10.0.0.202 255.0.0.0
+int g0/1
+ip add 30.0.0.202 255.0.0.0
+end
+!ro3
+en 
+conf t
+int g0/0
+ip add 30.0.0.203 255.0.0.0
+end
 
 
 
