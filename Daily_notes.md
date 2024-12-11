@@ -890,6 +890,17 @@ ip route 30.0.0.0 255.0.0.0 10.0.0.202
 end
 copy run start
 
+!ro2 reconfigure default route
+en
+show run | include ip route
+conf t
+no ip route 0.0.0.0 0.0.0.0 10.0.0.254
+ip route 0.0.0.0 0.0.0.0 10.0.0.201
+end
+copy run start
+
+!on all switch, reconfigure default-gateway
+
 
 
 
