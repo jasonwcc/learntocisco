@@ -901,6 +901,29 @@ copy run start
 
 !on all switch, reconfigure default-gateway
 
+!ro3 configure default route via ro2
+en
+conf t
+ip route 0.0.0.0 0.0.0.0 30.0.0.202
+end
+wr
+
+!ro1 create dummy network using loopback interface
+en
+conf t
+int loopback 222
+   ip add 172.16.10.201 255.255.0.0
+end
+copy run start
+
+!ro2 create dummy network using loopback interface
+en
+conf t
+int loopback 222
+   ip add 172.17.10.201 255.255.0.0
+end
+copy run start
+
 
 
 
