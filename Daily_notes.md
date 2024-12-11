@@ -837,48 +837,60 @@ Add another Ro3
 - static route
 - redundant routes
 
-Enable/Disable CDP/LLDP
-
-
-
+!common/base configuration
+en
+conf t
+  line console 0
+      exec-timeout 0 0
+      logging sync
+ end
+copy run start
 
 
 *** Network Topology configuration ***
-PC1 - 10.0.0.1
-PC2 - 10.0.0.2
-PC3 - 20.0.0.3
-PC4 - 20.0.0.4
-PC5 - 30.0.0.5
-SW1 - 10.0.0.253
+PC1 - 10.0.0.1 / aaaa.1010::1/64
+PC2 - 10.0.0.2 / aaaa:1010::2/64
+PC3 - 20.0.0.3 / bbbb:2020::3/64
+PC4 - 20.0.0.4 / bbbb:2020::4/64
+PC5 - 30.0.0.5 / cccc:3030::5/64
+SW1 - 10.0.0.253 
 SW2 - 20.0.0.253
 SW3 - 30.0.0.253
-RO1 g0/0 10.0.0.201
-RO1 g0/1 20.0.0.201
-RO2 g0/0 10.0.0.202
-RO2 g0/1 30.0.0.202
+RO1 g0/0 10.0.0.201 / aaaa:1010::201/64
+RO1 g0/1 20.0.0.201 / bbbb:2020::201/64
+RO2 g0/0 10.0.0.202 / aaaa:1010::202/64
+RO2 g0/1 30.0.0.202 / cccc:3030::202/64
 
 !ro1
 en 
 conf t
 int g0/0
-ip add 10.0.0.201 255.0.0.0
+ipv6 add aaaa:1010::201/64
 int g0/1
 ip add 20.0.0.201 255.0.0.0
+ipv6 add bbbb:2020::201/64
 end
+
 !ro2
 en 
 conf t
 int g0/0
 ip add 10.0.0.202 255.0.0.0
+ipv6 add aaaa:1010::202/64
 int g0/1
 ip add 30.0.0.202 255.0.0.0
+ipv6 add cccc:3030::202/64
 end
+copy run start
+
 !ro3
 en 
 conf t
 int g0/0
-ip add 30.0.0.203 255.0.0.0
+no ip add 30.0.0.203 255.0.0.0
+ipv6 add cccc:3030::203/64
 end
+copy run start
 
 !ro1 reconfigure static route
 en
@@ -962,6 +974,31 @@ ip route 192.168.30.0 255.255.255.0 30.0.0.203
 end
 copy run start
 
+
+Enable/Disable CDP/LLDP
+1. On ro2, Disable CDP globally (all interfaces incoming/outgoing)
+2. But enable CDP on g0/0 only
+!ro2
+en
+conf t
+   no cdp run
+   int g0/0
+     cdp enable
+end
+copy run start
+
+
+Q. Disable CDP completely, but enable LLDP on g0/0 and g0/2
+!ro2
+en
+conf t
+  no cdp run
+  lldp run
+int g0/0
+   lldp transmit
+   lldp receive
+end
+wr
 
 
 
