@@ -880,10 +880,10 @@ int g0/0
 ip add 30.0.0.203 255.0.0.0
 end
 
-!ro1
+!ro1 reconfigure static route
+en
 show ip route
 show run | include ip route
-en
 conf t
 no ip route 30.0.0.0 255.0.0.0 10.0.0.252
 ip route 30.0.0.0 255.0.0.0 10.0.0.202
