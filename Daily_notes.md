@@ -1087,12 +1087,38 @@ RO1 g0/1 20.0.0.201 / bbbb:2020::201/64
 RO2 g0/0 10.0.0.202 / aaaa:1010::202/64
 RO2 g0/1 30.0.0.202 / cccc:3030::202/64
 
-PC1 (sw3 fa0/1) - vlan 2
-PC2 (sw4 fa0/2) - vlan 2
-PC3 (sw4 fa0/3) - vlan 3
-PC4 (sw5 fa0/4) - vlan 3
-PC5 (sw3 fa0/5) - vlan 4
+PC1 (sw3 fa0/1) - vlan 2 - 30.0.2.1
+PC2 (sw4 fa0/2) - vlan 2 - 30.0.2.2
+PC3 (sw4 fa0/3) - vlan 3 - 30.0.3.3
+PC4 (sw5 fa0/4) - vlan 3 - 30.0.3.4
+PC5 (sw3 fa0/5) - vlan 4 - 30.0.4.5
 
+Vlan
+1 30.0.0.0/24
+2 30.0.2.0/24
+3 30.0.3.0/24
+4 30.0.4.0/24
+
+Test
+Pc1 should be able ping pc2
+Pc3 should be able ping pc4
+
+!ro2 configured as InterVLAN router
+en
+conf t
+  int g0/1
+    ip add 30.0.0.202 255.255.255.0
+  int g0/1.2
+    encap dot1q 2
+    ip add 30.0.2.202 255.255.255.0
+  int g0/1.3
+    encap dot1q 3
+    ip add 30.0.3.202 255.255.255.0
+  int g0/1.4
+    encap dot1q 4
+    ip add 30.0.4.202 255.255.255.0
+end
+copy run start
 
 ...
 
