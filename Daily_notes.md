@@ -1120,6 +1120,91 @@ conf t
 end
 copy run start
 
+!sw3 g0/1 configured as trunk
+en
+conf t
+  int g0/1
+    switchport mode trunk
+end
+copy run start
+
+Test
+every PC can every PC in the multi vlans environment
+
+!ro2
+show ip int brief
+show ip route
+show run
+
+IGP
+- RIP1/2 (DV),OSPF(LS),IGRP(DV),IS-IS(S), EIGRP(DV+LS)
+EGP
+- BGP
+
+Distance Vector
+- care hop count as best path
+- care about one table (routing table)
+Link State
+- care bw/delay/mtu/reliability/txload/rxload
+- hello timer to directly connected neighbor each 10 sec
+- dead timer 40 seconds 
+- care 3 tables:
+  1. Neighbor/Adjacency table
+  2. Topology table (all routes)
+  3. Routing table (best route)
+
+!ro1
+en
+conf t
+  router ospf 1
+    network 10.0.0.0  0.255.255.255 area 0
+    network 20.0.0.0  0.255.255.255 area 0 
+    network 172.0.0.0 0.255.255.255 area 1
+end
+copy run start
+
+!ro2
+en
+conf t
+  router ospf 1
+    network 0.0.0.0  31.255.255.255 area 0
+    network 172.0.0.0 0.255.255.255 area 1
+end
+copy run start
+
+!ro3
+en
+conf t
+  router ospf 2
+  exit
+  int g0/0
+     ip ospf 2 area 0
+  int loop 555
+     ip ospf 2 area 1
+end
+copy run star
+
+Netmask
+- determine networkID/hostIP
+- determine first/last usable
+vs
+Wildcard mask
+- OSPF and ACL
+- determine which range of ips
+
+
+!on all routesr, remove static/default routes
+en
+sh run | inc ip route
+add no in front every command
+and paste into the ro configuration
+copy run start
+
 ...
+
+
+
+
+
 
 
