@@ -1284,7 +1284,7 @@ copy run start
 en
 conf t
   int g0/0
-    standby  version 2
+    standby version 2
     standby 1 ip 10.0.0.100
     standby 1 preempt 
   int g0/1
