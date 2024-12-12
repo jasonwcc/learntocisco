@@ -847,19 +847,6 @@ conf t
 copy run start
 
 
-*** Network Topology configuration ***
-PC1 - 10.0.0.1 / aaaa.1010::1/64
-PC2 - 10.0.0.2 / aaaa:1010::2/64
-PC3 - 20.0.0.3 / bbbb:2020::3/64
-PC4 - 20.0.0.4 / bbbb:2020::4/64
-PC5 - 30.0.0.5 / cccc:3030::5/64
-SW1 - 10.0.0.253 
-SW2 - 20.0.0.253
-SW3 - 30.0.0.253
-RO1 g0/0 10.0.0.201 / aaaa:1010::201/64
-RO1 g0/1 20.0.0.201 / bbbb:2020::201/64
-RO2 g0/0 10.0.0.202 / aaaa:1010::202/64
-RO2 g0/1 30.0.0.202 / cccc:3030::202/64
 
 !ro1
 en 
@@ -1034,6 +1021,12 @@ conf t
     name Engineering
   int range fa0/10-11
      switchport mode trunk
+  int fa0/1
+     switchport mode access
+     switchport access vlan 2
+  int fa0/5
+     switchport mode access
+     switchport access vlan 4
 end
 copy run start
 
@@ -1051,6 +1044,12 @@ conf t
   hostname sw4
   int range fa0/10-12
      switchport mode trunk
+  int fa0/2
+     switchport mode access
+     switchport access vlan 2
+  int fa0/3
+     switchport mode access
+     switchport access vlan 3
 end
 copy run start
 
@@ -1068,8 +1067,32 @@ conf t
     name Engineering
   int range fa0/10-12
      switchport mode trunk
+  int fa0/4
+     switchport mode access
+     switchport access vlan 3
 end
 copy run start
+
+*** Network Topology configuration ***
+PC1 - 10.0.0.1 / aaaa.1010::1/64
+PC2 - 10.0.0.2 / aaaa:1010::2/64
+PC3 - 20.0.0.3 / bbbb:2020::3/64
+PC4 - 20.0.0.4 / bbbb:2020::4/64
+PC5 - 30.0.0.5 / cccc:3030::5/64
+SW1 - 10.0.0.253 
+SW2 - 20.0.0.253
+SW3 - 30.0.0.253
+RO1 g0/0 10.0.0.201 / aaaa:1010::201/64
+RO1 g0/1 20.0.0.201 / bbbb:2020::201/64
+RO2 g0/0 10.0.0.202 / aaaa:1010::202/64
+RO2 g0/1 30.0.0.202 / cccc:3030::202/64
+
+PC1 (sw3 fa0/1) - vlan 2
+PC2 (sw4 fa0/2) - vlan 2
+PC3 (sw4 fa0/3) - vlan 3
+PC4 (sw5 fa0/4) - vlan 3
+PC5 (sw3 fa0/5) - vlan 4
+
 
 ...
 
