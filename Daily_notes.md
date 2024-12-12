@@ -1176,11 +1176,13 @@ copy run start
 en
 conf t
   router ospf 2
+    passive-interface g0/0
   exit
   int g0/0
      ip ospf 2 area 0
   int loop 555
      ip ospf 2 area 1
+
 end
 copy run star
 
@@ -1193,13 +1195,114 @@ Wildcard mask
 - determine which range of ips
 
 
-!on all routesr, remove static/default routes
+!on all router, remove static/default routes
 en
 sh run | inc ip route
 add no in front every command
 and paste into the ro configuration
 copy run start
 
+Election for Designated Router (DR)
+1. Priority (1-255) (higher number wins)
+2. Highest IP from router-id
+3. Highest IP from loopback interfaces
+4. Highest IP from physical interfaces
+
+Election for Root Bridge (RB)
+1. Priority (0-65535) (lower number winner)
+2. Lowest MAC address
+Determine port role
+1. Root port
+2. Designated port
+   - on all ports on RB
+3. alternate port
+Determine port status
+1. Forwarding (root/designated)
+2. Blocking (alternate)
+
+Per VLAN ST+
+original election
+- BLK --> LIS --> LRN --> FWD
+
+Portfast
+- access port (PC/Server/Router)
+- BLK --> FWD
+
+
+!sw2
+en
+conf t
+  int range fa0/10-13
+    channel-group 1 mode active
+  int port-channel 1
+     switchport mode trunk
+end
+wr
+
+!sw6
+en
+conf t
+  int range fa0/10-13
+    channel-group 1 mode passive
+  int port-channel 1
+     switchport mode trunk
+end
+wr
+
+sh ip int brief
+sh etherchannel
+sh etherchannel summary
+
+1. HSRP
+- cisco propietory
+- redundancy only
+2. VRRP
+- generic protocol
+- redundancy only
+3. GLBP
+- cisco propietory
+- redundancy + load balancce
+
+
+!ro1 configured as HSRP group active partner
+en
+conf t
+  int g0/0
+     standby version 2
+     standby 1 ip 10.0.0.100
+     standby 1 priority 250
+     standby 1 preempt 
+  int g0/1
+     standby version 2
+     standby 2 ip 20.0.0.100
+     standby 2 priority 250
+     standby 2 preempt 
+end
+copy run start
+
+!ro2 configured as HSRP group standby partner
+en
+conf t
+  int g0/0
+    standby  version 2
+    standby 1 ip 10.0.0.100
+    standby 1 preempt 
+  int g0/1
+     no standby version 2
+     no standby 2 ip 20.0.0.100
+     no standby 2 preempt
+  int g0/2
+      standby version 2
+      standby 2 ip 20.0.0.100
+      standby 2 preempt 
+end
+copy run start
+
+Verify configuration
+show standby brief
+
+
+    
 ...
 
 
