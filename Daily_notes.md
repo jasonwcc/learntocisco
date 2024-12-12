@@ -1000,8 +1000,76 @@ int g0/0
 end
 wr
 
+IEEE 802.1Q
+- VLAN
+- supports 0-4095 (12 bits)
+- vlan 1 (native/management/default)
+- each vlan has its own subnet
+- create vlan 2, 3, 4
 
 
+switchport mode access
+- allow one vlan to go thru
+- connect to PC/Server/Router
+
+switchport mode trunk
+- allow multiple vlan
+- connect to switch/InterVLAN router/ESX/Hyper-V/IBM PowerVM/Proxmox/OpenStack 
+
+Dynamic Auto (default)
+Dynamic Desirable
+Trunk
+Access
+
+!sw3
+en
+conf t
+  vlan 2
+    name HR
+  vlan 3
+    name Sales
+  vlan 4
+    name Operation
+  vlan 15
+    name Engineering
+  int range fa0/10-11
+     switchport mode trunk
+end
+copy run start
+
+!sw4
+en
+conf t
+  vlan 2
+    name HR
+  vlan 3
+    name Sales
+  vlan 4
+    name Operation
+  vlan 15
+    name Engineering
+  hostname sw4
+  int range fa0/10-12
+     switchport mode trunk
+end
+copy run start
+
+!sw5
+en
+conf t
+  hostname sw5
+  vlan 2
+    name HR
+  vlan 3
+    name Sales
+  vlan 4
+    name Operation
+  vlan 15
+    name Engineering
+  int range fa0/10-12
+     switchport mode trunk
+end
+copy run start
 
 ...
 
