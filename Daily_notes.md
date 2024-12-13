@@ -1440,9 +1440,37 @@ conf t
 end
 wr
 
+NAT
+- translate private ip into public ip
+- RFC 1918 10.x.x.x, 172.16-172.31.x.x, 192.168.x.x
+
+1. Static NAT
+- every private must have one public
+- Port Forwarding
+2. Dynamic NAT
+- every private must have one public (keep changing)
+- PC1 10.0.0.1 translate 200.0.0.2
+- PC2 10.0.0.2 translate 200.0.0.1
+
+3. Dynamic NAt with Overloading / PAT
+
+!ro3 configured as Static NAT
+en
+conf t
+  int g0/0
+    ip nat inside
+  int g0/1
+    ip nat outside
+  end
+  ip nat inside source static 30.0.2.1 200.0.0.141
+  ip nat inside source static 30.0.2.1 200.0.0.142
+   
+SSH
+ACL - in router
 
 
-ACL
+
+
 
 
 
