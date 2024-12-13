@@ -1491,10 +1491,68 @@ copy run start
 Test nat
 PC1 ping 200.0.0.101
 PC2 ping 200.0.0.102
+ro3 show ip nat translation
 
+!ro3 configured as PAT
+en
+conf t
+  int g0/0
+    ip nat inside
+  int g0/1
+    ip nat outside
+  access-list 10 permit 30.0.2.0 0.0.0.255
+  no ip nat pool TMpool1 200.0.0.171 200.0.0.175 netmask 255.255.255.0
+  no ip nat inside source list 10  pool TMpool1
+  ip nat inside source list 10 interface g0/1 overload
+   end
+copy run start
+
+Test nat
+PC1 ping 200.0.0.101
+PC2 ping 200.0.0.102
+ro3 show ip nat translation
 
 SSH
 ACL - in router
+
+PC1 - vlan 2 
+ip 30.0.2.1 255.255.25.0
+gw 30.0.2.202
+
+telnet
+- not secure
+- sent in plaintext
+vs
+ssh
+- open source
+- secure encrypt/decrupt
+- user/host key
+
+!ro2
+en
+conf t
+  hostname ro3
+  ip domain-name tm.com.my
+  crypto key generate rsa general-keys modulus 2048
+  username user1 password user1
+  username user2 password user2
+  enable secret cisco
+  line vty 0 15
+     login local
+     transport input ssh
+  end
+copy run start
+
+Test login from pc1
+ssh -l user1 30.0.0.203
+password: user1
+> enable
+password: secret
+# conf t
+  
+
+mail.yahoo.com FQDN
+
 
 
 
