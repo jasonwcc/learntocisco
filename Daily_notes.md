@@ -1074,11 +1074,12 @@ end
 copy run start
 
 *** Network Topology configuration ***
-PC1 - 10.0.0.1 / aaaa.1010::1/64
-PC2 - 10.0.0.2 / aaaa:1010::2/64
-PC3 - 20.0.0.3 / bbbb:2020::3/64
-PC4 - 20.0.0.4 / bbbb:2020::4/64
-PC5 - 30.0.0.5 / cccc:3030::5/64
+PC1 (sw3 fa0/1) - vlan 2 - 30.0.2.1
+PC2 (sw4 fa0/2) - vlan 2 - 30.0.2.2
+PC3 (sw4 fa0/3) - vlan 3 - 30.0.3.3
+PC4 (sw5 fa0/4) - vlan 3 - 30.0.3.4
+PC5 (sw3 fa0/5) - vlan 4 - 30.0.4.5
+DNS (sw1 fa0/10) - vlan 1 - 10.0.0.101 (gw:10.0.0.100)
 SW1 - 10.0.0.253 
 SW2 - 20.0.0.253
 SW3 - 30.0.0.253
@@ -1086,7 +1087,6 @@ RO1 g0/0 10.0.0.201 / aaaa:1010::201/64
 RO1 g0/1 20.0.0.201 / bbbb:2020::201/64
 RO2 g0/0 10.0.0.202 / aaaa:1010::202/64
 RO2 g0/1 30.0.0.202 / cccc:3030::202/64
-
 PC1 (sw3 fa0/1) - vlan 2 - 30.0.2.1
 PC2 (sw4 fa0/2) - vlan 2 - 30.0.2.2
 PC3 (sw4 fa0/3) - vlan 3 - 30.0.3.3
@@ -1313,6 +1313,10 @@ vs create named list
 - apply list to interface
   - in vs out
 
+Cisco Best Practices for ACL
+- Standard (1-99) List : router closest to destination
+- Extended (100-199) list : router closest to source
+
 host - specific
 any - 0.0.0.0 255.255.255.255
 
@@ -1362,6 +1366,97 @@ conf t
     25 deny 10.0.0.0 0.0.0.255
 end
 wr
+
+Connection
+ro3 g0/1 --> sw7 g0/1
+sw7 fa0/10 --> facebook.com fa0
+sw7 fa0/11 --> yahoo.com fa0
+
+!ro2 configure default route via ro3
+en
+conf t
+  ip route 0.0.0.0 0.0.0.0 30.0.0.203
+end
+
+!ro3 configure g0/1
+en
+conf t
+  int g0/1
+     ip add 200.0.0.203 255.255.255.0
+     no shut
+  ip route 0.0.0.0 0.0.0.0 30.0.0.202
+end
+wr
+
+facebook.com
+- IP 200.0.0.101 /24
+- GW 200.0.0.203
+yahoo.com
+-IP 200.0.0.102/24
+- GW 200.0.0.203
+DNS
+- connect sw1 fa0/10
+- IP 10.0.0.101/8
+- GW 10.0.0.100
+
+!ro2 inject default route into OSPF environment
+en
+conf t
+   router ospf 1
+      default-information originate
+   end
+wr
+
+
+!Policy 1
+- deny PC6 from entering internet
+- permit everything else
+
+!ro3 Implement the Policy using standard ACL
+en
+conf t
+  access-list 5 deny host 10.0.0.6
+  access-list 5 permit any
+  int g0/1
+     ip access-group 5 out
+end
+copy run start
+
+!Policy 2
+- deny subnet 20.0.0.0/8 from surfing internet
+- permit everything else
+
+
+
+!ro2 Implement the Policy using standard ACL
+en
+conf t
+    access-list 110 deny tcp 20.0.0.0 0.255.255.255 200.0.0.0 0.0.0.255 eq 80
+    access-list 110  deny tcp 20.0.0.0 0.255.255.255 200.0.0.0 0.0.0.255 eq 443
+    access-list 110  permit ip any any
+   int g0/1
+     ip access-group 110 out
+end
+wr
+
+
+
+ACL
+- telnet, ssh, web(80,443) , smtp (25) , ftp (20,21) , tftp (udp 69)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ...
 
