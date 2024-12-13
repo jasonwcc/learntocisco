@@ -1312,6 +1312,7 @@ vs create named list
 - permit / deny 
 - apply list to interface
   - in vs out
+- remember protocol/port number telnet(tcp/23), ssh(tcp/22), web(tcp/80,tcp/443) , smtp (tcp/25) , ftp (tcp/20,21) , tftp (udp/69)
 
 Cisco Best Practices for ACL
 - Standard (1-99) List : router closest to destination
@@ -1442,7 +1443,7 @@ wr
 
 
 ACL
-- telnet, ssh, web(80,443) , smtp (25) , ftp (20,21) , tftp (udp 69)
+
 
 
 
