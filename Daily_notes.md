@@ -1301,8 +1301,68 @@ copy run start
 Verify configuration
 show standby brief
 
+ACL
+- create numbered list 
+  - standard list vs extended list
+  - sequence fixed to 10 > 20 > 30 > 40 
+vs create named list
+  - modify sequence
+  - add rule before/after existing
+  - delete specific rule
+- permit / deny 
+- apply list to interface
+  - in vs out
 
-    
+host - specific
+any - 0.0.0.0 255.255.255.255
+
+permit 0.0.0.0 255.255.255.255 / permit any
+permit 10.0.0.6 0.0.0.0 / permit host 10.0.0.6
+permit host 20.0.0.1
+permit 192.168.100.0 0.0.63.255
+deny any 
+1  0000 0001
+3  0000 0011
+7  0000 0111
+15  
+31 0001 1111
+63 
+127 
+255
+
+
+192.168.96.0-255
+192.168.97.0-255
+..
+..
+192.168.127.0-255
+
+Formula
+1. convert first subnet to binary
+192.168.96.0 --> 0110 0000
+
+2. convert last subnet to binary
+192.168.127.255> 0111 1111
+
+3. Find matching bits from left
+x               > nnnc cccc
+192.168.96.0    > 0110 0000
+0.0.31.255      > 0001 1111
+
+permit 192.168.96.0 0.0.31.255
+
+
+en
+conf t
+ ip access-list standard jacl1
+    5 permit host 10.0.0.1
+    20 permit host 10.0.0.2
+    40 permit host 10.0.0.4
+    88 permit host 10.0.0.199
+    25 deny 10.0.0.0 0.0.0.255
+end
+wr
+
 ...
 
 
