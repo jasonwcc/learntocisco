@@ -1461,10 +1461,38 @@ conf t
     ip nat inside
   int g0/1
     ip nat outside
-  end
   ip nat inside source static 30.0.2.1 200.0.0.141
-  ip nat inside source static 30.0.2.1 200.0.0.142
-   
+  ip nat inside source static 30.0.2.2 200.0.0.142
+   end
+copy run start
+
+Test nat
+PC1 ping 200.0.0.101
+PC2 ping 200.0.0.102
+
+!ro3 show ip nat translation
+
+
+!ro3 configured as Dynamic NAT
+en
+conf t
+  int g0/0
+    ip nat inside
+  int g0/1
+    ip nat outside
+  no ip nat inside source static 30.0.2.1 200.0.0.141
+  no ip nat inside source static 30.0.2.2 200.0.0.142
+  access-list 10 permit 30.0.2.0 0.0.0.255
+  ip nat pool TMpool1 200.0.0.171 200.0.0.175 netmask 255.255.255.0
+  ip nat inside source list 10  pool TMpool1 
+   end
+copy run start
+
+Test nat
+PC1 ping 200.0.0.101
+PC2 ping 200.0.0.102
+
+
 SSH
 ACL - in router
 
