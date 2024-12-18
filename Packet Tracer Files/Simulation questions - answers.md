@@ -279,6 +279,9 @@ conf t
 copy run start
 
 !R2  - solution
+!On R4, find out the ipv6 address configured on interface g0/0
+sh ip int brief
+!On R2, Configure both default route for ipv4 and ipv6 according to task 2 and task 3
 en
 conf t
    ip route 0.0.0.0 0.0.0.0 209.165.202.130
