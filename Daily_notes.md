@@ -1,25 +1,3 @@
-```
-
-Wifi Network  : Trainocate5
-Password      : TrainocatE
-
-*********************************
-*         Other Material	*
-*********************************
-github.com/jasonwcc/learntocisco
-
-
-*********************************
-*       Material Access		*
-*********************************
-https://tinyurl.com/ccnamat2025
-
-
-*********************************
-*           Lab Setup           *
-*********************************
-https://tinyurl.com/ccnamat2025
-
 192.100.100.100/18
 192.100.100.0
 
@@ -80,6 +58,255 @@ cisco routers
 - by default, all physical ports are down
 
 
+fastethernet0/0
+gigaethernet0/0
+
+serial0/0/0
+serial1/1/0
+
+f1/1/0
+f1/1/1
+f1/1/2
+f1/1/3
+
+IPV4 Classful
+unicast A 1.x.x.x - 127.x.x.x/8 (255.0.0.0)
+unicast B 128.x.x.x - 191.x.x.x/16
+unicast C 192.x.x.x - 223.x.x.x/24
+multicast D 224.x.x.x - 239.x.x.x
+E reserved for future 240.x.x.x - 255.x.x.x.
+
+IPV6
+FFxx
+
+classless
+
+NetBIOS
+
+IPv6
+unicast
+multicast
+anycast
+
+DHCPv4
+- broadcast
+- router configured as DHCP relay agent
+
+link-local
+- cisco use SLAAC 
+- FE80
+- 
+
+UEFI
+
+
+can be used as metrics for routing protocol
+- EIGRP
+  - BW + DLY
+- OSPF 
+  - BW
+- RIP
+  - hop count
+- IS-IS
+- BGP
+
+IP
+- 4 octets
+- octets 8bits
+- 32 bits
+- 2^32 = 4 billion
+- classful --> classless
+
+192.168.0.1/23 (8n.8n.7n 1c.8c)
+MSB n> <c LSB
+
+BASE
+Decimal base 10
+Binary base 2 (0,1)
+Octal base 8 (0-7)
+Hexadecimal base 16
+
+
+F8 = 11111000 = 248
+
+
+RFC
+
+
+From Router 1 
+To Host A 10.10.13.214
+
+
+Cal 
+10.10.13.208/29
+8n.8n.8n.5n3c
+255.255.255.248
+208 --> 1101 0111
+        nnnn nccc
+          
+208+7
+192
++16
+
+172.28.228.144/25
+8n.8n.8n.1n 7c
+144 -> 0000 0000
+       nccc cccc
+144 -> 1111 1111
+
+nncc cccc
+00
+01
+10
+11
+
+
+Google Cloud
+VM - Private IP + Public IP 
+- OS
+- App
+- Runtime
+- 
+
+TM Jalan 222
+- 222.x.x.x
+- ping facebook/yahoo/
+
+
+
+
+cd /usr
+cat /etc/passwd
+
+AD/metric
+0 directly connected
+1 static. configured by user
+EIGRP
+- AD=90
+- metric=BW+DLY
+OSPF
+- AD=110
+- metric=BW
+RIP
+- AD=120
+- metric=Hop Counts
+- limit 15 hop counts
+
+1. different routing protocol
+- use AD
+2. same routing protocol
+- use metric
+3. same routing protocol + same metric + same subnet/route
+- with different netmask/cidr
+- use longest prefix/match 
+
+Use AD when there are multiple routing protoocls
+
+
+S* 
+O [110/10] 192.168.2.0/28 via r1
+O [110/10] 192.168.1.0/12 via r2
+O [110/10] 192.168.1.0/27 via r3
+
+
+Q router ping 192.168.0.1 source loopback 0
+
+Router
+- physical interface
+- loopback interface
+  - testing
+  - dummy
+  - impact/affect election (OSPF DR)
+  - logical interface
+
+Port connections
+r1 g0/0 <--> sw1 g0/1
+r1 g0/1 <--> sw2 g0/1
+r1 g0/2 <--> sw3 g0/1
+r2 g0/0 <--> sw2 g0/2
+
+IP configurations
+PC1 192.168.0.101
+PC2 192.168.0.102
+r1 g0/0 : 192.168.0.1
+r1 g0/1 : 192.168.1.1
+r1 g0/2 : 192.168.2.1
+r2 g0/0 : 192.168.1.2
+sw1 : 192.168.0.11
+
+!r1
+en
+conf t
+  hostname r1
+  int g0/0
+    ip add 192.168.0.1 255.255.255.0
+    no shut
+  int g0/1
+    ip add 192.168.1.1 255.255.255.0
+    no shut
+  int g0/2
+    ip add 192.168.2.1 255.255.255.0
+    no shut
+  end 
+copy run start
+
+
+!r2
+en
+conf t
+  hostname r2
+  int g0/0
+    ip add 192.168.1.2 255.255.255.0
+    no shut
+  ip route 0.0.0.0 0.0.0.0 192.168.1.1
+  end 
+copy run start
+
+!sw1
+en
+conf t
+   hostname sw1
+   int vlan 1
+      ip add 192.168.0.11 255.255.255.0
+      no shut
+   ip default-gateway 192.168.0.1
+   end
+copy run start
+
+
+!sw2
+en
+conf t
+   hostname sw2
+   int vlan 1
+      ip add 192.168.1.12 255.255.255.0
+      no shut
+   ip default-gateway 192.168.1.1
+   end
+copy run start
+
+
+!sw3
+en
+conf t
+   hostname sw3
+   int vlan 1
+      ip add 192.168.2.13 255.255.255.0
+      no shut
+   ip default-gateway 192.168.2.1
+   end
+copy run start
+
+
+PC1/PC2
+- ping 192.168.0.1 
+- ping 192.168.1.1
+- ping 192.168.2.1
+- ping 192.168.1.12
+- ping 192.168.2.13
+
+
+show ip int bri
 
 
 
@@ -91,4 +318,17 @@ cisco routers
 
 
 
-...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
