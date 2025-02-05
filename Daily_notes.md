@@ -217,7 +217,7 @@ Router
   - testing
   - dummy
   - impact/affect election (OSPF DR)
-  - logical interface
+  - logical interface (always up and running)
 
 Port connections
 r1 g0/0 <--> sw1 g0/1
@@ -225,19 +225,35 @@ r1 g0/1 <--> sw2 g0/1
 r1 g0/2 <--> sw3 g0/1
 r2 g0/0 <--> sw2 g0/2
 
+r2 g0/1 <--> sw4 g0/1
+r3 g0/0 <--> sw4 g0/2
+
 IP configurations
 PC1 192.168.0.101
 PC2 192.168.0.102
 r1 g0/0 : 192.168.0.1
 r1 g0/1 : 192.168.1.1
 r1 g0/2 : 192.168.2.1
+r1 lo1  : 10.1.1.1/24
+r1 lo2  : 10.11.11.1/24
 r2 g0/0 : 192.168.1.2
+r2 g0/1 : 192.168.3.2
+r2 lo1  : 10.2.2.2
+r2 lo2  : 10.22.22.2/24
+r3 g0/0 : 192.168.3.3
+r3 lo1  : 10.3.3.3
+r3 lo2  : 10.33.33.3
+
 sw1 : 192.168.0.11
 
 !r1
 en
 conf t
   hostname r1
+  int lo1
+    ip add 10.1.1.1 255.255.255.0
+  int lo2
+    ip add 10.11.11.1 255.255.255.0
   int g0/0
     ip add 192.168.0.1 255.255.255.0
     no shut
@@ -247,6 +263,7 @@ conf t
   int g0/2
     ip add 192.168.2.1 255.255.255.0
     no shut
+  ip route 0.0.0.0   0.0.0.0  192.168.1.2
   end 
 copy run start
 
@@ -255,6 +272,10 @@ copy run start
 en
 conf t
   hostname r2
+  int lo1
+    ip add 10.2.2.2 255.255.255.0
+  int lo2
+    ip add 10.22.22.2 255.255.255.0
   int g0/0
     ip add 192.168.1.2 255.255.255.0
     no shut
@@ -307,6 +328,124 @@ PC1/PC2
 
 
 show ip int bri
+show run
+show ip route
+show run int lo0
+
+
+CDP
+- enabled by default
+- cisco devices
+- VMware vSphere/ESX
+
+vs
+LLDP
+- disabled by default
+- industry standard
+  - vendor-based network appliance
+- VMware vSphere/ESX
+- Windows/Linux
+
+
+Enable/Disable CDP - global
+en
+conf t
+  [no] cdp run
+  end
+copy run start
+
+Disable CDP - per interface
+en
+conf t
+  cdp run
+  int g0/0
+    no cdp enable 
+  end
+copy run start
+
+
+Disable LLDP - global
+en
+conf t
+  no lldp run
+  end
+copy run start
+
+
+Enable/Disable LLDP - per interface
+en
+conf t
+  lldp run
+  int g0/0
+    lldp transmit
+  int g0/1
+    lldp receive
+  end
+copy run start
+
+
+Q: u r r1, u can see sw2, but sw2 cannot see you
+lldp receive
+no lldp transmit
+
+
+hsrp
+- cisco proprietary
+vrrp
+- universal
+glbp
+- cisco proprietary
+- truly nature of Load Balance or active-active
+
+
+source IP	192.168.3.1 (never change)
+destination IP	192.168.4.2 (never change)
+source MAC
+destination MAC
+
+
+HostA send data to HostB which requires stateful, reliable, guaranteed, 
+connection-oriented.
+Q. on returning frame entering r1, what is the destination MAC?
+A. 222:2222
+B. 333:2222
+C. 333:1111
+D. 222:1111
+
+
+
+
+ping facebook.com
+ping 8.8.8.8
+ping default gw
+ping 
+
+
+
+default route
+ip route 0.0.0.0 0.0.0.0 
+
+ping 
+!.!.!
+.!.!.
+due HSRP/VRRP
+redundancy
+
+PCX
+- ping loopbacks on r1 - ok
+- ping loopbacks on r2 - not ok
+
+r1
+- ping loopbacks on r2 - not ok
+
+switches
+- ping loopbacks on r1 - ok
+- ping loopbacks on r2 - not ok
+
+r2
+- ping loopbacks on r1 -  ok
+
+
 
 
 
