@@ -202,6 +202,11 @@ RIP
 
 Use AD when there are multiple routing protoocls
 
+ping 192.168.1.100
+
+routing table
+S 192.168.1.0/27 via r1
+S 192.168.1.0/25 via r2
 
 S* 
 O [110/10] 192.168.2.0/28 via r1
@@ -224,9 +229,10 @@ r1 g0/0 <--> sw1 g0/1
 r1 g0/1 <--> sw2 g0/1
 r1 g0/2 <--> sw3 g0/1
 r2 g0/0 <--> sw2 g0/2
-
 r2 g0/1 <--> sw4 g0/1
+r2 g0/2 <--> sw5 g0/1
 r3 g0/0 <--> sw4 g0/2
+r3 g0/1 <--> sw5 g0/2
 
 IP configurations
 PC1 192.168.0.101
@@ -238,13 +244,19 @@ r1 lo1  : 10.1.1.1/24
 r1 lo2  : 10.11.11.1/24
 r2 g0/0 : 192.168.1.2
 r2 g0/1 : 192.168.3.2
+r2 g0/2 : 192.168.4.2
 r2 lo1  : 10.2.2.2
 r2 lo2  : 10.22.22.2/24
 r3 g0/0 : 192.168.3.3
+r3 g0/1 : 192.168.4.3
 r3 lo1  : 10.3.3.3
 r3 lo2  : 10.33.33.3
 
 sw1 : 192.168.0.11
+sw2 : 192.168.1.12
+sw3 : 192.168.2.13
+sw4 : 192.168.3.14
+sw5 : 192.168.4.15
 
 !r1
 en
@@ -279,9 +291,40 @@ conf t
   int g0/0
     ip add 192.168.1.2 255.255.255.0
     no shut
-  ip route 0.0.0.0 0.0.0.0 192.168.1.1
+  int g0/1
+    ip add 192.168.3.2 255.255.255.0
+    no shut
+  int g0/2
+    ip add 192.168.4.2 255.255.255.0
+    no shut
+  ip route 0.0.0.0 0.0.0.0 192.168.1.1 
+  ip route 10.3.3.0 255.255.255.0 192.168.3.3
+  ip route 10.3.3.0 255.255.255.0 192.168.4.3
+  ip route 10.33.33.0 255.255.255.0 192.168.3.3
+  ip route 10.33.33.0 255.255.255.0 192.168.4.3
   end 
 copy run start
+
+!r3
+en
+conf t
+  hostname r3
+  int lo1
+    ip add 10.3.3.3 255.255.255.0
+  int lo2
+    ip add 10.33.33.3 255.255.255.0
+  int g0/0
+    ip add 192.168.3.3 255.255.255.0
+    no shut
+  int g0/1
+    ip add 192.168.4.3 255.255.255.0
+    no shut
+  ip route 0.0.0.0 0.0.0.0 192.168.3.2
+  ip route 0.0.0.0 0.0.0.0 192.168.4.2
+
+  end 
+copy run start
+
 
 !sw1
 en
@@ -315,6 +358,18 @@ conf t
       ip add 192.168.2.13 255.255.255.0
       no shut
    ip default-gateway 192.168.2.1
+   end
+copy run start
+
+
+!sw4
+en
+conf t
+   hostname sw4
+   int vlan 1
+      ip add 192.168.3.14 255.255.255.0
+      no shut
+   ip default-gateway 192.168.3.2
    end
 copy run start
 
@@ -448,26 +503,79 @@ r2
 
 
 
+Subnet
+192.168.1.0 - 192.168.1.15
+192.168.1.16 - 192.168.1.31
+
+
+
+!r1
+en
+conf t
+  int g0/1
+    ip add 192.168.1.17 255.255.255.240
+    ipv6 add 2001:db8:aaaa::1/64
+    no shut
+    end
+copy run start
+
+!r2
+en
+conf t
+  int g0/1
+    ip add 192.168.1.30 255.255.255.240
+    ipv6 add 2001:db8:aaaa::2/64
+    no shut
+    end
+copy run start
+
+ping 
+
+0.0.0.0 0.0.0.0
+192.168.0.0 255.255.255.0
+192.168.0.1 255.255.255.0
+
+
+
+r3 to r1 192.168.1.1
+!r3
+en
+conf t
+  ip route 192.168.1.0 255.255.255.0  g0/1
+or
+  ip route 192.168.1.1 255.255.255.255  g0/1
+  end
+copy run start
+ 
+!r2
+en
+conf t
+  ip route 0.0.0.0 0.0.0.0  209.165.202.130  
+  ipv6 route ::/0  2001:db8:abcd::2
+ end
+copy run start
+
+ping - ok
 
 
 
 
+2a00:aaa::1/64
+ff0f:2a0::1/64
+fe80::1212:
+fc11
+fd11
+unique local
+default route ::/64
+::1 loopback
+127.0.0.1
+
+floating static route
+- backup
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+r2 
+- ping 10.3.3.3 & 10.33.33.3
+- keep traceroute 10.3.3.3
+  - it will use 192.168.3.3 and 192.168.4.3 in 
+     round robin manner
