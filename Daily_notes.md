@@ -299,9 +299,12 @@ conf t
     no shut
   ip route 0.0.0.0 0.0.0.0 192.168.1.1 
   ip route 10.3.3.0 255.255.255.0 192.168.3.3
-  ip route 10.3.3.0 255.255.255.0 192.168.4.3
-  ip route 10.33.33.0 255.255.255.0 192.168.3.3
-  ip route 10.33.33.0 255.255.255.0 192.168.4.3
+  no ip route 10.3.3.0 255.255.255.0 192.168.4.3
+  ip route 10.3.3.0 255.255.255.0 192.168.4.3 2
+
+  ip route 10.33.33.0 255.255.255.0 192.168.3.3 
+  no ip route 10.33.33.0 255.255.255.0 192.168.4.3
+  ip route 10.33.33.0 255.255.255.0 192.168.4.3 2
   end 
 copy run start
 
@@ -320,7 +323,8 @@ conf t
     ip add 192.168.4.3 255.255.255.0
     no shut
   ip route 0.0.0.0 0.0.0.0 192.168.3.2
-  ip route 0.0.0.0 0.0.0.0 192.168.4.2
+  no ip route 0.0.0.0 0.0.0.0 192.168.4.2
+  ip route 0.0.0.0 0.0.0.0 192.168.4.2  2
 
   end 
 copy run start
@@ -579,3 +583,94 @@ r2
 - keep traceroute 10.3.3.3
   - it will use 192.168.3.3 and 192.168.4.3 in 
      round robin manner
+
+
+untagged frame
+tagged frame
+\
+
+IEEE 802.1Q
+
+Create VLAN
+Configure trunk/access
+Configure InterVLAN router
+
+VLAN
+10 : HR : 172.16.10.0/24
+- PC1 : 172.16.10.101
+20 : Engineering : 172.16.20.0/24
+- PC2 : 172.16.20.102
+- PC3 : 172.16.20.103
+30 : Sales : 172.16.30.0/24
+- PC4 : 172.16.30.104
+- PC6 : 172.16.30.105
+40 : Telephony : 172.16.40.0/24
+- PC5 : 172.16.40.105
+100 : Servers : 172.16.100.0/24
+- DHCP server : .111
+- DNS Server  : .112
+- TFTP Server : .113
+
+!sw1
+en
+conf t
+  vlan 10
+    name HR
+  vlan 20
+    name Engineering
+  vlan 30
+    name Sales
+  vlan 40
+    name Telephony
+  vlan 100
+    name Native Management
+  int g0/1
+    switchport mode trunk
+    switchport trunk allowed vlan 10-100
+  int fa0/11
+    description connection to PC1
+    switchport mode access
+    switchport access vlan 10
+  int fa0/12
+    description connection to PC1
+    switchport mode access
+    switchport access vlan 20
+  end
+copy run start
+
+!r1 - configure as InterVLAN router
+en
+conf t
+  int g0/0
+    no shut
+  int g0/0.10
+    encapsulation dot1q 10
+    ip address 172.16.10.1 255.255.255.0
+  int g0/0.20
+    encapsulation dot1q 20
+    ip address 172.16.20.1 255.255.255.0
+  int g0/0.30
+    encapsulation dot1q 30
+    ip address 172.16.30.1 255.255.255.0
+  int g0/0.40
+    encapsulation dot1q 40
+    ip address 172.16.40.1 255.255.255.0
+  end
+copy run start
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
