@@ -1,4 +1,3 @@
-```
 192.100.100.100/18
 192.100.100.0
 
@@ -595,6 +594,12 @@ IEEE 802.1Q
 Create VLAN
 Configure trunk/access
 Configure InterVLAN router
+Configure VTP
+- mode: server, client, transparent
+- domain name: tm.com.my
+- password: cisco
+- sw1: server
+- sw1-b,sw1-c: client
 
 VLAN
 10 : HR : 172.16.10.0/24
@@ -624,18 +629,72 @@ conf t
   vlan 40
     name Telephony
   vlan 100
-    name Native Management
+    name Server
+  vtp mode server
+  vtp domain tm.com.my
+  vtp password cisco
   int g0/1
+    switchport mode trunk
+    switchport trunk allowed vlan 10-100
+  int range fa0/11-19
+    switchport mode access
+    spanning-tree portfast
+    !do not connect to switch/bridge/hub/concentrator
+  int range fa0/20-24
     switchport mode trunk
     switchport trunk allowed vlan 10-100
   int fa0/11
     description connection to PC1
-    switchport mode access
     switchport access vlan 10
   int fa0/12
-    description connection to PC1
-    switchport mode access
+    description connection to PC2
     switchport access vlan 20
+  end
+copy run start
+
+!sw1-b
+en
+conf t
+  hostname sw1-b
+  vtp mode client
+  vtp domain tm.com.my
+  vtp password cisco
+  int range fa0/11-19
+    switchport mode access
+    spanning-tree portfast
+    !do not connect to switch/bridge/hub/concentrator
+  int range fa0/20-24
+    switchport mode trunk
+    switchport trunk allowed vlan 10-100
+  int fa0/2
+    description connection to Servers
+    switchport access vlan 100
+  int fa0/13
+    description connection to PC3
+    switchport access vlan 20
+  end
+copy run start
+
+!sw1-c
+en
+conf t
+  hostname sw1-c
+  vtp mode client
+  vtp domain tm.com.my
+  vtp password cisco
+  int range fa0/11-19
+    switchport mode access
+    spanning-tree portfast
+    !do not connect to switch/bridge/hub/concentrator
+  int range fa0/20-24
+    switchport mode trunk
+    switchport trunk allowed vlan 10-100
+  int fa0/14
+    description connection to PC4
+    switchport access vlan 30
+  int fa0/15
+    description connection to PC5
+    switchport access vlan 40
   end
 copy run start
 
@@ -677,4 +736,4 @@ copy run start
 
 
 
-...
+
