@@ -655,6 +655,9 @@ conf t
   int g0/0.40
     encapsulation dot1q 40
     ip address 172.16.40.1 255.255.255.0
+  int g0/0.100
+    encapsulation dot1q 100
+    ip address 172.16.100.1 255.255.255.0
   end
 copy run start
 
@@ -673,4 +676,4 @@ copy run start
 
 
 
-
+...
