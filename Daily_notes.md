@@ -1,3 +1,4 @@
+```
 192.100.100.100/18
 192.100.100.0
 
@@ -668,6 +669,7 @@ conf t
     switchport trunk allowed vlan 10-100
   int fa0/2
     description connection to Servers
+    spanning-tree portfast
     switchport access vlan 100
   int fa0/13
     description connection to PC3
@@ -721,8 +723,130 @@ conf t
   end
 copy run start
 
+!PC1-PC5, Server
+Set correct IP, Netmask, Gateway
+
+
+Dynamic Routing
+1. RIP
+- Distance Vector
+- AD: 120
+
+2. EIGRP
+- Distance Vector + Link State
+  --> establish neighboring/adjacency
+  --> hello timer (10 sec)
+  --> dead timer (40 sec)
+- AD: 90
+
+3. OSPF
+- Li
+  --> cant establish neighboring/adjacency
+  --> hnk Stateello timer (10 sec)
+  --> dead timer (40 sec)
+-- AD:110
+
+4. BGP
+-- internal : 200
+-- external : 20
+
+Static / Default Route
+- AD: 1
+
 
 	
+Remove static routes
+
+!r1-r3
+show run | include ip route
+
+en
+conf t
+  no ip route 0.0.0.0 0.0.0.0 192.168.1.1 
+  no ip route 10.3.3.0 255.255.255.0 192.168.3.3 
+no ip route 10.33.33.0 255.255.255.0 192.168.3.3 
+no ip route 10.3.3.0 255.255.255.0 192.168.4.3 5
+no ip route 10.33.33.0 255.255.255.0 192.168.4.3 2
+end
+copy run start
+no ip route 0.0.0.0 0.0.0.0 192.168.3.2 
+no ip route 0.0.0.0 0.0.0.0 192.168.4.2 2
+
+show ip route
+- S entries should not exists
+
+!On all routers, configure OSPF
+!r1 
+show ip route 
+en
+conf t
+  router ospf 1
+     network 10.0.0.0 0.255.255.255 area 0
+     network 172.16.0.0 0.0.255.255 area 0
+     network 192.168.0.0 0.0.3.255 area 0
+   end
+copy run start
+
+!r2-r3
+en
+conf t
+  router ospf 1
+     network 10.0.0.0 0.255.255.255 area 0
+     network 192.168.0.0 0.0.7.255 area 0
+   end
+copy run start
+
+
+
+Difference between Netmask and Wildcard mask   
+
+netmask
+- determine network ID
+- 10.1.0.0/18
+  8n.8n.2n 6c.8c
+  255.255.192.0
+  10.1.0.1 - 10.1.63.254
+
+  10.1.0.96 - 10.1.0.128
+
+1.Convert binary
+96 -> 0110 0000 
+127-> 0111 1111
+
+2.Find Matching bits, determine NetworkID, wildcard
+        : nnnc cccc
+NID	: 0110 0000
+WC	: 0001 1111
+
+network 10.1.0.96 0.0.0.6
+
+
+96 -> 0110 0000 
+WC -> 0000 0xx0
+      0000 0000 10.1.0.96
+      0000 0010 10.1.0.98
+      0000 0100 10.1.0.100
+      0000 0110 10.1.0.102
+
+vs
+wildcard mask
+- OSPF/ACL/EIGRP
+  
+1111 1111.1111 1111.1100 0000.
+0000 0000.0000 0000.0011 1111
+!r2
+en
+conf t
+  router ospf 5000
+    network 10.1.0.0 0.0.63.255 area 0
+
+en
+conf t
+   router eigrp 5400
+      network 
+    
+   router rip 
+     network 
 
 
 
@@ -737,3 +861,43 @@ copy run start
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+...
