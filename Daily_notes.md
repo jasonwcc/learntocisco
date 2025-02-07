@@ -731,6 +731,7 @@ Dynamic Routing
 1. RIP
 - Distance Vector
 - AD: 120
+- care routing table
 
 2. EIGRP
 - Distance Vector + Link State
@@ -745,6 +746,8 @@ Dynamic Routing
   --> hnk Stateello timer (10 sec)
   --> dead timer (40 sec)
 -- AD:110
+- care neighboring table, topology table, routing table
+- consume lot resources (CPU / memory)
 
 4. BGP
 -- internal : 200
@@ -873,13 +876,353 @@ conf t
 
 
 
+OSPF election for DR/BDR
+1. Highest Priority
+2. router id
+   a. highest use specified by command "router-id"
+   b. highest ip from any loopback interface
+   c. highest ip from physical interface
+
+STP election for root bridge
+1. Lowest Priority
+2. Lowest MAC
+
+HSRP 
+1. Highest Priority
+2. Highest IP
+
+
+Default configuration
+cisco - PVST+
+hua wei - STP IEEE 802.1D
+juniper - STP
+
+STP
+- one STP for all VLANs
+Cisco PVST+
+- one STP for one VLAN
+
+r1 10.11.11.1
+r2 10.22.22.2
+r3 10.33.33.3
+
+1000 VLANs = 1000 STP
+1000  VLANs = 10 STP
+
+100MB 
+----- = 1
+100MB
+
+
+100MB 
+----- = 0.1
+1000MB
+
+100MB 
+----- = 1637
+64KB
+
+en
+conf t
+no spanning-vlan 
+
+
+Tagging
+
+
+
+
+
+STP for all vlans
+0-65535 = 16bits
+
+
+Cisco PVST_+
+STP for each vlan
+12 bits vlan = 4095
+4  16 priority
+
+
+
+EtherChannel
+LACP - protocol
+interface port-channel
+  spanning-tree
+  switchport mode access/trunk
+  
+
+
+IP
+MAC
+round-robin
+network port (80
+
+SW1
+en
+conf t
+int range fa0/20-21
+  channel-group 1 mode active -- LACP
+  channel-group 1 mode auto/desirable -- PAGP
+  channel-group 1 mode on -- legacy
+
+SW2
+
+en
+conf t
+int range fa0/20-21
+  channel-group 1 mode auto
+ 
+
+ACL list type
+- Standard 
+  -- look/care about source IP (from)
+- Extended 
+  -- look/care more (IP from/to, Port from/to, Protocol)
+
+ACL number (old Cisco IOS version)
+- Standard 1-99
+- Extended 100-199
+- lots limitation 
+  -- simply add/delete rule from list
+
+ACL named (v15.x)
+- Standard/Extended customize name
+- flexi
+
+Rules
+- protocol
+- source/destination IP (192.168.0.0 wildcard)
+- source/destination port (20,21, 80,443, 69, 25, 22, 53, 123, 110
+
+
+Create ACL rule2 - deny all traffics from pc1,pc2 to all
+pc1-vlan10: 172.16.10.101
+Create ACL rule2 - deny all traffics from vlan30 to all
+vlan 30: 172.16.30.0/24
+Create ACL rule3 - deny all traffics from 172.16.40.1-16 to all
+Create ACL rule4 - deny only http traffics from pc1 to server
+pc1: 172.16.10.101
+server: 172.16.100.111
+
+en
+conf t
+   !ipv6 access-list
+   access-list 1 deny host 172.16.10.101
+or access-list 1 deny 172.16.10.101 0.0.0.0 
+   access-list 1 deny 172.16.30.0  0.0.0.255
+  !rule3
+   access-list 1 deny 172.16.40.0 0.0.0.15
+   access-list 1 deny host 172.16.40.16
+  !rule4
+   ip access-list extended TEST 
+      deny tcp host 172.16.10.101  host 172.16.100.111 le 80
+
+PC1 --> sw1 --> r1 g0/0.10 (in)/out
+Server > sw1-b > r1 g0/0.100 (out)
+1 --> 0000 0001
+15--> 0000 1111
+Match?
+      nnnn cccc
+NID   0000 0000 (network ID, c's set to 0)
+WID   0000 1111 (n's set to 0, c's set to 1)
+
+NID   172.16.40.0 0.0.0.15
+
+--------
+1 --> 0000 0001
+16--> 0001 0000
+Match?
+      nnnc cccc
+NID   0000 0000 (network ID, c's set to 0)
+WID   0001 1111 (n's set to 0, c's set to 1)
+
+NID   172.16.40.0 0.0.0.31
+
+
+   access-list 1 deny 172.16.40.100 0.0.0.15
+
+100 --> 0110 0100
+15      0000 1111
+----------------
+        0110 xxxx
+
+172.16.40.96 - 172.16.40.111
+
+
+
+show ip nat translation
+inside local - private IP assigned to your PC
+inside global - public IP assign to your PC
+outside local - 
+outside global 
+
+inside - PC in ur LAN
+outside - Server in the INTERNET (public)
+local - private IP
+global - public IP
+
+
+
+Static NAT
+- fixed 1 to 1
+- Port Forwarding
+Dynamic NAT
+- dynamic 1 to 1
+Dynamic NAT with Overload (Port Address Translation)
+- 1 public to 65536 (XXXXX)
+
+
+Cmd for Static
+int g0/0
+  ip nat inside
+int s0/0/0
+  ip nat outside
+  exit
+ip nat inside source static 172.16.10.101 34.34.34.101
+ip nat inside source static 172.16.10.102 34.34.34.105
+end
+wr
+
+Cmd for dynamic 
+- determine how many public IP? 5
+- 34.34.34.106-34.34.34.111
+
+int g0/0
+  ip nat inside
+int s0/0/0
+  ip nat outside
+  exit
+access-list 1 permit 172.16.20.0 0.0.0.255
+ip nat pool TM 34.34.34.106 34.34.34.34.111 netmask 255.255.255.248
+
+ip nat inside source list 1 pool TM 
+
+Cmd for PAT
+
+
+int g0/0
+  ip nat inside
+int s0/0/0
+  ip nat outside
+  exit
+
+access-list 1 permit 172.16.20.0 0.0.0.255
+ip nat inside source list 1 interface s0/0/0 overload
 
 
 
 
 
 
+FB - 60bil
+MS - 60bil
 
+zetaflop 
+deepseek  +  NVIDIA GPU
+
+TSMC
+
+ASML - dutch
+
+CISC 
+INTEL GPU
+AMD Radeon
+ARM
+
+RISC
+IBM POWER
+Oracle SPARC
+
+
+
+R2
+en
+conf t
+int g0/0
+  ip nat outside
+int g0/1
+  ip nat inside
+
+ip access-list standard NAT
+  permit 10.2.3.0 0.0.0.255
+  permit 10.1.3.0 0.0.0.255
+  permit  192.168.3.1 
+
+ip nat inside source list NAT interface g0/0 overload
+
+end
+copy run start
+
+show ip nat translation
+
+clear ip nat trans *
+
+!Task2
+!r1
+clock set 00:00:00 Jan 1 2019
+conf t
+  ntp master 1
+  end
+wr
+
+
+!r2
+en
+conf t
+  ntp server 10.1.3.1
+  end
+wr
+
+!Task3
+!r1
+en
+conf t
+  ip dhcp excluded-address 10.1.3.1 10.1.3.10
+  ip dhcp pool TEST
+     network 10.1.3.0 255.255.255.0
+  end
+wr
+sh run
+
+!r3
+en
+conf t
+  int g0/2
+    ip add dhcp
+    no shut
+  end
+sh ip int brief
+
+R3 SSH server
+en
+conf t
+  ip domain-name Jason.com.my
+  !username Jason password Cisco
+  crypto <tab> <tab>
+
+  line vty 0 4
+     login local
+
+  line vty 0 4
+     login 
+     password abc123
+
+  line con 0
+     login 
+     password abc123
+	
+ECDSA/RSA/ED2518
+
+bit: 1024
+R1 SSH client
+
+
+
+
+
+jasonwcc@yahoo.com
+jason.wong@trainocate.com
++60122736143
 
 
 
