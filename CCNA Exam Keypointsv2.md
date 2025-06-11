@@ -132,9 +132,9 @@ IPv6 addresses type
     M   icast
  -    ffxx
 5. Loopback
-     :   ::1
+- ::1   
 6. Unknown
-     :   ::
+- ::
 
 JSON
 - define/describe structured data including arrays
