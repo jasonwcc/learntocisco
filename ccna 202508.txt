@@ -407,23 +407,111 @@ copy run start
 Verify
 show int trunk
 
+!ro2 - configure as DHCP Relay Agent / IP-Helper
+en
+conf t
+ int g0/1
+  ip helper-address 10.0.0.129
+  end
+copy run start
+ 
+Choose best path/route
+1. If multiple routing protocol
+   then use administrative distance (AD) - smaller better
+OSPF 110
+RIP  120
+static 1
+connect 0
+EIGRP 90
+
+2. else if same routing protocol
+   then use metric 
+   - EIGRP (Feasible distance value=Bandwitdh and Delay)
+   - RIP (hop count)
+   - OSPF (Bandwitdh)
+3. Longest prefix
+# show ip route
+192.168.100.0/24 via 10.0.0.1 
+192.168.100.0/19 via 10.0.0.2
+192.168.101.0/27 via 10.0.0.3
 
 
 
+CDP
+- cisco propietory
+- turn on globally by default
+vs
+LLDP
+- generic/universal
+- turn off globally/interface by default
+
+vlan
+- L2
+access mode
+- single vlan
+- assign to PC/server/router-port
+trunking
+- assign to switch/subinterfaces
+
+
+src ip
+dest ip
+src mac
+dest mac
+returning traffic when A send data to host B. 
+what is the dest MAC exiting router?
 
 
 
+!ro3 - set ip
+en
+conf t
+  hostname ro3
+  int g0/0
+    ip add 10.0.0.4 255.255.255.128
+    no shut
+  int g0/1
+    ip add 10.0.0.193 255.255.255.192
+    ip helper-address 10.0.0.1
+    no shut
+end
+copy run start
+
+!ro1 - configure static route to HR (10.0.0.208/28)
+& security network (10.0.0.192/26)
+en
+conf t
+  int g0/2
+    no ip add
+    shutdown
+
+  ip route 10.0.0.208 255.255.255.240 10.0.0.132
+  ip route 10.0.0.192 255.255.255.192 10.0.0.4
+
+end
+copy run start
+
+
+!ro2 - default route
+en
+conf t
+  ip route 0.0.0.0   0.0.0.0    10.0.0.129
+  end
+copy run start
 
 
 
-
-
-
-
-
+!ro3 - default route
+en
+conf t
+  ip route 0.0.0.0   0.0.0.0    10.0.0.1
+  end
+copy run start
 
 
   
+sh ip dhcp pool hr
+sh run
 
 
 
