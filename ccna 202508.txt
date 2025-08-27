@@ -243,7 +243,7 @@ conf t
 
  int g0/1
   no ip add
-  ip add 10.0.0.209 255.255.255.240     
+  ip add 10.0.0.145 255.255.255.240     
   no shutdown
 
   end
@@ -261,11 +261,11 @@ ping
 en
 conf t
   ip dhcp pool hr
-     network 10.0.0.208 255.255.255.240
-     default-router 10.0.0.209
+     network 10.0.0.144 255.255.255.240
+     default-router 10.0.0.145
      dns-server 10.0.0.133
      domain-name jason.com
-  ip dhcp excluded-address 10.0.0.209 10.0.0.213
+  ip dhcp excluded-address 10.0.0.145 10.0.0.146
 
   ip dhcp pool operation
      network 10.0.0.128 255.255.255.240
@@ -515,41 +515,161 @@ sh run
 
 
 
+Distance Vector
+- hop count  (max: 15)
+- care about best route (routing table)
+- don't consume CPU/RAM
+- 
+vs
+Link-state
+- 1. neighbor/adjacency table
+  - hello 10 second timers
+  - dead 40 second timers  
+- 2. Topology table / DB
+  - all routes
+- 3. routing table
+  - best route (BW)
+- max: 255
 
 
 
+10.0.1.0
+10.0.2.0
+
+100mb/100mb = 1
+100mb/1000mb = 0.1
+100mb/10000mb = 0.001
+
+
+!ro1
+en
+conf t
+  router ospf 1
+  network 10.0.0.0 0.0.0.127 area 0
+  network 10.0.0.128 0.0.0.15 area 0
+  ...
+  ...
+  end
+copy run start
+
+alternative
+en
+conf t
+  router ospf 1
+  exit
+  int g0/1
+    ip ospf 1 area 0
+  int g0/2
+    ip ospf 1 area 0
+
+copy run start
 
 
 
+!ro2
+en
+conf t
+  router ospf 2
 
 
 
+netmask 
+10.0.0.0 255.255.255.128
+10.0.0.1 - 10.0.0.126
+
+wildcard
+network 10.0.0.16 0.0.0.15 = 10.0.0.31
+network 10.0.0.48 0.0.0.
 
 
 
+OSPF election
+- DR/BDR
+1. router-id  
+2. if not router-id is set
+   then use the highest/largest ip in any loopback interface
+   int loopback 0
+3. if no router-id and no loopback interfaces
+   then use the highest/largest ip in any physical interface
+
+ro1
+g0/1: 10.10.10.100
+g0/2: 9.9.9.9
+lo1 : 9.9.9.1
+router-id: 1.1.1.1
+
+ro2
+g0/1: 8.88.98.8
+g0/2: 10.10.11.111
+lo1 : 9.9.9.2
+
+
+DR: ro1
 
 
 
+!ro1
+en
+conf t
+ router ospf 1
+ exit
+ int  g0/0
+   ip ospf 1 area 0
+ int  g0/1
+   ip ospf 1 area 0
+ int  g0/1.10
+   ip ospf 1 area 0
+ int  g0/1.20
+   ip ospf 1 area 0
+ end
+copy run start
+
+!ro1
+en
+conf t
+ router ospf 1
+ int  g0/0
+   ip ospf 1 area 0
+ int  g0/1
+   ip ospf 1 area 0
+ int  g0/1.10
+   ip ospf 1 area 0
+ int  g0/1.20
+   ip ospf 1 area 0
+ end
+copy run start
+
+!ro2-ro3
+en
+conf t
+ router ospf 1
+ int  g0/0
+   ip ospf 1 area 0
+ int  g0/1
+   ip ospf 1 area 0
+ end
+copy run start
 
 
 
+!ro1 - delete static/default route
+en
+conf t
+ no ip route 10.0.0.208 255.255.255.240 10.0.0.132 
+ no ip route 10.0.0.192 255.255.255.192 10.0.0.4 
+end
+wr
+
+!ro2 - delete static/default route
+no ip route 0.0.0.0 0.0.0.0 10.0.0.129 
 
 
+!ro3 - delete static/default route
+no ip route 0.0.0.0 0.0.0.0 10.0.0.1 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+Verify 
+show ip route
 
 
 
