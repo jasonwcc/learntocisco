@@ -1,0 +1,492 @@
+tinyurl.com/ccnadocs
+
+
+!ro1
+en
+conf t
+int g0/2
+  ip add 1.1.1.2 255.0.0.0
+  no shut
+end
+wr
+
+!ro2
+!this is for hr dept.
+!
+en
+conf t
+int g0/1
+	ip ad   1.1.1.44   255.0.0.0
+	no shut
+
+wr
+
+ctrl+z	: end
+ctrl+shift+6 + .   == ctrl+^		: terminate / break / abort / cancel
+ctrl+a  : place cursor at start
+ctrl+e	: place cursor at end
+ctrl+w	: erase last word
+ctrl+u	: erase anything to left
+ctrl+k	: erase anything to right
+ctrl+z	: end
+
+
+
+hub
+- half duplex
+- 10/100/1g Mb/s
+
+switch
+- full duplex
+- 10/100
+- 1g/10g/25g/40g/100g
+- STP (BPDU)
+
+bridge
+- very similar to switch
+- only certain vendor
+- R&D
+- 4/8/12-ports
+
+
+
+
+
+
+
+!PC1
+10.0.0.1
+
+!PC2
+10.0.0.2
+
+!sw1
+en
+conf t
+ hostname sw1
+ int vlan 1
+  ip add 10.0.0.101 255.0.0.0
+  no shutdown
+  end
+copy run start !save configuration
+
+!ro1
+en
+conf t
+ hostname ro1
+ int g0/0
+  ip add 10.0.0.201 255.0.0.0
+  no shutdown
+  end
+copy run start !save configuration
+
+
+standard ethernet frame
+- mtu : 1500 bytes
+
+jumbo ethernet frame / FCoE switch
+- mtu : 9000 bytes
+
+
+IP
+- L3
+- number plate
+- can change every time
+- routable to another network/internet
+vs
+MAC
+- L2
+- chassis engine number
+- physical/cannot change
+- non-routable to any network
+
+IPv6
+- u,m,anycast
+
+
+IEEE
+- subcommittee : IETF : networking...
+- 
+
+PC/Router
+- ARP table
+
+Switch
+- ARP
+  -- IP mapped to MAC
+- MAC address table
+  -- MAC mapped to port in which VLAN
+
+
+
+
+
+
+
+copy run start == write memory == wr
+copy start run
+
+show run (RAM)
+show start (NVRAM)
+show version
+show interface
+show ip int brief
+show ip status
+show vlan
+show mac-address-table
+sh arp
+
+a.b.c.d
+8n.8c.8c.8c
+0.0.0.0 - 255.255.255.255
+
+decimal : 0-255.0-255.0-255.0-255
+binary  : 00000000-11111111
+
+A 1-126 Unicast
+  8n.24c
+  255.0.0.0
+  1.0.0.1 - 1.255.255.254
+  
+B 128-191 Unicast
+  8n.8n.8c.8c
+  255.255.0.0
+
+C 192-223 Unicast
+  8n.8n.8n.8c
+  255.255.255.0
+
+D 224-239 Multicast
+E 240-255 Reserved for future
+
+
+Formula - calculate usable client IPS
+2^24 - 2 = 
+
+
+
+192.168.100.0/19
+
+N.C: 		8n.8n.3n5c.8c
+subnetmask:	255.255.224.0
+Network ID:	
+1st usable IP:	
+last usable IP:
+Broadcast IP:
+
+Network Address Translation
+- static
+- dynamic
+-  pat
+
+
+https://github.com/jasonwcc/learntocisco/
+
+10.10.13.208/29n
+
+
+/18n
+8n.8n.2n 6c.8c
+
+	nncc cccc
+228	1110 0100
+192	1100 0000
+
+/21
+8n.8n.5n 3c.8c
+
+	nnnn nccc
+228	1110 0100
+224	1110 0000
+231	1110 0111
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+!ro1 - configuration
+en
+conf t
+ hostname ro1
+ int g0/0
+  ip add 10.0.0.129 255.255.255.240
+  no shutdown
+
+ int g0/1
+  ip add 10.0.0.1 255.255.255.128     
+  no shutdown
+
+ int g0/2
+  ip add 10.0.0.193 255.255.255.192
+  no shutdown
+  end
+copy run start
+
+!ro2 - configuration
+en
+conf t
+ hostname ro2
+ int g0/0
+  no ip add
+  ip add 10.0.0.132 255.255.255.240
+  no shutdown
+
+ int g0/1
+  no ip add
+  ip add 10.0.0.209 255.255.255.240     
+  no shutdown
+
+  end
+copy run start
+
+!Verify configuration
+show ip int brief
+show run
+show int
+show ip route
+ping 
+ 
+
+!ro1 - configured as dhcp server
+en
+conf t
+  ip dhcp pool hr
+     network 10.0.0.208 255.255.255.240
+     default-router 10.0.0.209
+     dns-server 10.0.0.133
+     domain-name jason.com
+  ip dhcp excluded-address 10.0.0.209 10.0.0.213
+
+  ip dhcp pool operation
+     network 10.0.0.128 255.255.255.240
+     default-router 10.0.0.129
+     dns-server 10.0.0.133
+     domain-name jason.com
+  ip dhcp excluded-address 10.0.0.129 10.0.0.133
+  !
+  ip dhcp pool sales
+     network 10.0.0.0 255.255.255.128
+     default-router 10.0.0.1
+     dns-server 10.0.0.133
+     domain-name jason.com
+  ip dhcp excluded-address 10.0.0.1 10.0.0.5
+
+  ip dhcp pool security
+     network 10.0.0.192 255.255.255.192
+     default-router 10.0.0.193
+     dns-server 10.0.0.133
+     domain-name jason.com
+  ip dhcp excluded-address 10.0.0.193 10.0.0.200
+
+  ip dhcp pool sales-blue
+     network 10.0.10.0 255.255.255.0
+     default-router 10.0.10.1
+     dns-server 10.0.0.133
+     domain-name jason.com
+  ip dhcp excluded-address 10.0.10.1 10.0.10.5
+
+
+  ip dhcp pool sales-green
+     network 10.0.20.0 255.255.255.0
+     default-router 10.0.20.1
+     dns-server 10.0.0.133
+     domain-name jason.com
+  ip dhcp excluded-address 10.0.20.1 10.0.20.5
+
+
+  ip dhcp pool sales-red
+     network 10.0.30.0 255.255.255.0
+     default-router 10.0.30.1
+     dns-server 10.0.0.133
+     domain-name jason.com
+  ip dhcp excluded-address 10.0.30.1 10.0.30.5
+
+  end
+
+copy run start
+
+Verify router/dhcp
+show ip dhcp pool
+
+
+
+
+
+
+VLAN	Sales-Team-name	Subnet-ID
+10	Blue		10.0.10.0/24
+20	Green		10.0.20.0/24
+30	Red		10.0.30.0/24
+
+
+!sales-sw
+en
+conf t
+  vlan 10
+    name Blue
+  vlan 20
+    name Green
+  vlan 30
+    name Red
+
+int fa0/1
+  description PC3
+  switchport mode access
+  switchport access vlan 10
+  
+int fa0/2
+  description PC4
+  switchport mode access
+  switchport access vlan 20
+
+int fa0/3
+  description PC5
+  switchport mode access
+  switchport access vlan 10
+
+end
+copy run start
+
+Verify
+show vlan
+show run
+show int switchport
+
+
+VLAN 10
+- PC3 & PC5
+VLAN 20
+- PC4
+
+
+
+
+
+
+
+
+
+
+
+
+
+!ro1 - configure as intervlan router
+en
+conf t
+int g0/1.10
+  encapsulation dot1q 10
+  ip add 10.0.10.1 255.255.255.0
+int g0/1.20
+  encapsulation dot1q 20
+  ip add 10.0.20.1 255.255.255.0
+int g0/1.30
+  encapsulation dot1q 30
+  ip add 10.0.30.1 255.255.255.0
+  
+end
+copy run start
+
+!sw1
+en
+conf t
+  int g0/1
+    switchport mode trunk
+  end
+copy run start
+
+Verify
+show int trunk
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
