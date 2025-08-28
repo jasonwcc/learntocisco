@@ -671,22 +671,141 @@ no ip route 0.0.0.0 0.0.0.0 10.0.0.1
 Verify 
 show ip route
 
+ultimately all STP is to prevent loop in
+redundant switched topology
+1. STP IEEE 802.1d
+- one STP for all vlans
+- cisco don't support 
+Priority : 16 bits : 0-65535
 
 
 
+2. PVST+
+- cisco proprietary
+- one STP for each vlan
+- vlan - 12 bits
+- Priority - 4 bits : 16 possibilities
+
+3. rapid STP
+- cisco don't support 
+
+4. rapid PVST+
+- cisco propietory
+
+5. MSTP IEEE 802.1s
+- universal
+- one STP for group vlan
+- learn in CCNP
 
 
+Election in each vlan
+1. Priority 
+2. Lowest MAC address
 
 
+HR1 32768 0002.1656.1658
+HR2 32678 0001.6352.BBD4 Root Bridge
+HR3 32678 00E0.A3CC.37E4
+
+!HR1-HR3 Create vlan, configure trunking
+en
+conf t
+ vlan 100
+   name team1
+ vlan 200
+   name team2
+ vlan 300
+   name team3
+ 
+ int range fa0/20-24
+   switchport mode trunk
+ end
+copy run start
+
+! Move PC6,PC7 to vlan 100
+!HR1
+en
+conf t
+  int fa0/2
+    switchport mode access
+    switchport access vlan 100
+  int fa0/14
+    switchport mode access
+    switchport access vlan 100
+  end
+copy run start
 
 
+Verify
+show spanning-tree vlan 100
+show vlan
+show run
+
+!HR1 - Configure Rapid PVST+
+en
+conf t
+ int range fa0/1-19
+ switchport mode access
+ spanning-tree portfast 
+
+1. Bpdu guard 
+- if received bpdu, permanently block port
+- cmd
+  en conf t 
+  int range fa0/1-19
+    spanning-tree bpduguard enable
+
+vs 
+2. bpdu filter 
+- if received bpdu, temporarily block port
+
+vs 
+3. root guard 
+- if received bpdu and become root, 
+  permanently block port
+- cmd
+  en conf t 
+  int range fa0/1-19
+    spanning-tree guard root
+vs 
+4. loop guard
+- apply on alternate port
+- if stop receiving bpdu, prevent the 
+port from promoting
+- cmd
+  en conf t 
+  int range fa0/1-19
+    spanning-tree guard loop
 
 
+LACP
+- universal
+vs
+PAGP
+- cisco proprietary
+vs
+on
+- static
 
 
+!HR2 - HR3
+en
+conf t
+  int range fa0/22-24
+    channel-group 1 mode active
+  int port-channel 1
+    switchport mode trunk
+    end
+copy run start
+ 
 
-
-
+!HR2 - change priority to highest priority 
+!become root bridge for all vlans
+en
+conf t
+ spanning-tree vlan 1-300 priority 0
+ end
+copy run start
 
 
 
