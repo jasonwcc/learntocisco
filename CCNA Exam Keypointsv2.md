@@ -129,7 +129,7 @@ IPv6 addresses type
 3.  Site-local (aka Unique local)
   -    fc/fd:xx
   -    routable to another network within intranet
-    M   icast
+4. Multicast
  -    ffxx
 5. Loopback
 - ::1   
