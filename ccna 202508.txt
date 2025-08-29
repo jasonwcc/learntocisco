@@ -810,6 +810,310 @@ copy run start
 
 
 
+Standard 
+- look at source address
+- use number: 1-99
+- use named: 
+  - IOS v15 on ward
+  - lots of flexibility
+Extended
+- look at protocol
+- look at source/destination address
+- look at source/destination port
+- use number: 100-199
+- use named: 
+  - IOS v15 on ward
+
+
+Netmask
+192.168.96.0 255.255.224.0
+network ID	: 192.168.96.0
+1st usable IP	: 192.168.96.1
+last usable IP	: 192.168.127.254
+broadcast IP	: 192.168.127.255
+
+Wildcard mask
+- OSPF & ACL 
+
+
+Block all traffic from 
+   192.168.0.0 - 192.168.255.255
+
+access-list 1 deny 192.168.96.4 0.0.0.3
+
+4 --> 0000 0100
+3 --> 0000 0011
+
+192.168.96.4
+192.168.96.5
+192.168.96.6
+192.168.96.7
+
+access-list 1 deny 192.168.96.8  0.0.0.15
+
+4 --> 0000 1000
+15--> 0000 1111
+
+
+Block all traffic from 
+   192.168.0.16 - 192.168.0.63
+
+
+16 --> 0001 0000
+63 --> 0011 1111
+
+Find matching bit
+n.c -->nncc cccc
+ 
+NetworkID	 192.168.0.32
+Wildcard mask	 0.0.0.31
+
+
+access-list 1 deny 192.168.0.16 0.0.0.63
+
+
+
+
+10.0.0.64 10.0.0.127
+
+
+Network ID	10.0.0.64
+wildcard mask	0.0.0.63
+
+64	--> 0100 0000
+127	--> 0111 1111
+	    nncc cccc
+
+
+
+Policy 1: Block all PCs except boss,ro1,MPS and ro3 
+! to HR network
+operation team: 10.0.0.128/28
+HR cidr     : 10.0.0.144/28
+
+
+!ro2
+en
+conf t
+ access-list 1 permit host 10.0.0.129
+ access-list 1 permit host 10.0.0.133
+ access-list 1 permit host 10.0.0.201
+ access-list 1 permit host 10.0.0.4
+ access-list 1 deny any
+ int g0/1
+   ip access-group 1 out
+ end
+copy run start
+
+
+Policy 2: Allow only following ppl from accessing 
+the MPS 
+boss-laptop: all allow
+vlan 20: ping
+PC5: ftp
+
+!ro1
+en
+conf t
+ ip access-list extended policy2
+  permit ip host 10.0.0.201 host 10.0.0.133 establish
+  permit icmp 10.0.20.0 0.0.0.255 host 10.0.0.133
+  permit tcp host 10.0.10.6 host 10.0.0.133 range 20 21
+  1001 deny ip any any
+ int g0/0
+  ip access-group policy2 out
+  end
+copy run start
+inside = PC/server in LAN
+outside = server in the internet
+local = private ip
+global = public ip
+inside local : private ip assigned to PC in company LAN
+inside global : public ip assigned to PC in company LAN
+outside local : private ip assigned to server in the internet
+outside global :public ip assigned to server in the internet
+
+29/8
+!ro3 - utk NAT
+en
+conf t
+ int g0/2
+  ip add 200.0.0.1 255.255.255.0
+  no shut
+  end
+copy run start
+
+!ISP - utk NAT
+en 
+conf t
+ hostname ISP
+ int g0/0
+  description Connection to Internet
+  ip add 201.0.0.2 255.255.255.0
+  no shut
+ int g0/2
+  description Connection to Ro3
+  ip add 200.0.0.2 255.255.255.0
+  no shut
+ 
+ ! add default route
+ ip route  0.0.0.0    0.0.0.0  200.0.0.1
+ end
+copy run start
+
+
+!Remove ACL from interfaces in ro1 & ro2
+sh run | inc access-group
+
+!ro3 - configure OSPF to advertise 200.0.0.0/24 or g0/2 link
+8n.8n.3n5c.8c
+en
+conf t
+  !router ospf 1
+  !  network 200.0.0.0  0.0.0.255 area 0
+  !or
+  int g0/2
+    ip ospf 1 area 0
+  end
+wr
+
+!Test ping
+ro1 ping 200.0.0.1 
+ro3 ping 200.0.0.1
+
+
+!ro3 
+en
+conf t
+ !- configure default route towards ISP
+ ip route 0.0.0.0 0.0.0.0 200.0.0.2
+
+ !- share this default route to OSPF
+ router ospf 1
+  default-information originate
+
+ end
+copy run start
+
+!Test ping
+ro1 ping servera
+ro3 ping serverb
+
+!ro3 - configure numbered acl permitting only 200.0.0.0/24
+en
+conf t
+ access-list 1 permit 200.0.0.0    0.0.0.255
+ int g0/2
+  ip access-group 1 out
+  end
+copy run start
+   
+!Ro3 - Configure Static NAT
+en
+conf t
+ int g0/0
+   ip nat inside
+ int g0/1
+   ip nat inside
+ int g0/2
+   ip nat outside
+
+ !allow boss-laptop go internet
+ ip nat inside source static 10.0.0.201 200.0.0.201
+ ip nat inside source static 10.0.0.202 200.0.0.202
+ ip nat inside source static 10.0.0.135 200.0.0.135
+
+ end
+copy run start
+
+
+Test
+boss-laptop ping/ftp/http servera
+
+
+!Ro3 - Configure Dynamic NAT
+en
+conf t
+ int g0/0
+   ip nat inside
+ int g0/1
+   ip nat inside
+ int g0/2
+   ip nat outside
+
+ !allow many users surf internet
+ no ip nat inside source static 10.0.0.201 200.0.0.201
+ no ip nat inside source static 10.0.0.202 200.0.0.202
+ no ip nat inside source static 10.0.0.135 200.0.0.135
+
+ !create ACL
+ ip access-list standard nataccess
+   permit 10.0.10.0 0.0.0.255
+   permit 10.0.0.192 0.0.0.63
+
+
+ !create pool (start and ending public IP)
+ ip nat pool TMpool 200.0.0.141 200.0.0.143 netmask 255.255.255.0
+
+ !connect ACL to the pool
+ ip nat inside source list nataccess pool TMpool 
+
+ end
+copy run start
+
+
+Test
+boss-laptop ping/ftp/http servera
+
+
+!Ro3 - Configure PAT (overload)
+en
+conf t
+ int g0/0
+   ip nat inside
+ int g0/1
+   ip nat inside
+ int g0/2
+   ip nat outside
+
+ !allow many users surf internet
+ no ip nat inside source static 10.0.0.201 200.0.0.201
+ no ip nat inside source static 10.0.0.202 200.0.0.202
+ no ip nat inside source static 10.0.0.135 200.0.0.135
+
+
+ !create pool (start and ending public IP)
+ no ip nat pool tmpool 200.0.0.141 200.0.0.143 netmask 255.255.255.0
+
+ !connect ACL to the pool
+ no ip nat inside source list nataccess pool tmpool 
+
+ !create ACL
+ ip access-list standard nataccess
+   permit 10.0.10.0 0.0.0.255
+   permit 10.0.0.192 0.0.0.63
+
+ ip nat inside source list nataccess  interface g0/2 overload
+
+ end
+copy run start
+
+
+clear ip nat translation *
+
+Test
+boss-laptop ping/ftp/http servera
+
+
+
+
+
+
+
+
+
+
+
 
 
 
