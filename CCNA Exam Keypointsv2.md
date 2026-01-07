@@ -109,9 +109,12 @@ Interface - slow / poor performance
 IPv4
 - Private IPv4 address
   : conserve public address
+  : save/reduce cost
   : always private, cannot route to internet
   : unless configured with NAT to be translate into public
+- 10.x.x.x/8, 172.16.x.x-172.31.x.x/12, 192.168.x.x/16
 
+ 
 IPSEC vs GRE
 - IPSEC 
   : is unicast traffic, better security
