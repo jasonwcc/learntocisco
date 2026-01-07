@@ -99,7 +99,7 @@ FTP
 - requires authentication / username+password
 
 Interface - slow / poor performance
-- lots of CRC/frame 	: physical / hw error
+- lots of CRC/frame 	: physical / hw error / input errors
 - lots of collision 	: duplex mismatch
 - lots of runts		: small frame (<64 bytes)
 - lots of giants	: large frame (>mtu)
