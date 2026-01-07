@@ -103,7 +103,7 @@ Interface - slow / poor performance
 - lots of collision 	: duplex mismatch
 - lots of runts		: small frame (<64 bytes)
 - lots of giants	: large frame (>mtu)
-- late collision	: occurs in first 64 bytes. 
+- late collision	: occurs in first 64 bytes / cable too long / too many half-duplex
 - Example Q234, 829
 
 IPv4
