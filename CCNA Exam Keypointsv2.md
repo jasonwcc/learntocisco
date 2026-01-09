@@ -288,6 +288,7 @@ WPA-3
 - relies on Perfect Forward Secrecy 
 
 Updated answer - PDFs
+Q216 answer: AE
 Q566 answer: AC
 Q590 answer: D
 
