@@ -1,4 +1,4 @@
-,,,
+'''
 AAA
 - Authentication : username + password / identity
 - Authorization  : tasks / capabilities / permissions
@@ -287,6 +287,9 @@ WPA-3
   - is resistant to dictionary and brute force attacks
 - relies on Perfect Forward Secrecy 
 
+Updated answer - PDFs
+Q566 answer: AC
+Q590 answer: D
 
 
 
@@ -295,5 +298,4 @@ WPA-3
 
 
 
-
-,,,
+'''
