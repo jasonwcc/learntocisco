@@ -1,0 +1,25 @@
+Configure ACL and NAT
+1. All traffic sent from 192.168.1.1 - 192.168.1.7 will be translated using NAT on R2. 
+2. All addresses must be translated to the IP address of Gig0/1 on R2, while only using a standard access list named NAT.
+3. On R2, configure another ACL using number 10 permitting only IP address of Gig0/1 to be sent out to subnet 192.168.2.0/24
+
+
+
+
+
+Answer:
+interface GigabitEthernet0/0
+ ip address 192.168.1.1 255.255.255.0
+ ip nat inside
+
+!
+interface GigabitEthernet0/1
+ ip address 192.168.2.1 255.255.255.0
+ ip nat outside
+ ip access-group 10 out
+!
+ip nat inside source list NAT interface GigabitEthernet0/1 overload
+!
+ip access-list standard NAT
+ permit 192.168.1.0 0.0.0.7
+access-list 10 permit host 192.168.2.1

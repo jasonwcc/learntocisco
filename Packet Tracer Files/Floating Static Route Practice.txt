@@ -1,0 +1,54 @@
+Floating Static Route
+!R1 - Pre-configured
+hostname R1
+!
+interface Loopback1
+ ip address 172.11.1.1 255.255.255.0
+!
+interface Loopback2
+ ip address 172.11.2.1 255.255.255.0
+!
+interface GigabitEthernet0/0
+ ip address 192.168.1.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 192.168.2.1 255.255.255.0
+ duplex auto
+ speed auto
+
+!R2  - Pre-configured
+hostname R2
+!
+interface Loopback1
+ ip address 172.22.1.2 255.255.255.0
+!
+interface Loopback2
+ ip address 172.22.2.2 255.255.255.0
+!
+interface GigabitEthernet0/0
+ ip address 192.168.1.2 255.255.255.0
+
+!
+interface GigabitEthernet0/1
+ ip address 192.168.2.2 255.255.255.0
+!
+ip route 0.0.0.0 0.0.0.0 192.168.1.1 
+!
+
+Floating Static Route - Tasks
+1. On R1, configure floating default route such as:
+   All traffic will be sent first to IP address on G0/0 of R2
+   Only if the link on subnet 192.168.1.0/24 went down, then all traffic should be re-route to IP address on G0/1 of R2
+2. On R2, configure floating static route such as:
+   All traffic destined for loopback 1 on R1 will be sent first to IP address on G0/1 of R1
+   Only if the link on subnet 192.168.2.0/24 went down, then all traffic should be re-route to IP address on G0/0 of R1
+
+
+
+
+
+
+
+
